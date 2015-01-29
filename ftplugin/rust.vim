@@ -2,7 +2,7 @@
 " Description:  Vim syntax file for Rust
 " Maintainer:   Chris Morgan <me@chrismorgan.info>
 " Maintainer:   Kevin Ballard <kevin@sb.org>
-" Last Change:  Jul 07, 2014
+" Last Change:  January 29, 2015
 
 if exists("b:did_ftplugin")
 	finish
@@ -82,6 +82,16 @@ xnoremap <silent> <buffer> ]] :call rust#Jump('v', 'Forward')<CR>
 onoremap <silent> <buffer> [[ :call rust#Jump('o', 'Back')<CR>
 onoremap <silent> <buffer> ]] :call rust#Jump('o', 'Forward')<CR>
 
+" %-matching. <:> is handy for generics.
+set matchpairs+=<:>
+" There are two minor issues with it; (a) comparison operators in expressions,
+" where a less-than may match a greater-than later on—this is deemed a trivial
+" issue—and (b) `Fn() -> X` syntax. This latter issue is irremediable from the
+" highlighting perspective (built into Vim), but the actual % functionality
+" can be fixed by this use of matchit.vim.
+let b:match_skip = 's:comment\|string\|rustArrow'
+source $VIMRUNTIME/macros/matchit.vim
+
 " Commands {{{1
 
 " See |:RustRun| for docs
@@ -140,6 +150,8 @@ let b:undo_ftplugin = "
 		\|xunmap <buffer> ]]
 		\|ounmap <buffer> [[
 		\|ounmap <buffer> ]]
+		\|set matchpairs-=<:>
+		\|unlet b:match_skip
 		\"
 
 " }}}1
