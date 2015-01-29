@@ -3,7 +3,7 @@
 " Maintainer:   Patrick Walton <pcwalton@mozilla.com>
 " Maintainer:   Ben Blum <bblum@cs.cmu.edu>
 " Maintainer:   Chris Morgan <me@chrismorgan.info>
-" Last Change:  January 5, 2015
+" Last Change:  January 29, 2015
 
 if version < 600
   syntax clear
@@ -62,7 +62,7 @@ syn keyword   rustReservedKeyword alignof be do offsetof priv pure sizeof typeof
 syn keyword   rustType        isize usize float char bool u8 u16 u32 u64 f32
 syn keyword   rustType        f64 i8 i16 i32 i64 str Self
 
-" Things from the prelude (src/libstd/prelude.rs) {{{2
+" Things from the libstd v1 prelude (src/libstd/prelude/v1.rs) {{{2
 " This section is just straight transformation of the contents of the prelude,
 " to make it easy to update.
 
@@ -71,7 +71,10 @@ syn keyword   rustTrait       Copy Send Sized Sync
 syn keyword   rustTrait       Drop Fn FnMut FnOnce
 
 " Reexported functions {{{3
-syn keyword rustFunction drop
+" There’s no point in highlighting these; when one writes drop( or drop::< it
+" gets the same highlighting anyway, and if someone writes `let drop = …;` we
+" don’t really want *that* drop to be highlighted.
+"syn keyword rustFunction drop
 
 " Reexported types and traits {{{3
 syn keyword rustTrait Box
@@ -120,6 +123,7 @@ syn match     rustSigil        display /[&~@*][^)= \t\r\n]/he=e-1,me=e-1
 " This isn't actually correct; a closure with no arguments can be `|| { }`.
 " Last, because the & in && isn't a sigil
 syn match     rustOperator     display "&&\|||"
+syn match     rustArrow        display "->"
 
 syn match     rustMacro       '\w\(\w\)*!' contains=rustAssert,rustPanic
 syn match     rustMacro       '#\w\(\w\)*' contains=rustAssert,rustPanic
@@ -134,7 +138,10 @@ syn region    rustString      start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=rustEs
 syn region    rustString      start='b\?r\z(#*\)"' end='"\z1' contains=@Spell
 
 syn region    rustAttribute   start="#!\?\[" end="\]" contains=rustString,rustDerive
-syn region    rustDerive      start="derive(" end=")" contained contains=rustTrait
+syn region    rustDerive      start="derive(" end=")" contained contains=rustDeriveTrait
+" This list comes from src/libsyntax/ext/deriving/mod.rs
+" Some are deprecated (Encodable, Decodable) or to be removed after a new snapshot (Show).
+syn keyword   rustDeriveTrait contained Clone Hash RustcEncodable RustcDecodable Encodable Decodable PartialEq Eq PartialOrd Ord Rand Show Debug Default FromPrimitive Send Sync Copy
 
 " Number literals
 syn match     rustDecNumber   display "\<[0-9][0-9_]*\%([iu]\%(s\|8\|16\|32\|64\)\)\="
@@ -198,6 +205,7 @@ hi def link rustOctNumber       rustNumber
 hi def link rustBinNumber       rustNumber
 hi def link rustIdentifierPrime rustIdentifier
 hi def link rustTrait           rustType
+hi def link rustDeriveTrait     rustTrait
 
 hi def link rustMacroRepeatCount   rustMacroRepeatDelimiters
 hi def link rustMacroRepeatDelimiters   Macro
@@ -218,6 +226,7 @@ hi def link rustEnumVariant   rustConstant
 hi def link rustConstant      Constant
 hi def link rustSelf          Constant
 hi def link rustFloat         Float
+hi def link rustArrow         rustOperator
 hi def link rustOperator      Operator
 hi def link rustKeyword       Keyword
 hi def link rustReservedKeyword Error
