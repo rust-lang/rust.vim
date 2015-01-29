@@ -62,7 +62,7 @@ syn keyword   rustReservedKeyword alignof be do offsetof priv pure sizeof typeof
 syn keyword   rustType        isize usize float char bool u8 u16 u32 u64 f32
 syn keyword   rustType        f64 i8 i16 i32 i64 str Self
 
-" Things from the prelude (src/libstd/prelude.rs) {{{2
+" Things from the libstd v1 prelude (src/libstd/prelude/v1.rs) {{{2
 " This section is just straight transformation of the contents of the prelude,
 " to make it easy to update.
 
@@ -71,7 +71,10 @@ syn keyword   rustTrait       Copy Send Sized Sync
 syn keyword   rustTrait       Drop Fn FnMut FnOnce
 
 " Reexported functions {{{3
-syn keyword rustFunction drop
+" There’s no point in highlighting these; when one writes drop( or drop::< it
+" gets the same highlighting anyway, and if someone writes `let drop = …;` we
+" don’t really want *that* drop to be highlighted.
+"syn keyword rustFunction drop
 
 " Reexported types and traits {{{3
 syn keyword rustTrait Box
