@@ -134,7 +134,10 @@ syn region    rustString      start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=rustEs
 syn region    rustString      start='b\?r\z(#*\)"' end='"\z1' contains=@Spell
 
 syn region    rustAttribute   start="#!\?\[" end="\]" contains=rustString,rustDerive
-syn region    rustDerive      start="derive(" end=")" contained contains=rustTrait
+syn region    rustDerive      start="derive(" end=")" contained contains=rustDeriveTrait
+" This list comes from src/libsyntax/ext/deriving/mod.rs
+" Some are deprecated (Encodable, Decodable) or to be removed after a new snapshot (Show).
+syn keyword   rustDeriveTrait contained Clone Hash RustcEncodable RustcDecodable Encodable Decodable PartialEq Eq PartialOrd Ord Rand Show Debug Default FromPrimitive Send Sync Copy
 
 " Number literals
 syn match     rustDecNumber   display "\<[0-9][0-9_]*\%([iu]\%(s\|8\|16\|32\|64\)\)\="
@@ -198,6 +201,7 @@ hi def link rustOctNumber       rustNumber
 hi def link rustBinNumber       rustNumber
 hi def link rustIdentifierPrime rustIdentifier
 hi def link rustTrait           rustType
+hi def link rustDeriveTrait     rustTrait
 
 hi def link rustMacroRepeatCount   rustMacroRepeatDelimiters
 hi def link rustMacroRepeatDelimiters   Macro
