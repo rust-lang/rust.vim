@@ -60,7 +60,8 @@ function! s:Run(dict, rustc_args, args)
 		let exepath .= '.exe'
 	endif
 
-	let rustc_args = [a:dict.path, '-o', exepath] + a:rustc_args
+	let relpath = get(a:dict, 'tmpdir_relpath', a:dict.path)
+	let rustc_args = [relpath, '-o', exepath] + a:rustc_args
 
 	let rustc = exists("g:rustc_path") ? g:rustc_path : "rustc"
 
@@ -101,7 +102,8 @@ function! s:Expand(dict, pretty, args)
 		else
 			let flag = '--pretty'
 		endif
-		let args = [a:dict.path, '-Z', 'unstable-options', l:flag, a:pretty] + a:args
+		let relpath = get(a:dict, 'tmpdir_relpath', a:dict.path)
+		let args = [relpath, '-Z', 'unstable-options', l:flag, a:pretty] + a:args
 		let pwd = a:dict.istemp ? a:dict.tmpdir : ''
 		" since we split the args with shell tokenizing rules, we don't want
 		" to shellescape them here.
@@ -163,7 +165,8 @@ function! s:Emit(dict, type, args)
 
 		let rustc = exists("g:rustc_path") ? g:rustc_path : "rustc"
 
-		let args = [a:dict.path, '--emit', a:type, '-o', output_path] + a:args
+		let relpath = get(a:dict, 'tmpdir_relpath', a:dict.path)
+		let args = [relpath, '--emit', a:type, '-o', output_path] + a:args
 		let pwd = a:dict.istemp ? a:dict.tmpdir : ''
 		" since we split the args with shell tokenizing rules, we don't want
 		" to shellescape them here
