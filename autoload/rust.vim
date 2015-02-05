@@ -159,20 +159,23 @@ endfunction
 
 function! s:Emit(dict, type, args)
 	try
+		let output_path = a:dict.tmpdir.'/output'
+
 		let rustc = exists("g:rustc_path") ? g:rustc_path : "rustc"
 
-		let args = [a:dict.path, '--emit', a:type, '-o', '-'] + a:args
+		let args = [a:dict.path, '--emit', a:type, '-o', output_path] + a:args
 		let pwd = a:dict.istemp ? a:dict.tmpdir : ''
 		" since we split the args with shell tokenizing rules, we don't want
 		" to shellescape them here
 		let output = s:system(pwd, shellescape(rustc) . " " . join(args))
-		if v:shell_error
+		if output != ''
 			echohl WarningMsg
 			echo output
 			echohl None
-		else
+		endif
+		if !v:shell_error
 			new
-			silent put =output
+			exe 'silent keepalt read' fnameescape(output_path)
 			1
 			d
 			if a:type == "llvm-ir"
