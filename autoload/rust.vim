@@ -66,18 +66,14 @@ function! s:Run(dict, rustc_args, args)
 	let rustc = exists("g:rustc_path") ? g:rustc_path : "rustc"
 
 	let pwd = a:dict.istemp ? a:dict.tmpdir : ''
-	" since we split the input using shell tokenizing rules, we can avoid
-	" escaping it here, as the shell will use the same rules itself.
-	let output = s:system(pwd, shellescape(rustc) . " " . join(rustc_args))
+	let output = s:system(pwd, shellescape(rustc) . " " . join(map(rustc_args, 'shellescape(v:val)')))
 	if output != ''
 		echohl WarningMsg
 		echo output
 		echohl None
 	endif
 	if !v:shell_error
-		" as before, our args were split using shell tokenizing rules, which
-		" the shell will reapply here
-		exe '!' . shellescape(exepath) . " " . join(a:args)
+		exe '!' . shellescape(exepath) . " " . join(map(a:args, 'shellescape(v:val)'))
 	endif
 endfunction
 
@@ -105,9 +101,7 @@ function! s:Expand(dict, pretty, args)
 		let relpath = get(a:dict, 'tmpdir_relpath', a:dict.path)
 		let args = [relpath, '-Z', 'unstable-options', l:flag, a:pretty] + a:args
 		let pwd = a:dict.istemp ? a:dict.tmpdir : ''
-		" since we split the args with shell tokenizing rules, we don't want
-		" to shellescape them here.
-		let output = s:system(pwd, shellescape(rustc) . " " . join(args))
+		let output = s:system(pwd, shellescape(rustc) . " " . join(map(args, 'shellescape(v:val)')))
 		if v:shell_error
 			echohl WarningMsg
 			echo output
@@ -168,9 +162,7 @@ function! s:Emit(dict, type, args)
 		let relpath = get(a:dict, 'tmpdir_relpath', a:dict.path)
 		let args = [relpath, '--emit', a:type, '-o', output_path] + a:args
 		let pwd = a:dict.istemp ? a:dict.tmpdir : ''
-		" since we split the args with shell tokenizing rules, we don't want
-		" to shellescape them here
-		let output = s:system(pwd, shellescape(rustc) . " " . join(args))
+		let output = s:system(pwd, shellescape(rustc) . " " . join(map(args, 'shellescape(v:val)')))
 		if output != ''
 			echohl WarningMsg
 			echo output
@@ -280,21 +272,69 @@ function! rust#AppendCmdLine(text)
 	return cmd
 endfunction
 
-" Tokenize the String according to shell parsing rules
+" Tokenize the string according to sh parsing rules
 function! s:ShellTokenize(text)
-	let pat = '\%([^ \t\n''"]\+\|\\.\|''[^'']*\%(''\|$\)\|"\%(\\.\|[^"]\)*\%("\|$\)\)\+'
-	let start = 0
-	let tokens = []
-	while 1
-		let pos = match(a:text, pat, start)
-		if l:pos == -1
-			break
+	" states:
+	" 0: start of word
+	" 1: unquoted
+	" 2: unquoted backslash
+	" 3: double-quote
+	" 4: double-quoted backslash
+	" 5: single-quote
+	let l:state = 0
+	let l:current = ''
+	let l:args = []
+	for c in split(a:text, '\zs')
+		if l:state == 0 || l:state == 1 " unquoted
+			if l:c ==# ' '
+				if l:state == 0 | continue | endif
+				call add(l:args, l:current)
+				let l:current = ''
+				let l:state = 0
+			elseif l:c ==# '\'
+				let l:state = 2
+			elseif l:c ==# '"'
+				let l:state = 3
+			elseif l:c ==# "'"
+				let l:state = 5
+			else
+				let l:current .= l:c
+				let l:state = 1
+			endif
+		elseif l:state == 2 " unquoted backslash
+			if l:c !=# "\n" " can it even be \n?
+				let l:current .= l:c
+			endif
+			let l:state = 1
+		elseif l:state == 3 " double-quote
+			if l:c ==# '\'
+				let l:state = 4
+			elseif l:c ==# '"'
+				let l:state = 1
+			else
+				let l:current .= l:c
+			endif
+		elseif l:state == 4 " double-quoted backslash
+			if stridx('$`"\', l:c) >= 0
+				let l:current .= l:c
+			elseif l:c ==# "\n" " is this even possible?
+				" skip it
+			else
+				let l:current .= '\'.l:c
+			endif
+			let l:state = 3
+		elseif l:state == 5 " single-quoted
+			if l:c == "'"
+				let l:state = 1
+			else
+				let l:current .= l:c
+			endif
 		endif
-		let end = matchend(a:text, pat, start)
-		call add(tokens, strpart(a:text, pos, end-pos))
-		let start = l:end
-	endwhile
-	return l:tokens
+	endfor
+	if l:state != 0
+		call add(l:args, l:current)
+	endif
+	return l:args
 endfunction
 
 function! s:RmDir(path)
