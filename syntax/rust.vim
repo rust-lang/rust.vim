@@ -26,7 +26,7 @@ syn keyword   rustKeyword     fn nextgroup=rustFuncName skipwhite skipempty
 syn keyword   rustKeyword     for in if impl let
 syn keyword   rustKeyword     loop once pub
 syn keyword   rustKeyword     return super
-syn keyword   rustKeyword     unsafe virtual where while
+syn keyword   rustKeyword     unsafe where while
 syn keyword   rustKeyword     use nextgroup=rustModPath skipwhite skipempty
 " FIXME: Scoped impl's name is also fallen in this category
 syn keyword   rustKeyword     mod trait struct enum type nextgroup=rustIdentifier skipwhite skipempty
@@ -56,7 +56,7 @@ syn match rustMacroRepeatCount ".\?[*+]" contained
 syn match rustMacroVariable "$\w\+"
 
 " Reserved (but not yet used) keywords {{{2
-syn keyword   rustReservedKeyword alignof be do offsetof priv pure sizeof typeof unsized yield abstract final override macro
+syn keyword   rustReservedKeyword alignof be do offsetof priv pure sizeof typeof unsized yield abstract virtual final override macro
 
 " Built-in types {{{2
 syn keyword   rustType        isize usize float char bool u8 u16 u32 u64 f32
