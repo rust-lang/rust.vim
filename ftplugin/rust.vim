@@ -101,7 +101,7 @@ command! -nargs=* -complete=file -bang -buffer RustRun call rust#Run(<bang>0, <q
 command! -nargs=* -complete=customlist,rust#CompleteExpand -bang -buffer RustExpand call rust#Expand(<bang>0, <q-args>)
 
 " See |:RustEmitIr| for docs
-command! -nargs=* -buffer RustEmitIr call rust#Emit("ir", <q-args>)
+command! -nargs=* -buffer RustEmitIr call rust#Emit("llvm-ir", <q-args>)
 
 " See |:RustEmitAsm| for docs
 command! -nargs=* -buffer RustEmitAsm call rust#Emit("asm", <q-args>)

@@ -175,7 +175,7 @@ function! s:Emit(dict, type, args)
 			silent put =output
 			1
 			d
-			if a:type == "ir"
+			if a:type == "llvm-ir"
 				setl filetype=llvm
 				let extension = 'll'
 			elseif a:type == "asm"
