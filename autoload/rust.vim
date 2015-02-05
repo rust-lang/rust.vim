@@ -96,7 +96,12 @@ function! s:Expand(dict, pretty, args)
 	try
 		let rustc = exists("g:rustc_path") ? g:rustc_path : "rustc"
 
-		let args = [a:dict.path, '--pretty', a:pretty] + a:args
+		if a:pretty =~? '^\%(everybody_loops$\|flowgraph=\)'
+			let flag = '--xpretty'
+		else
+			let flag = '--pretty'
+		endif
+		let args = [a:dict.path, '-Z', 'unstable-options', l:flag, a:pretty] + a:args
 		let pwd = a:dict.istemp ? a:dict.tmpdir : ''
 		" since we split the args with shell tokenizing rules, we don't want
 		" to shellescape them here.
@@ -135,7 +140,7 @@ endfunction
 function! rust#CompleteExpand(lead, line, pos)
 	if a:line[: a:pos-1] =~ '^RustExpand!\s*\S*$'
 		" first argument and it has a !
-		let list = ["normal", "expanded", "typed", "expanded,identified", "flowgraph="]
+		let list = ["normal", "expanded", "typed", "expanded,identified", "flowgraph=", "everybody_loops"]
 		if !empty(a:lead)
 			call filter(list, "v:val[:len(a:lead)-1] == a:lead")
 		endif
