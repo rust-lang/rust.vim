@@ -2,7 +2,7 @@
 
 ## Description
 
-This is a vim plugin provides [Rust][r] file detection and syntax highlighting.
+This is a vim plugin that provides [Rust][r] file detection and syntax highlighting.
 
 ## Installation
 
