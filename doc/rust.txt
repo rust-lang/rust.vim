@@ -81,6 +81,20 @@ g:rust_bang_comment_leader~
 	    let g:rust_bang_comment_leader = 1
 <
 
+                                               *g:rust_use_builtin_ctags_defs*
+g:rust_use_builtin_ctags_defs~
+	Set this option to 0 if you have customized ctags definitions for Rust
+	and do not wish for those included with rust.vim to be used: >
+	    let g:rust_use_builtin_ctags_defs = 0
+<
+	Note that rust.vim's built-in definitions are only used for the Tagbar
+	Vim plugin, if you have it installed--it is not automatically used
+	when generating |tags| files that Vim can use to navigate to
+	definitions across different source files. Feel free to copy
+	`rust.vim/ctags/rust.ctags` into your own `~/.ctags` if you wish to
+	generate |tags| files.
+
+
                                                  *g:ftplugin_rust_source_path*
 g:ftplugin_rust_source_path~
 	Set this option to a path that should be prepended to 'path' for Rust
