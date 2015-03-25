@@ -18,5 +18,9 @@ else
     let g:syntastic_extra_filetypes = ['rust']
 endif
 
+if globpath(&rtp, 'autoload/webapi/http.vim') !=# ''
+  command! -range=% Play :call rust#Play(<count>, <line1>, <line2>, <f-args>)
+endif
+
 let &cpo = s:save_cpo
 unlet s:save_cpo
