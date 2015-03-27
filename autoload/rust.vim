@@ -363,42 +363,54 @@ endfunction
 " Parts of gist.vim by Yasuhiro Matsumoto <mattn.jp@gmail.com> reused
 " gist.vim available under the BSD license, available at
 " http://github.com/mattn/gist-vim
-if globpath(&rtp, 'autoload/webapi/http.vim') !=# ''
-  " Only setup playpen support if we have webapi
-  if !exists('g:rust_playpen_url')
-    let g:rust_playpen_url = 'https://play.rust-lang.org/'
-  endif
-  if !exists('g:rust_shortener_url')
-    let g:rust_shortener_url = 'https://is.gd/'
-  endif
-
-  function! rust#Play(count, line1, line2, ...) abort
-    redraw
-    let bufname = bufname('%')
-    if a:count < 1
-      let content = join(getline(a:line1, a:line2), "\n")
-    else
-      let save_regcont = @"
-      let save_regtype = getregtype('"')
-      silent! normal! gvy
-      let content = @"
-      call setreg('"', save_regcont, save_regtype)
-    endif
-
-    let body = g:rust_playpen_url."?code=".webapi#http#encodeURI(content)
-
-    if strlen(body) > 5000
-      echohl ErrorMsg | echomsg 'Buffer too large, max 5000 encoded characters ('.strlen(body).')' | echohl None
-      return
-    endif
-
-    let payload = "format=simple&url=".webapi#http#encodeURI(body)
-    let res = webapi#http#post(g:rust_shortener_url.'create.php', payload, {})
-    let url = res.content
-    redraw | echomsg 'Done: '.url
-  endfunction
-
+if !exists('g:rust_playpen_url')
+  let g:rust_playpen_url = 'https://play.rust-lang.org/'
 endif
+if !exists('g:rust_shortener_url')
+  let g:rust_shortener_url = 'https://is.gd/'
+endif
+
+function! s:has_webapi()
+  if !exists("*webapi#http#post")
+    try
+      call webapi#http#post()
+    catch
+    endtry
+  endif
+  return exists("*webapi#http#post")
+endfunction
+
+function! rust#Play(count, line1, line2, ...) abort
+  redraw
+
+  if !s:has_webapi()
+    echohl ErrorMsg | echomsg ':RustPlay depends on webapi.vim (https://github.com/mattn/webapi-vim)' | echohl None
+    return
+  endif
+
+  let bufname = bufname('%')
+  if a:count < 1
+    let content = join(getline(a:line1, a:line2), "\n")
+  else
+    let save_regcont = @"
+    let save_regtype = getregtype('"')
+    silent! normal! gvy
+    let content = @"
+    call setreg('"', save_regcont, save_regtype)
+  endif
+
+  let body = g:rust_playpen_url."?code=".webapi#http#encodeURI(content)
+
+  if strlen(body) > 5000
+    echohl ErrorMsg | echomsg 'Buffer too large, max 5000 encoded characters ('.strlen(body).')' | echohl None
+    return
+  endif
+
+  let payload = "format=simple&url=".webapi#http#encodeURI(body)
+  let res = webapi#http#post(g:rust_shortener_url.'create.php', payload, {})
+  let url = res.content
+  redraw | echomsg 'Done: '.url
+endfunction
 
 " }}}1
 
