@@ -24,3 +24,9 @@ details.
 [v]: https://github.com/gmarik/vundle
 [vqs]: https://github.com/gmarik/vundle#quick-start
 [p]: https://github.com/tpope/vim-pathogen
+[nb]: https://github.com/Shougo/neobundle.vim
+
+### Using [NeoBundle][nb]
+
+1. Add `NeoBundle 'rust-lang/rust.vim'` to `~/.vimrc`
+2. Re-open vim or execute `:NeoBundleInstall`
