@@ -95,16 +95,16 @@ source $VIMRUNTIME/macros/matchit.vim
 " Commands {{{1
 
 " See |:RustRun| for docs
-command! -nargs=* -complete=file -bang -bar -buffer RustRun call rust#Run(<bang>0, [<f-args>])
+command! -nargs=* -complete=file -bang -buffer RustRun call rust#Run(<bang>0, <q-args>)
 
 " See |:RustExpand| for docs
-command! -nargs=* -complete=customlist,rust#CompleteExpand -bang -bar -buffer RustExpand call rust#Expand(<bang>0, [<f-args>])
+command! -nargs=* -complete=customlist,rust#CompleteExpand -bang -buffer RustExpand call rust#Expand(<bang>0, <q-args>)
 
 " See |:RustEmitIr| for docs
-command! -nargs=* -bar -buffer RustEmitIr call rust#Emit("ir", [<f-args>])
+command! -nargs=* -buffer RustEmitIr call rust#Emit("llvm-ir", <q-args>)
 
 " See |:RustEmitAsm| for docs
-command! -nargs=* -bar -buffer RustEmitAsm call rust#Emit("asm", [<f-args>])
+command! -nargs=* -buffer RustEmitAsm call rust#Emit("asm", <q-args>)
 
 " Mappings {{{1
 
