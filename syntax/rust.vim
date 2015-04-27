@@ -77,22 +77,20 @@ syn keyword   rustTrait       Drop Fn FnMut FnOnce
 
 " Reexported types and traits {{{3
 syn keyword rustTrait Box
+syn keyword rustTrait ToOwned
 syn keyword rustTrait Clone
 syn keyword rustTrait PartialEq PartialOrd Eq Ord
 syn keyword rustTrait AsRef AsMut Into From
-syn keyword rustTrait DoubleEndedIterator
-syn keyword rustTrait ExactSizeIterator
-syn keyword rustTrait Iterator IteratorExt Extend
+syn keyword rustTrait Default
+syn keyword rustTrait Iterator Extend IntoIterator
+syn keyword rustTrait DoubleEndedIterator ExactSizeIterator
 syn keyword rustEnum Option
 syn keyword rustEnumVariant Some None
 syn keyword rustEnum Result
 syn keyword rustEnumVariant Ok Err
-syn keyword rustTrait SliceConcatExt AsSlice
-syn keyword rustTrait Str
+syn keyword rustTrait SliceConcatExt
 syn keyword rustTrait String ToString
 syn keyword rustTrait Vec
-
-syn keyword rustTrait Wrapping WrappingOps
 
 " Other syntax {{{2
 syn keyword   rustSelf        self
