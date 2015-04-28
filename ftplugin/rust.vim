@@ -145,6 +145,7 @@ let b:undo_ftplugin = "
 		\|delcommand RustExpand
 		\|delcommand RustEmitIr
 		\|delcommand RustEmitAsm
+		\|delcommand RustPlay
 		\|nunmap <buffer> <D-r>
 		\|nunmap <buffer> <D-R>
 		\|nunmap <buffer> [[
