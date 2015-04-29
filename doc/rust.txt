@@ -95,6 +95,19 @@ g:cargo_manifest_name~
 	    let g:cargo_manifest_name = 'Cargo.toml'
 <
 
+                                                          *g:rust_playpen_url*
+g:rust_playpen_url~
+	Set this option to override the url for the playpen to use: >
+	    let g:rust_playpen_url = 'https://play.rust-lang.org/'
+<
+
+                                                        *g:rust_shortener_url*
+g:rust_shortener_url~
+	Set this option to override the url for the url shortener: >
+	    let g:rust_shortener_url = 'https://is.gd/'
+<
+
+
 ==============================================================================
 COMMANDS                                                       *rust-commands*
 

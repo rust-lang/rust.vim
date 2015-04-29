@@ -405,6 +405,7 @@ function! rust#Play(count, line1, line2, ...) abort
   let payload = "format=simple&url=".webapi#http#encodeURI(body)
   let res = webapi#http#post(l:rust_shortener_url.'create.php', payload, {})
   let url = res.content
+
   redraw | echomsg 'Done: '.url
 endfunction
 
