@@ -376,16 +376,8 @@ endfunction
 function! rust#Play(count, line1, line2, ...) abort
   redraw
 
-  if !exists('g:rust_playpen_url')
-    let l:rust_playpen_url = 'https://play.rust-lang.org/'
-  else
-    let l:rust_playpen_url = g:rust_playpen_url
-  endif
-  if !exists('g:rust_shortener_url')
-    let l:rust_shortener_url = 'https://is.gd/'
-  else
-    let l:rust_shortener_url = g:rust_shortener_url
-  endif
+  let l:rust_playpen_url = get(g:, 'rust_playpen_url', 'https://play.rust-lang.org/')
+  let l:rust_shortener_url = get(g:, 'rust_shortener_url', 'https://is.gd/')
 
   if !s:has_webapi()
     echohl ErrorMsg | echomsg ':RustPlay depends on webapi.vim (https://github.com/mattn/webapi-vim)' | echohl None
