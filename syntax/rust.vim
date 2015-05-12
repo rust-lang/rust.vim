@@ -58,7 +58,7 @@ syn match rustMacroVariable "$\w\+"
 syn keyword   rustReservedKeyword alignof become do offsetof priv pure sizeof typeof unsized yield abstract virtual final override macro
 
 " Built-in types {{{2
-syn keyword   rustType        isize usize float char bool u8 u16 u32 u64 f32
+syn keyword   rustType        isize usize char bool u8 u16 u32 u64 f32
 syn keyword   rustType        f64 i8 i16 i32 i64 str Self
 
 " Things from the libstd v1 prelude (src/libstd/prelude/v1.rs) {{{2
