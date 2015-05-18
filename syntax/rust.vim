@@ -116,7 +116,9 @@ syn match     rustSigil        display /[&~@*][^)= \t\r\n]/he=e-1,me=e-1
 " This isn't actually correct; a closure with no arguments can be `|| { }`.
 " Last, because the & in && isn't a sigil
 syn match     rustOperator     display "&&\|||"
-syn match     rustArrow        display "->"
+" This is rustArrowCharacter rather than rustArrow for the sake of matchparen,
+" so it skips the ->; see http://stackoverflow.com/a/30309949 for details.
+syn match     rustArrowCharacter display "->"
 
 syn match     rustMacro       '\w\(\w\)*!' contains=rustAssert,rustPanic
 syn match     rustMacro       '#\w\(\w\)*' contains=rustAssert,rustPanic
@@ -219,7 +221,7 @@ hi def link rustEnumVariant   rustConstant
 hi def link rustConstant      Constant
 hi def link rustSelf          Constant
 hi def link rustFloat         Float
-hi def link rustArrow         rustOperator
+hi def link rustArrowCharacter rustOperator
 hi def link rustOperator      Operator
 hi def link rustKeyword       Keyword
 hi def link rustReservedKeyword Error
