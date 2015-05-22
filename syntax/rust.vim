@@ -168,6 +168,7 @@ syn match   rustCharacterInvalidUnicode   display contained /b'\zs[^[:cntrl:][:g
 syn match   rustCharacter   /b'\([^\\]\|\\\(.\|x\x\{2}\)\)'/ contains=rustEscape,rustEscapeError,rustCharacterInvalid,rustCharacterInvalidUnicode
 syn match   rustCharacter   /'\([^\\]\|\\\(.\|x\x\{2}\|u\x\{4}\|U\x\{8}\|u{\x\{1,6}}\)\)'/ contains=rustEscape,rustEscapeUnicode,rustEscapeError,rustCharacterInvalid
 
+syn match rustShebang /\%^#![^[].*/
 syn region rustCommentLine                                        start="//"                      end="$"   contains=rustTodo,@Spell
 syn region rustCommentLineDoc                                     start="//\%(//\@!\|!\)"         end="$"   contains=rustTodo,@Spell
 syn region rustCommentBlock    matchgroup=rustCommentBlock        start="/\*\%(!\|\*[*/]\@!\)\@!" end="\*/" contains=rustTodo,rustCommentBlockNest,@Spell
@@ -233,6 +234,7 @@ hi def link rustModPathSep    Delimiter
 hi def link rustFunction      Function
 hi def link rustFuncName      Function
 hi def link rustFuncCall      Function
+hi def link rustShebang       Comment
 hi def link rustCommentLine   Comment
 hi def link rustCommentLineDoc SpecialComment
 hi def link rustCommentBlock  rustCommentLine
