@@ -29,4 +29,4 @@ details.
 ### Using [NeoBundle][nb]
 
 1. Add `NeoBundle 'rust-lang/rust.vim'` to `~/.vimrc`
-2. Re-open vim or execute `:NeoBundleInstall`
+2. Re-open vim or execute `:source ~/.vimrc`
