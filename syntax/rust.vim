@@ -23,7 +23,7 @@ syn keyword   rustKeyword     box nextgroup=rustBoxPlacement skipwhite skipempty
 syn keyword   rustKeyword     continue
 syn keyword   rustKeyword     extern nextgroup=rustExternCrate,rustObsoleteExternMod skipwhite skipempty
 syn keyword   rustKeyword     fn nextgroup=rustFuncName skipwhite skipempty
-syn keyword   rustKeyword     for in if impl let
+syn keyword   rustKeyword     for in match if else impl let
 syn keyword   rustKeyword     loop pub
 syn keyword   rustKeyword     return super
 syn keyword   rustKeyword     unsafe where while
