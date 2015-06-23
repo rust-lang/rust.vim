@@ -18,7 +18,7 @@ set cpo&vim
 " comments, so we'll use that as our default, but make it easy to switch.
 " This does not affect indentation at all (I tested it with and without
 " leader), merely whether a leader is inserted by default or not.
-if exists("g:rust_bang_comment_leader") && g:rust_bang_comment_leader == 1
+if exists("g:rust_bang_comment_leader") && g:rust_bang_comment_leader != 0
 	" Why is the `,s0:/*,mb:\ ,ex:*/` there, you ask? I don't understand why,
 	" but without it, */ gets indented one space even if there were no
 	" leaders. I'm fairly sure that's a Vim bug.
@@ -35,7 +35,7 @@ silent! setlocal formatoptions+=j
 " otherwise it's better than nothing.
 setlocal smartindent nocindent
 
-if !exists("g:rust_recommended_style") || g:rust_recommended_style == 1
+if !exists("g:rust_recommended_style") || g:rust_recommended_style != 0
 	setlocal tabstop=4 shiftwidth=4 softtabstop=4 expandtab
 	setlocal textwidth=99
 endif
@@ -67,7 +67,7 @@ if has("folding") && exists('g:rust_fold') && g:rust_fold != 0
 	endif
 endif
 
-if has('conceal') && exists('g:rust_conceal')
+if has('conceal') && exists('g:rust_conceal') && g:rust_conceal != 0
 	let b:rust_set_conceallevel=1
 	setlocal conceallevel=2
 endif
