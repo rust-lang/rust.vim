@@ -90,7 +90,9 @@ set matchpairs+=<:>
 " highlighting perspective (built into Vim), but the actual % functionality
 " can be fixed by this use of matchit.vim.
 let b:match_skip = 's:comment\|string\|rustArrow'
-source $VIMRUNTIME/macros/matchit.vim
+if !exists("loaded_matchit")
+	source $VIMRUNTIME/macros/matchit.vim
+endif
 
 " Commands {{{1
 
