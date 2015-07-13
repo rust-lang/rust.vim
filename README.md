@@ -17,8 +17,11 @@ details.
 
 ### Using [Pathogen][p]
 
-1. `cd ~/.vim/bundle`
-2. `git clone https://github.com/rust-lang/rust.vim.git`
+```shell
+cd ~/.vim/bundle
+git clone --depth=1 https://github.com/rust-lang/rust.vim.git
+cd -
+```
 
 [r]: https://rust-lang.org
 [v]: https://github.com/gmarik/vundle
