@@ -1,0 +1,80 @@
+" WTF License
+" Author: stephen@stephensugden.com
+"
+" Directly based on the go#fmt#Format plugin from fatih/vim-go
+
+if !exists("g:rustfmt_autosave")
+  let g:rustfmt_autosave = 0
+endif
+
+if !exists("g:rustfmt_command")
+    let g:rustfmt_command = "rustfmt"
+endif
+
+if !exists("g:rustfmt_options")
+  let g:rustfmt_options = ""
+endif
+
+if !exists("g:rustfmt_fail_silently")
+  let g:rustfmt_fail_silently = 0
+endif
+
+let s:got_fmt_error = 0
+
+function! rustfmt#Format()
+  let l:curw = winsaveview()
+  let l:tmpname = tempname()
+  call writefile(getline(1, '$'), l:tmpname)
+
+  let command = g:rustfmt_command . " --write-mode=replace "
+  
+  let out = system(command . g:rustfmt_options . " " . l:tmpname)
+
+  "if there is no error on the temp file replace the output with the current
+  "file (if this fails, we can always check the outputs first line with:
+  "splitted =~ 'package \w\+')
+  if v:shell_error == 0
+    " remove undo point caused via BufWritePre
+    try | silent undojoin | catch | endtry
+
+    " Replace current file with temp file, then reload buffer
+    call rename(l:tmpname, expand('%'))
+    silent edit!
+    let &syntax = &syntax
+
+    " only clear quickfix if it was previously set, this prevents closing
+    " other quickfixes
+    if s:got_fmt_error 
+      let s:got_fmt_error = 0
+      call setqflist([])
+      cwindow
+    endif
+  elseif g:rustfmt_fail_silently == 0 
+    let splitted = split(out, '\n')
+    "otherwise get the errors and put them to quickfix window
+    let errors = []
+    for line in splitted
+      " src/lib.rs:13:5: 13:10 error: expected `,`, or `}`, found `value`
+      let tokens = matchlist(line, '^\(.\{-}\):\(\d\+\):\(\d\+\):\s*\(\d\+:\d\+\s*\)?\s*error: \(.*\)')
+      if !empty(tokens)
+        call add(errors, {"filename": @%,
+                         \"lnum":     tokens[2],
+                         \"col":      tokens[3],
+                         \"text":     tokens[5]})
+      endif
+    endfor
+    if empty(errors)
+      % | " Couldn't detect rustfmt error format, output errors
+    endif
+    if !empty(errors)
+      call setqflist(errors, 'r')
+      echohl Error | echomsg "rustfmt returned error" | echohl None
+    endif
+    let s:got_fmt_error = 1
+    cwindow
+    " We didn't use the temp file, so clean up
+    call delete(l:tmpname)
+  endif
+
+  call winrestview(l:curw)
+endfunction
