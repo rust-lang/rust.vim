@@ -23,16 +23,13 @@ let s:got_fmt_error = 0
 
 function! rustfmt#Format()
   let l:curw = winsaveview()
-  let l:tmpname = tempname()
+  let l:tmpname = expand("%:p:h") . "/." . expand("%:p:t") . ".rustfmt"
   call writefile(getline(1, '$'), l:tmpname)
 
-  let command = g:rustfmt_command . " --write-mode=replace "
+  let command = g:rustfmt_command . " --write-mode=overwrite "
   
-  let out = system(command . g:rustfmt_options . " " . l:tmpname)
+  let out = systemlist(command . g:rustfmt_options . " " . shellescape(l:tmpname))
 
-  "if there is no error on the temp file replace the output with the current
-  "file (if this fails, we can always check the outputs first line with:
-  "splitted =~ 'package \w\+')
   if v:shell_error == 0
     " remove undo point caused via BufWritePre
     try | silent undojoin | catch | endtry
@@ -50,17 +47,18 @@ function! rustfmt#Format()
       cwindow
     endif
   elseif g:rustfmt_fail_silently == 0 
-    let splitted = split(out, '\n')
     "otherwise get the errors and put them to quickfix window
     let errors = []
-    for line in splitted
+    for line in out
       " src/lib.rs:13:5: 13:10 error: expected `,`, or `}`, found `value`
-      let tokens = matchlist(line, '^\(.\{-}\):\(\d\+\):\(\d\+\):\s*\(\d\+:\d\+\s*\)?\s*error: \(.*\)')
+      let tokens = matchlist(line, '^\(.\{-}\):\(\d\+\):\(\d\+\):\s*\(\d\+:\d\+\s*\)\?\s*error: \(.*\)')
       if !empty(tokens)
         call add(errors, {"filename": @%,
                          \"lnum":     tokens[2],
                          \"col":      tokens[3],
                          \"text":     tokens[5]})
+      else
+        echo line
       endif
     endfor
     if empty(errors)
