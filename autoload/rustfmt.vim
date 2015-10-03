@@ -1,7 +1,6 @@
-" WTF License
-" Author: stephen@stephensugden.com
+" Author: Stephen Sugden <stephen@stephensugden.com>
 "
-" Directly based on the go#fmt#Format plugin from fatih/vim-go
+" Adapted from https://github.com/fatih/vim-go
 
 if !exists("g:rustfmt_autosave")
   let g:rustfmt_autosave = 0
