@@ -95,6 +95,19 @@ g:cargo_manifest_name~
 	    let g:cargo_manifest_name = 'Cargo.toml'
 <
 
+                                                          *g:rust_playpen_url*
+g:rust_playpen_url~
+	Set this option to override the url for the playpen to use: >
+	    let g:rust_playpen_url = 'https://play.rust-lang.org/'
+<
+
+                                                        *g:rust_shortener_url*
+g:rust_shortener_url~
+	Set this option to override the url for the url shortener: >
+	    let g:rust_shortener_url = 'https://is.gd/'
+<
+
+
 ==============================================================================
 COMMANDS                                                       *rust-commands*
 
@@ -156,6 +169,20 @@ COMMANDS                                                       *rust-commands*
 
 		If |g:rustc_path| is defined, it is used as the path to rustc.
 		Otherwise it is assumed rustc can be found in $PATH.
+
+:RustPlay                                                          *:RustPlay*
+		This command will only work if you have web-api.vim installed
+		(available at https://github.com/mattn/webapi-vim).  It sends the
+		current selection, or if nothing is selected, the entirety of the
+		current buffer to the Rust playpen, and emits a message with the
+		shortened URL to the playpen.
+
+		|g:rust_playpen_url| is the base URL to the playpen, by default
+		"https://play.rust-lang.org/".
+
+		|g:rust_shortener_url| is the base url for the shorterner, by
+		default "https://is.gd/"
+
 
 ==============================================================================
 MAPPINGS                                                       *rust-mappings*
