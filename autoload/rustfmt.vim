@@ -26,7 +26,7 @@ function! rustfmt#Format()
   call writefile(getline(1, '$'), l:tmpname)
 
   let command = g:rustfmt_command . " --write-mode=overwrite "
-  
+
   let out = systemlist(command . g:rustfmt_options . " " . shellescape(l:tmpname))
 
   if v:shell_error == 0
@@ -38,16 +38,17 @@ function! rustfmt#Format()
     silent edit!
     let &syntax = &syntax
 
-    " only clear quickfix if it was previously set, this prevents closing
-    " other quickfixes
-    if s:got_fmt_error 
+    " only clear location list if it was previously filled to prevent
+    " clobbering other additions
+    if s:got_fmt_error
       let s:got_fmt_error = 0
-      call setqflist([])
-      cwindow
+      call setloclist([])
+      lwindow
     endif
-  elseif g:rustfmt_fail_silently == 0 
-    "otherwise get the errors and put them to quickfix window
+  elseif g:rustfmt_fail_silently == 0
+    " otherwise get the errors and put them in the location list
     let errors = []
+
     for line in out
       " src/lib.rs:13:5: 13:10 error: expected `,`, or `}`, found `value`
       let tokens = matchlist(line, '^\(.\{-}\):\(\d\+\):\(\d\+\):\s*\(\d\+:\d\+\s*\)\?\s*error: \(.*\)')
@@ -60,15 +61,18 @@ function! rustfmt#Format()
         echo line
       endif
     endfor
+
     if empty(errors)
       % | " Couldn't detect rustfmt error format, output errors
     endif
+
     if !empty(errors)
-      call setqflist(errors, 'r')
+      call setloclist(errors, 'r')
       echohl Error | echomsg "rustfmt returned error" | echohl None
     endif
+
     let s:got_fmt_error = 1
-    cwindow
+    lwindow
     " We didn't use the temp file, so clean up
     call delete(l:tmpname)
   endif
