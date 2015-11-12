@@ -57,8 +57,6 @@ function! rustfmt#Format()
                          \"lnum":     tokens[2],
                          \"col":      tokens[3],
                          \"text":     tokens[5]})
-      else
-        echo line
       endif
     endfor
 
