@@ -42,7 +42,7 @@ function! rustfmt#Format()
     " clobbering other additions
     if s:got_fmt_error
       let s:got_fmt_error = 0
-      call setloclist([])
+      call setloclist(0, [])
       lwindow
     endif
   elseif g:rustfmt_fail_silently == 0
@@ -67,7 +67,7 @@ function! rustfmt#Format()
     endif
 
     if !empty(errors)
-      call setloclist(errors, 'r')
+      call setloclist(0, errors, 'r')
       echohl Error | echomsg "rustfmt returned error" | echohl None
     endif
 
