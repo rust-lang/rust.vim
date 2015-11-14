@@ -35,7 +35,7 @@ git clone --depth=1 https://github.com/rust-lang/rust.vim.git ~/.vim/bundle/rust
 ## Enabling autoformat
 
 This plugin can optionally format your code using [rustfmt][rfmt] every time a
-buffer is written. Simple put `let g:rust_fmt_autosave = 1` in your `.vimrc`.
+buffer is written. Simple put `let g:rustfmt_autosave = 1` in your `.vimrc`.
 
 ## Help
 
