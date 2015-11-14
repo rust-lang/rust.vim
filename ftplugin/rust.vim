@@ -109,6 +109,9 @@ command! -nargs=* -buffer RustEmitAsm call rust#Emit("asm", <q-args>)
 " See |:RustPlay| for docs
 command! -range=% RustPlay :call rust#Play(<count>, <line1>, <line2>, <f-args>)
 
+" See |:RustFmt| for docs
+command! -buffer RustFmt call rustfmt#Format()
+
 " Mappings {{{1
 
 " Bind ⌘R in MacVim to :RustRun
