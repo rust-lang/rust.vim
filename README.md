@@ -40,3 +40,9 @@ buffer is written. Simple put `let g:rustfmt_autosave = 1` in your `.vimrc`.
 ## Help
 
 Further help can be found in the documentation with `:help rust`.
+
+## License
+
+Like Rust, rust.vim is primarily distributed under the terms of both the MIT
+license and the Apache License (Version 2.0). See LICENSE-APACHE and
+LICENSE-MIT for details. 
