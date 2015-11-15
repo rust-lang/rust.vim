@@ -74,3 +74,7 @@ LICENSE-MIT for details.
 [nb]: https://github.com/Shougo/neobundle.vim
 [vp]: https://github.com/junegunn/vim-plug
 [rfmt]: https://github.com/rust-lang-nursery/rustfmt
+[syn]: https://github.com/scrooloose/syntastic
+[wav]: https://github.com/mattn/webapi-vim
+[pp]: https://play.rust-lang.org/
+
