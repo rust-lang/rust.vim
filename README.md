@@ -34,6 +34,12 @@ git clone --depth=1 https://github.com/rust-lang/rust.vim.git ~/.vim/bundle/rust
 
 ## Features
 
+### Error checking with [Syntastic][syn]
+
+`rust.vim` automatically registers `rustc` as a syntax checker
+with [Syntastic][syn]. Check Syntastic's documentation for
+information on how to customize its behaviour.
+
 ### Formatting with [rustfmt][rfmt]
 
 The `:RustFmt` command will format your code with
