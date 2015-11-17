@@ -21,7 +21,7 @@ details.
 git clone --depth=1 https://github.com/rust-lang/rust.vim.git ~/.vim/bundle/rust.vim
 ```
 
-[r]: https://rust-lang.org
+[r]: https://www.rust-lang.org
 [v]: https://github.com/gmarik/vundle
 [vqs]: https://github.com/gmarik/vundle#quick-start
 [p]: https://github.com/tpope/vim-pathogen
