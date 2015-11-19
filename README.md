@@ -39,7 +39,7 @@ buffer is written. Simple put `let g:rustfmt_autosave = 1` in your `.vimrc`.
 
 ## Help
 
-Further help can be found in the documentation with `:help rust`.
+Further help can be found in the documentation with `:Helptags` then `:help rust`.
 
 ## License
 
