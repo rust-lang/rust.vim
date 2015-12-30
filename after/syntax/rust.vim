@@ -26,6 +26,6 @@ endif
 
 hi link rustNiceOperator Operator
 
-if !exists('g:rust_conceal_mod_path') && g:rust_conceal_mod_path != 0
+if !(exists('g:rust_conceal_mod_path') && g:rust_conceal_mod_path != 0)
     hi! link Conceal Operator
 endif
