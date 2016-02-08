@@ -25,7 +25,8 @@ if exists('g:rust_conceal_pub') && g:rust_conceal_pub != 0
 endif
 
 hi link rustNiceOperator Operator
+hi! link Conceal Operator
 
-if !exists('g:rust_conceal_mod_path') && g:rust_conceal_mod_path != 0
-    hi! link Conceal Operator
-endif
+" Keeps conceal highlighting proper after return after colorscheme switch.
+autocmd VimEnter,ColorScheme * hi! link Conceal Operator
+
