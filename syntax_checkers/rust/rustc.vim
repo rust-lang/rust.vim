@@ -14,9 +14,20 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 function! SyntaxCheckers_rust_rustc_GetLocList() dict
-    let makeprg = self.makeprgBuild({
-        \ 'args': 'rustc -Zno-trans',
-        \ 'fname': '' })
+    let cwd = '.' " Don't change cwd as default
+    let cargo_toml_path = findfile('Cargo.toml', '.;')
+    if empty(cargo_toml_path) " Plain rs file, not a crate
+        let makeprg = self.makeprgBuild({
+            \ 'exe': 'rustc',
+            \ 'args': '-Zno-trans' })
+    else " We are inside a crate
+        let makeprg = self.makeprgBuild({
+            \ 'exe': 'cargo',
+            \ 'args': 'rustc -Zno-trans',
+            \ 'fname': '' })
+        " Change cwd to the root of the crate
+        let cwd = fnamemodify( cargo_toml_path, ':p:h') 
+    endif
 
     let errorformat  =
         \ '%E%f:%l:%c: %\d%#:%\d%# %.%\{-}error:%.%\{-} %m,'   .
@@ -26,13 +37,13 @@ function! SyntaxCheckers_rust_rustc_GetLocList() dict
 
     return SyntasticMake({
         \ 'makeprg': makeprg,
-        \ 'errorformat': errorformat })
+        \ 'errorformat': errorformat,
+        \ 'cwd': cwd })
 endfunction
 
 call g:SyntasticRegistry.CreateAndRegisterChecker({
-    \ 'exec': 'cargo',
     \ 'filetype': 'rust',
-    \ 'name': 'rustc'})
+    \ 'name': 'rustc' })
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
