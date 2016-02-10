@@ -28,5 +28,5 @@ hi link rustNiceOperator Operator
 hi! link Conceal Operator
 
 " Keeps conceal highlighting proper after return after colorscheme switch.
-autocmd VimEnter,ColorScheme * hi! link Conceal Operator
+autocmd ColorScheme <buffer> hi! link Conceal Operator
 
