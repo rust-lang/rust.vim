@@ -10,23 +10,28 @@ if exists("g:loaded_syntastic_rust_rustc_checker")
 endif
 let g:loaded_syntastic_rust_rustc_checker = 1
 
+if !exists('g:rustc_syntax_only')
+    let g:rustc_syntax_only = 1 "Keep the fast behaviour by default
+endif
+
 let s:save_cpo = &cpo
 set cpo&vim
 
 function! SyntaxCheckers_rust_rustc_GetLocList() dict
+    let compiler_params = g:rustc_syntax_only ? '-Zparse-only' : '-Zno-trans'
     let cwd = '.' " Don't change cwd as default
     let cargo_toml_path = findfile('Cargo.toml', '.;')
     if empty(cargo_toml_path) " Plain rs file, not a crate
         let makeprg = self.makeprgBuild({
             \ 'exe': 'rustc',
-            \ 'args': '-Zno-trans' })
+            \ 'args': compiler_params})
     else " We are inside a crate
         let makeprg = self.makeprgBuild({
             \ 'exe': 'cargo',
-            \ 'args': 'rustc -Zno-trans',
+            \ 'args': 'rustc ' . compiler_params,
             \ 'fname': '' })
         " Change cwd to the root of the crate
-        let cwd = fnamemodify( cargo_toml_path, ':p:h') 
+        let cwd = fnamemodify( cargo_toml_path, ':p:h')
     endif
 
     let errorformat  =
