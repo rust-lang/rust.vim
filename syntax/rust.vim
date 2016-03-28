@@ -14,6 +14,9 @@ endif
 " Syntax definitions {{{1
 " Basic keywords {{{2
 syn keyword   rustConditional match if else
+syn keyword   rustRepeat for loop while
+syn keyword   rustTypedef type nextgroup=rustIdentifier skipwhite skipempty
+syn keyword   rustStructure struct enum nextgroup=rustIdentifier skipwhite skipempty
 syn keyword   rustOperator    as
 
 syn match     rustAssert      "\<assert\(\w\)*!" contained
@@ -23,13 +26,13 @@ syn keyword   rustKeyword     box nextgroup=rustBoxPlacement skipwhite skipempty
 syn keyword   rustKeyword     continue
 syn keyword   rustKeyword     extern nextgroup=rustExternCrate,rustObsoleteExternMod skipwhite skipempty
 syn keyword   rustKeyword     fn nextgroup=rustFuncName skipwhite skipempty
-syn keyword   rustKeyword     for in if impl let
-syn keyword   rustKeyword     loop pub
+syn keyword   rustKeyword     in impl let
+syn keyword   rustKeyword     pub
 syn keyword   rustKeyword     return super
-syn keyword   rustKeyword     unsafe where while
+syn keyword   rustKeyword     unsafe where
 syn keyword   rustKeyword     use nextgroup=rustModPath skipwhite skipempty
 " FIXME: Scoped impl's name is also fallen in this category
-syn keyword   rustKeyword     mod trait struct enum type nextgroup=rustIdentifier skipwhite skipempty
+syn keyword   rustKeyword     mod trait nextgroup=rustIdentifier skipwhite skipempty
 syn keyword   rustStorage     move mut ref static const
 
 syn keyword   rustInvalidBareKeyword crate
@@ -228,7 +231,10 @@ hi def link rustFloat         Float
 hi def link rustArrowCharacter rustOperator
 hi def link rustOperator      Operator
 hi def link rustKeyword       Keyword
+hi def link rustTypedef       Keyword " More precise is Typedef, but it doesn't feel right for Rust
+hi def link rustStructure     Keyword " More precise is Structure
 hi def link rustReservedKeyword Error
+hi def link rustRepeat        Conditional
 hi def link rustConditional   Conditional
 hi def link rustIdentifier    Identifier
 hi def link rustCapsIdent     rustIdentifier
