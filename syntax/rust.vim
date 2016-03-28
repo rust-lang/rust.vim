@@ -27,8 +27,9 @@ syn keyword   rustKeyword     continue
 syn keyword   rustKeyword     extern nextgroup=rustExternCrate,rustObsoleteExternMod skipwhite skipempty
 syn keyword   rustKeyword     fn nextgroup=rustFuncName skipwhite skipempty
 syn keyword   rustKeyword     in impl let
-syn keyword   rustKeyword     pub
-syn keyword   rustKeyword     return super
+syn keyword   rustKeyword     pub nextgroup=rustPubScope skipwhite skipempty
+syn keyword   rustKeyword     return
+syn keyword   rustSuper       super
 syn keyword   rustKeyword     unsafe where
 syn keyword   rustKeyword     use nextgroup=rustModPath skipwhite skipempty
 " FIXME: Scoped impl's name is also fallen in this category
@@ -36,6 +37,10 @@ syn keyword   rustKeyword     mod trait nextgroup=rustIdentifier skipwhite skipe
 syn keyword   rustStorage     move mut ref static const
 
 syn keyword   rustInvalidBareKeyword crate
+
+syn keyword rustPubScopeCrate crate contained
+syn match rustPubScopeDelim /[()]/ contained
+syn match rustPubScope /([^()]*)/ contained contains=rustPubScopeDelim,rustPubScopeCrate,rustSuper,rustModPath,rustModPathSep,rustSelf transparent
 
 syn keyword   rustExternCrate crate contained nextgroup=rustIdentifier,rustExternCrateString skipwhite skipempty
 " This is to get the `bar` part of `extern crate "foo" as bar;` highlighting.
@@ -233,6 +238,9 @@ hi def link rustOperator      Operator
 hi def link rustKeyword       Keyword
 hi def link rustTypedef       Keyword " More precise is Typedef, but it doesn't feel right for Rust
 hi def link rustStructure     Keyword " More precise is Structure
+hi def link rustPubScopeDelim Delimiter
+hi def link rustPubScopeCrate rustKeyword
+hi def link rustSuper         rustKeyword
 hi def link rustReservedKeyword Error
 hi def link rustRepeat        Conditional
 hi def link rustConditional   Conditional
