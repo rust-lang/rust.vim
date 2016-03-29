@@ -35,6 +35,7 @@ syn keyword   rustKeyword     use nextgroup=rustModPath skipwhite skipempty
 " FIXME: Scoped impl's name is also fallen in this category
 syn keyword   rustKeyword     mod trait nextgroup=rustIdentifier skipwhite skipempty
 syn keyword   rustStorage     move mut ref static const
+syn match rustDefault /\<default\ze\_s\+\(impl\|fn\|type\|const\)\>/
 
 syn keyword   rustInvalidBareKeyword crate
 
@@ -265,6 +266,7 @@ hi def link rustType          Type
 hi def link rustTodo          Todo
 hi def link rustAttribute     PreProc
 hi def link rustDerive        PreProc
+hi def link rustDefault       StorageClass
 hi def link rustStorage       StorageClass
 hi def link rustObsoleteStorage Error
 hi def link rustLifetime      Special
