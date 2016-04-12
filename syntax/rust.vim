@@ -17,6 +17,8 @@ syn keyword   rustConditional match if else
 syn keyword   rustRepeat for loop while
 syn keyword   rustTypedef type nextgroup=rustIdentifier skipwhite skipempty
 syn keyword   rustStructure struct enum nextgroup=rustIdentifier skipwhite skipempty
+syn keyword   rustUnion union nextgroup=rustIdentifier skipwhite skipempty contained
+syn match rustUnionContextual /\<union\_s\+\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*/ transparent contains=rustUnion
 syn keyword   rustOperator    as
 
 syn match     rustAssert      "\<assert\(\w\)*!" contained
@@ -239,6 +241,7 @@ hi def link rustOperator      Operator
 hi def link rustKeyword       Keyword
 hi def link rustTypedef       Keyword " More precise is Typedef, but it doesn't feel right for Rust
 hi def link rustStructure     Keyword " More precise is Structure
+hi def link rustUnion         rustStructure
 hi def link rustPubScopeDelim Delimiter
 hi def link rustPubScopeCrate rustKeyword
 hi def link rustSuper         rustKeyword
