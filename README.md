@@ -37,6 +37,8 @@ git clone --depth=1 https://github.com/rust-lang/rust.vim.git ~/.vim/bundle/rust
 This plugin can optionally format your code using [rustfmt][rfmt] every time a
 buffer is written. Simple put `let g:rustfmt_autosave = 1` in your `.vimrc`.
 
+[rfmt]: https://crates.io/crates/rustfmt/
+
 ## Help
 
 Further help can be found in the documentation with `:Helptags` then `:help rust`.
