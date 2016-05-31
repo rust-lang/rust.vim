@@ -29,7 +29,7 @@ function! rustfmt#Format()
 
   let out = systemlist(command . g:rustfmt_options . " " . shellescape(l:tmpname))
 
-  if v:shell_error == 0
+  if v:shell_error == 0 || v:shell_error == 3
     " remove undo point caused via BufWritePre
     try | silent undojoin | catch | endtry
 
