@@ -27,7 +27,7 @@ function! rustfmt#Format()
 
   let command = g:rustfmt_command . " --write-mode=overwrite "
 
-  let out = systemlist(command . g:rustfmt_options . " " . shellescape(l:tmpname))
+  let out = split(system(command . g:rustfmt_options . " " . shellescape(l:tmpname)), '(\n|\rn)$')
 
   if v:shell_error == 0 || v:shell_error == 3
     " remove undo point caused via BufWritePre
