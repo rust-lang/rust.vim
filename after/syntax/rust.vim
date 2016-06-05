@@ -28,4 +28,7 @@ hi link rustNiceOperator Operator
 
 if !(exists('g:rust_conceal_mod_path') && g:rust_conceal_mod_path != 0)
     hi! link Conceal Operator
+
+    " And keep it after a colorscheme change
+    au ColorScheme <buffer> hi! link Conceal Operator
 endif
