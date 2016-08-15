@@ -27,7 +27,10 @@ function! s:is_absolute(path)
     return a:path[0] == '/' || a:path =~ '[A-Z]\+:'
 endfunction
 
-CompilerSet errorformat+=%-G%\\s%#Compiling%.%#
+" Ignore general cargo progress messages
+CompilerSet errorformat+=
+			\%-G%\\s%#Downloading%.%#,
+			\%-G%\\s%#Compiling%.%#
 
 let s:local_manifest = findfile(s:cargo_manifest_name, '.;')
 if s:local_manifest != ''

@@ -21,6 +21,7 @@ else
 	CompilerSet makeprg=rustc\ \%
 endif
 
+" Old errorformat (before nightly 2016/08/10)
 CompilerSet errorformat=
 			\%f:%l:%c:\ %t%*[^:]:\ %m,
 			\%f:%l:%c:\ %*\\d:%*\\d\ %t%*[^:]:\ %m,
@@ -28,6 +29,15 @@ CompilerSet errorformat=
 			\%-G%*[\ ]^,
 			\%-G%*[\ ]^%*[~],
 			\%-G%*[\ ]...
+
+" New errorformat (after nightly 2016/08/10)
+CompilerSet errorformat+=
+			\%Eerror:\ %m,
+			\%Eerror[E%n]:\ %m,
+			\%Wwarning:\ %m,
+			\%Inote:\ %m,
+			\%C\ %#-->\ %f:%l:%c,
+			\%C%.%#
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
