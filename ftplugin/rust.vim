@@ -194,7 +194,7 @@ let b:undo_ftplugin = "
 
 " Code formatting on save
 if get(g:, "rustfmt_autosave", 0)
-	autocmd BufWritePre *.rs call rustfmt#Format()
+	autocmd BufWritePre *.rs silent! call rustfmt#Format()
 endif
 
 augroup END
