@@ -30,7 +30,8 @@ endfunction
 " Ignore general cargo progress messages
 CompilerSet errorformat+=
 			\%-G%\\s%#Downloading%.%#,
-			\%-G%\\s%#Compiling%.%#
+			\%-G%\\s%#Compiling%.%#,
+			\%-G%\\s%#Finished%.%#
 
 let s:local_manifest = findfile(s:cargo_manifest_name, '.;')
 if s:local_manifest != ''
