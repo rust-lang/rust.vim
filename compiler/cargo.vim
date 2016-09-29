@@ -31,7 +31,9 @@ endfunction
 CompilerSet errorformat+=
 			\%-G%\\s%#Downloading%.%#,
 			\%-G%\\s%#Compiling%.%#,
-			\%-G%\\s%#Finished%.%#
+			\%-G%\\s%#Finished%.%#,
+			\%-G%\\s%#error:\ Could\ not\ compile\ %.%#,
+			\%-G%\\s%#To\ learn\ more\\,%.%#
 
 let s:local_manifest = findfile(s:cargo_manifest_name, '.;')
 if s:local_manifest != ''
