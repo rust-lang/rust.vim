@@ -20,16 +20,20 @@ function! SyntaxCheckers_rust_rustc_GetLocList() dict
     let errorformat  =
         \ '%E%f:%l:%c: %\d%#:%\d%# %.%\{-}error:%.%\{-} %m,'   .
         \ '%W%f:%l:%c: %\d%#:%\d%# %.%\{-}warning:%.%\{-} %m,' .
-        \ '%C%f:%l %m,'
+        \ '%C%f:%l %m'
         
     " New errorformat (after nightly 2016/08/10)
     let errorformat  .=
+        \ ',' .
+        \ '%-G,' .
+        \ '%-Gerror: aborting %.%#,' .
+        \ '%-Gerror: Could not compile %.%#,' .
         \ '%Eerror: %m,' .
         \ '%Eerror[E%n]: %m,' .
         \ '%Wwarning: %m,' .
         \ '%Inote: %m,' .
         \ '%C %#--> %f:%l:%c,' .
-        \ '%C%.%#'
+        \ '%C%*[0-9 ]|%.%#'
 
     return SyntasticMake({
         \ 'makeprg': makeprg,
