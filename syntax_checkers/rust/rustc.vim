@@ -32,8 +32,7 @@ function! SyntaxCheckers_rust_rustc_GetLocList() dict
         \ '%Eerror[E%n]: %m,' .
         \ '%Wwarning: %m,' .
         \ '%Inote: %m,' .
-        \ '%C %#--> %f:%l:%c,' .
-        \ '%C%*[0-9 ]|%.%#'
+        \ '%C %#--> %f:%l:%c'
 
     return SyntasticMake({
         \ 'makeprg': makeprg,

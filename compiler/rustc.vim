@@ -39,8 +39,7 @@ CompilerSet errorformat+=
 			\%Eerror[E%n]:\ %m,
 			\%Wwarning:\ %m,
 			\%Inote:\ %m,
-			\%C\ %#-->\ %f:%l:%c,
-			\%C%*[0-9\ ]\|%.%#
+			\%C\ %#-->\ %f:%l:%c
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
