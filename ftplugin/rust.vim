@@ -140,6 +140,9 @@ command! -range=% RustPlay :call rust#Play(<count>, <line1>, <line2>, <f-args>)
 " See |:RustFmt| for docs
 command! -buffer RustFmt call rustfmt#Format()
 
+" See |:RustFmtRange| for docs
+command! -range -buffer RustFmtRange call rustfmt#FormatRange(<line1>, <line2>)
+
 " Mappings {{{1
 
 " Bind ⌘R in MacVim to :RustRun
