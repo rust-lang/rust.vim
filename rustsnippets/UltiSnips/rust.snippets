@@ -1,0 +1,37 @@
+#snippet for rust
+
+priority -10
+
+snippet if "if"
+if ${1:condition} {
+    ${2:...}
+}
+endsnippet
+
+#if you want to add else if on $3
+snippet ifel "if..else"
+if ${1:condition} {
+    ${2:...}
+} else $3{
+    ${4:...}
+}$5
+endsnippet
+
+snippet fn "function" bA
+fn ${1:name}(${2:arg}: ${3:Type}) -> ${4:RetType}{
+    ${5:...}
+}
+endsnippet
+
+snippet main "fn main" bA
+fn main(){
+    ${1:...}
+}
+endsnippet
+
+snippet mat "match"
+match ${1:option} {
+    some(${2:expr}) => ${3:expr},
+		none => ${:expr}
+}
+endsnippet
