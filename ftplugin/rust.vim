@@ -110,16 +110,6 @@ xnoremap <silent> <buffer> ]] :call rust#Jump('v', 'Forward')<CR>
 onoremap <silent> <buffer> [[ :call rust#Jump('o', 'Back')<CR>
 onoremap <silent> <buffer> ]] :call rust#Jump('o', 'Forward')<CR>
 
-" %-matching. <:> is handy for generics.
-set matchpairs+=<:>
-" There are two minor issues with it; (a) comparison operators in expressions,
-" where a less-than may match a greater-than later on—this is deemed a trivial
-" issue—and (b) `Fn() -> X` syntax. This latter issue is irremediable from the
-" highlighting perspective (built into Vim), but the actual % functionality
-" can be fixed by this use of matchit.vim.
-let b:match_skip = 's:comment\|string\|rustArrow'
-source $VIMRUNTIME/macros/matchit.vim
-
 " Commands {{{1
 
 " See |:RustRun| for docs
@@ -187,6 +177,7 @@ let b:undo_ftplugin = "
 		\|ounmap <buffer> ]]
 		\|set matchpairs-=<:>
 		\|unlet b:match_skip
+		\|autocmd! rust.vim
 		\|augroup! rust.vim
 		\"
 
@@ -198,6 +189,16 @@ if get(g:, "rustfmt_autosave", 0)
 endif
 
 augroup END
+
+" %-matching. <:> is handy for generics.
+set matchpairs+=<:>
+" There are two minor issues with it; (a) comparison operators in expressions,
+" where a less-than may match a greater-than later on—this is deemed a trivial
+" issue—and (b) `Fn() -> X` syntax. This latter issue is irremediable from the
+" highlighting perspective (built into Vim), but the actual % functionality
+" can be fixed by this use of matchit.vim.
+let b:match_skip = 's:comment\|string\|rustArrow'
+source $VIMRUNTIME/macros/matchit.vim
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
