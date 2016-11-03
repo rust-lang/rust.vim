@@ -177,8 +177,6 @@ let b:undo_ftplugin = "
 		\|ounmap <buffer> ]]
 		\|set matchpairs-=<:>
 		\|unlet b:match_skip
-		\|autocmd! rust.vim
-		\|augroup! rust.vim
 		\"
 
 " }}}1
