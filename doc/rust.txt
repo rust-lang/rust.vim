@@ -116,7 +116,7 @@ g:rustfmt_fail_silently~
                                                        *g:rustfmt_options*
 g:rustfmt_options~
 	Set this option to a string of options to pass to 'rustfmt'. The
-	write-mode is already set to 'overwrite'. If not specified it 
+	write-mode is already set to 'overwrite'. If not specified it
 	defaults to '' : >
 	    let g:rustfmt_options = ''
 <
@@ -218,6 +218,10 @@ COMMANDS                                                       *rust-commands*
 		will populate the |location-list| with the errors from
 		|g:rustfmt_command|. If |g:rustfmt_fail_silently| is set to 1
 		then it will not populate the |location-list|.
+
+:RustFmtRange                                                  *:RustFmtRange*
+		Runs |g:rustfmt_command| with selected range. See
+		|:RustFmt| for any other information.
 
 ==============================================================================
 MAPPINGS                                                       *rust-mappings*
