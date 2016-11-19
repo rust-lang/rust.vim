@@ -10,11 +10,29 @@ if exists("g:loaded_syntastic_rust_rustc_checker")
 endif
 let g:loaded_syntastic_rust_rustc_checker = 1
 
+if !exists('g:rustc_syntax_only')
+    let g:rustc_syntax_only = 1 "Keep the fast behaviour by default
+endif
+
 let s:save_cpo = &cpo
 set cpo&vim
 
 function! SyntaxCheckers_rust_rustc_GetLocList() dict
-    let makeprg = self.makeprgBuild({ 'args': '-Zparse-only' })
+    let compiler_params = g:rustc_syntax_only ? '-Zparse-only' : '-Zno-trans'
+    let cwd = '.' " Don't change cwd as default
+    let cargo_toml_path = findfile('Cargo.toml', '.;')
+    if empty(cargo_toml_path) " Plain rs file, not a crate
+        let makeprg = self.makeprgBuild({
+            \ 'exe': 'rustc',
+            \ 'args': compiler_params})
+    else " We are inside a crate
+        let makeprg = self.makeprgBuild({
+            \ 'exe': 'cargo',
+            \ 'args': 'rustc ' . compiler_params,
+            \ 'fname': '' })
+        " Change cwd to the root of the crate
+        let cwd = fnamemodify( cargo_toml_path, ':p:h')
+    endif
 
     " Old errorformat (before nightly 2016/08/10)
     let errorformat  =
@@ -36,12 +54,13 @@ function! SyntaxCheckers_rust_rustc_GetLocList() dict
 
     return SyntasticMake({
         \ 'makeprg': makeprg,
-        \ 'errorformat': errorformat })
+        \ 'errorformat': errorformat,
+        \ 'cwd': cwd })
 endfunction
 
 call g:SyntasticRegistry.CreateAndRegisterChecker({
     \ 'filetype': 'rust',
-    \ 'name': 'rustc'})
+    \ 'name': 'rustc' })
 
 let &cpo = s:save_cpo
 unlet s:save_cpo

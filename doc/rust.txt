@@ -133,6 +133,31 @@ g:rust_shortener_url~
 	    let g:rust_shortener_url = 'https://is.gd/'
 <
 
+							*g:rustc_syntax_only*
+g:rustc_syntax_only~
+	Set this option to control the syntastic linter.
+	You can choose between a simple syntax parser or a fuller compilation.
+
+	The syntax parser is very fast, but won't catch any compilation
+	errors. This is the default.
+	We recommend you enable syntastic's active mode with this setting
+	(that's the default too).  >
+	let g:rustc_syntax_only = 1
+<
+	
+	The fuller compilation performs a compilation of the entire project.
+	This makes it really slow on large projects.
+	If VIM becomes unusable, set syntastic passive mode for Rust. This
+	will make it so that the lint will only run on |:SyntasticCheck| (see
+	|syntastic_mode_map|).
+>
+	let g:rustc_syntax_only = 0
+	" Syntastic passive mode
+	let g:syntastic_mode_map = {
+		\ "mode": "active",
+		\ "active_filetypes": [],
+		\ "passive_filetypes": ["rust"] }
+<
 
 ==============================================================================
 COMMANDS                                                       *rust-commands*
