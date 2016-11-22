@@ -30,6 +30,7 @@ function! SyntaxCheckers_rust_rustc_GetLocList() dict
         \ '%-Gerror: Could not compile %.%#,' .
         \ '%Eerror: %m,' .
         \ '%Eerror[E%n]: %m,' .
+        \ '%-Gwarning: the option `Z` is unstable %.%#,' .
         \ '%Wwarning: %m,' .
         \ '%Inote: %m,' .
         \ '%C %#--> %f:%l:%c'
