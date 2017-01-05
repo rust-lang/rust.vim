@@ -209,6 +209,16 @@ syn keyword rustTodo contained TODO FIXME XXX NB NOTE
 " FIXME: use the AST to make really good folding
 syn region rustFoldBraces start="{" end="}" transparent fold
 
+" When wanted, highlight trailing white space
+if exists("rust_space_errors")
+  if !exists("rust_no_trail_space_error")
+    syn match   rustSpaceError  "\s\+$"
+  endif
+  if !exists("rust_no_tab_space_error")
+    syn match   rustSpaceError  " \+\t"me=e-1
+  endif
+endif
+
 " Default highlighting {{{1
 hi def link rustDecNumber       rustNumber
 hi def link rustHexNumber       rustNumber
@@ -225,6 +235,7 @@ hi def link rustSigil         StorageClass
 hi def link rustEscape        Special
 hi def link rustEscapeUnicode rustEscape
 hi def link rustEscapeError   Error
+hi def link rustSpaceError    Error
 hi def link rustStringContinuation Special
 hi def link rustString        String
 hi def link rustCharacterInvalid Error
