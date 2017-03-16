@@ -7,8 +7,6 @@
 " See for details on how to add an external Syntastic checker:
 " https://github.com/scrooloose/syntastic/wiki/Syntax-Checker-Guide#external
 "
-" TODO: Runs a full build for syntax checking. Add arg for syntax check
-"       only once it is supported by cargo/rustc.
 
 if exists("g:loaded_syntastic_rust_cargo_checker")
     finish
@@ -20,7 +18,7 @@ set cpo&vim
 
 function! SyntaxCheckers_rust_cargo_GetLocList() dict
     let makeprg = self.makeprgBuild({
-             \ 'args': 'build',
+             \ 'args': 'check',
              \ 'fname': '' })
 
     " Old errorformat (before nightly 2016/08/10)
