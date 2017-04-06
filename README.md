@@ -69,6 +69,10 @@ Helptags (`:help helptags`) need to be generated for this plugin
 in order to navigate the help. Most plugin managers will do this
 automatically, but check their documentation if that is not the case.
 
+## Issues
+###### Not an editor command: RustFmt
+Ensure that `filetype plugin on` is in your ~/.vimrc AFTER `Plugin 'rust-lang/rust.vim'`.
+
 ## License
 
 Like Rust, rust.vim is primarily distributed under the terms of both the MIT
