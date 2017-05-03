@@ -1,11 +1,12 @@
 " Vim indent file
 " Language:         Rust
 " Author:           Chris Morgan <me@chrismorgan.info>
-" Last Change:      2016 Jul 15
+" Last Change:      2017 Mar 21
+" For bugs, patches and license go to https://github.com/rust-lang/rust.vim
 
 " Only load this indent file when no other was loaded.
 if exists("b:did_indent")
-  finish
+	finish
 endif
 let b:did_indent = 1
 
@@ -25,8 +26,11 @@ setlocal indentexpr=GetRustIndent(v:lnum)
 
 " Only define the function once.
 if exists("*GetRustIndent")
-  finish
+	finish
 endif
+
+let s:save_cpo = &cpo
+set cpo&vim
 
 " Come here when loading the script the first time.
 
@@ -204,3 +208,6 @@ function GetRustIndent(lnum)
 	" Fall back on cindent, which does it mostly right
 	return cindent(a:lnum)
 endfunction
+
+let &cpo = s:save_cpo
+unlet s:save_cpo
