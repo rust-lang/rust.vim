@@ -29,7 +29,9 @@ CompilerSet errorformat+=
 			\%-G%\\s%#Compiling%.%#,
 			\%-G%\\s%#Finished%.%#,
 			\%-G%\\s%#error:\ Could\ not\ compile\ %.%#,
-			\%-G%\\s%#To\ learn\ more\\,%.%#
+			\%-G%\\s%#To\ learn\ more\\,%.%#,
+			\%-Gnote:\ Run\ with\ \`RUST_BACKTRACE=%.%#,
+			\%.%#panicked\ at\ \\'%m\\'\\,\ %f:%l
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
