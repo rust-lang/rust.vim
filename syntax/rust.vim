@@ -4,11 +4,12 @@
 " Maintainer:   Ben Blum <bblum@cs.cmu.edu>
 " Maintainer:   Chris Morgan <me@chrismorgan.info>
 " Last Change:  Feb 24, 2016
+" For bugs, patches and license go to https://github.com/rust-lang/rust.vim
 
 if version < 600
-  syntax clear
+	syntax clear
 elseif exists("b:current_syntax")
-  finish
+	finish
 endif
 
 " Syntax definitions {{{1
