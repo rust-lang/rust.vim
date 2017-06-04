@@ -407,6 +407,10 @@ function! rust#Play(count, line1, line2, ...) abort
     let res = webapi#http#post(l:rust_shortener_url.'create.php', payload, {})
     let url = res.content
 
+    if exists('g:rust_clip_command')
+	call system(g:rust_clip_command, url)
+    endif
+
     redraw | echomsg 'Done: '.url
 endfunction
 
