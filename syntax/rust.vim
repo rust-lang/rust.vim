@@ -33,7 +33,8 @@ syn keyword   rustKeyword     in impl let
 syn keyword   rustKeyword     pub nextgroup=rustPubScope skipwhite skipempty
 syn keyword   rustKeyword     return
 syn keyword   rustSuper       super
-syn keyword   rustKeyword     unsafe where
+syn keyword   rustKeyword     where
+syn keyword   rustUnsafeKeyword unsafe
 syn keyword   rustKeyword     use nextgroup=rustModPath skipwhite skipempty
 " FIXME: Scoped impl's name is also fallen in this category
 syn keyword   rustKeyword     mod trait nextgroup=rustIdentifier skipwhite skipempty
@@ -247,6 +248,7 @@ hi def link rustUnion         rustStructure
 hi def link rustPubScopeDelim Delimiter
 hi def link rustPubScopeCrate rustKeyword
 hi def link rustSuper         rustKeyword
+hi def link rustUnsafeKeyword Exception
 hi def link rustReservedKeyword Error
 hi def link rustRepeat        Conditional
 hi def link rustConditional   Conditional
