@@ -1,0 +1,207 @@
+#snippet for rust
+
+snippet ass "assert!()"
+assert!($1);
+endsnippet
+
+snippet assq "assert_eq!()"
+assert_eq!($1);
+endsnippet
+
+snippet ben "bench"
+#[bench]
+fn ${1:name}(b: &mut test::Bencher) {
+    ${2:b.iter(|| /* benchmark code */)}
+}
+endsnippet
+
+snippet con "CONST"
+const ${1:CONST}: ${2:Type} = ${3:init};
+endsnippet
+
+snippet els "else"
+else {
+    ${1://add code here}
+}
+endsnippet
+
+snippet enu "enum"
+#[derive(Debug)]
+enum ${1:Name} {$2}
+endsnippet
+
+snippet er "Err()"
+Err(${1:e})$2
+endsnippet
+
+snippet extcr "extern create"
+extern create ${1:name}
+endsnippet
+
+snippet extfn "extern function"
+extern "C" fn ${1:name}(${2:arg}: ${3:Type}) -> ${4:RetType} {
+    ${5:// add code here}
+}
+endsnippet
+
+snippet extmo "extern mod"
+extern "C" {
+    ${1://add code here}
+}
+endsnippet
+
+snippet fn "function" bA
+fn ${1:name}(${2:arg}: ${3:Type}) -> ${4:RetType}{
+    ${5://add code here}
+}
+endsnippet
+
+snippet for "for"
+for ${1:pat} in ${2:expr} {
+    ${3://add code here}
+}
+endsnippet
+
+snippet form "format!()"
+format!("${1:{${2::?}}}", $3);
+endsnippet
+
+snippet if "if"
+if ${1:condition} {
+    ${2://add code here}
+}
+endsnippet
+
+snippet ifle "if ... let"
+if let ${1:Some(pat)} = ${2:expr} {
+    ${2:expr}
+}
+endsnippet
+
+snippet imp "implementation"
+imp ${1:Type} {
+    ${2://add code here}
+}
+endsnippet
+
+snippet imptr "implementation trait"
+impl ${1:Trait} for ${2:Type} {
+    ${3://add code here}
+}
+endsnippet
+
+#if you want to add else if on $3
+snippet ifel "if..else"
+if ${1:condition} {
+    ${2://add code here}
+} else $3{
+    ${4://add code here}
+}$5
+endsnippet
+
+snippet let "let"
+let ${1:x}  = ${2:val};
+endsnippet
+
+snippet letm "let mut"
+let mut ${1:x}  = ${2:val};
+endsnippet
+
+snippet lo "loop"
+loop {
+    ${1://add code here}
+}
+endsnippet
+
+snippet macr "macro_rules!"
+macro_rules! ${1:name} {
+    ($2) = ($3)
+}
+endsnippet
+
+snippet main "fn main" bA
+fn main(){
+    ${1:...}
+}
+endsnippet
+
+snippet mat "match"
+match ${1:option} {
+    some(${2:expr}) => ${3:expr},
+		${4:none} => ${5:expr}
+}
+endsnippet
+
+snippet mod "mod"
+mod ${1:name} {
+    ${2://add code here}
+}
+endsnippet
+
+snippet ok "Ok()"
+Ok(${1:e})$2
+endsnippet
+
+snippet pan "panic!()"
+panic!("${1:{${2::?}}}", $3);
+endsnippet
+
+snippet pri "print!()"
+print!("${1:{${2::?}}}", $3);
+endsnippet
+
+snippet pril "println!()"
+println!("${1:{${2::?}}}", $3);
+endsnippet
+
+snippet som "some()"
+Some($1)$2
+endsnippet
+
+snippet sta "static"
+static ${1:STATIC}: ${2:type} = ${3:val}
+endsnippet
+
+snippet str "struct"
+#[derive(Debug)]
+struct ${1:Name} {
+    ${2:field} ${3:Type}
+}
+endsnippet
+
+snippet strt "static tuple"
+struct ${1:Name}(${2:Type});
+endsnippet
+
+snippet stru "static unit"
+struct ${1:Name};
+endsnippet
+
+snippet tes "test"
+#[test]
+fn ${1:name}(${2:arg}: ${3:Type}) -> ${4:RetType}{
+    ${5://add code here}
+}
+endsnippet
+
+snippet tra "trait"
+trait ${1:Name} {
+    ${2://add code here}
+}
+endsnippet
+
+snippet typ "type"
+type ${1:Alias}  = ${2:Type};
+endsnippet
+
+snippet whi "while"
+while ${1:condition} {
+    ${2://add code here}
+}
+endsnippet
+
+snippet while "while ... let"
+while let ${1:Some(pat)} = ${2:expr} {
+    ${2:expr}
+}
+endsnippet
