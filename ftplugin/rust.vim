@@ -180,6 +180,7 @@ let b:undo_ftplugin = "
 		\|ounmap <buffer> [[
 		\|ounmap <buffer> ]]
 		\|set matchpairs-=<:>
+		\|unlet b:match_skip
 		\"
 
 " }}}1
@@ -190,6 +191,10 @@ if get(g:, "rustfmt_autosave", 0)
 endif
 
 augroup END
+
+set matchpairs+=<:>
+" For matchit.vim (rustArrow stops `Fn() -> X` messing things up)
+let b:match_skip = 's:comment\|string\|rustArrow'
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
