@@ -58,6 +58,16 @@ options.
 The `:RustPlay` command will send the current selection, or if
 nothing is selected the current buffer, to the [Rust playpen][pp].
 
+If you set g:rust_clip_command RustPlay will copy the url to the clipboard.
+
+- Mac:
+
+        let g:rust_clip_command = 'pbcopy'
+
+- Linux:
+
+        let g:rust_clip_command = 'xclip -selection clipboard'
+
 [rfmt]: https://crates.io/crates/rustfmt/
 
 ## Help
