@@ -3,7 +3,7 @@
 " Maintainer:   Patrick Walton <pcwalton@mozilla.com>
 " Maintainer:   Ben Blum <bblum@cs.cmu.edu>
 " Maintainer:   Chris Morgan <me@chrismorgan.info>
-" Last Change:  Feb 24, 2016
+" Last Change:  Sep 24, 2017
 " For bugs, patches and license go to https://github.com/rust-lang/rust.vim
 
 if version < 600
