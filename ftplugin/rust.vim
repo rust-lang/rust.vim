@@ -101,6 +101,22 @@ if has('conceal') && exists('g:rust_conceal') && g:rust_conceal != 0
 	setlocal conceallevel=2
 endif
 
+" When checking with syntastic, pass --tests, --examples, etc. to cargo based
+" on the file location
+if exists('g:loaded_syntastic_plugin')
+	let cargodir = fnamemodify(findfile('Cargo.toml', '.;'), ':p:h')
+	if !empty(cargodir)
+		let abspath = fnamemodify(expand('%'), ':p')
+		if abspath =~ '^' . cargodir . '/tests'
+			let b:syntastic_rust_cargo_args = 'check --tests'
+		elseif abspath =~ '^' . cargodir . '/examples'
+			let b:syntastic_rust_cargo_args = 'check --examples'
+		elseif abspath =~ '^' . cargodir . '/benches'
+			let b:syntastic_rust_cargo_args = 'check --benches'
+		endif
+	endif
+endif
+
 " Motion Commands {{{1
 
 " Bind motion commands to support hanging indents
