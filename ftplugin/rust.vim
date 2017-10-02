@@ -107,11 +107,19 @@ if exists('g:loaded_syntastic_plugin')
 	let cargodir = fnamemodify(findfile('Cargo.toml', '.;'), ':p:h')
 	if !empty(cargodir)
 		let abspath = fnamemodify(expand('%'), ':p')
-		if abspath =~ '^' . cargodir . '/tests'
+
+		" Attempt to determine the path separator
+		if abspath[0] == '/'
+			let path_sep = '/'
+		else
+			let path_sep = '\'
+		endif
+
+		if abspath =~ '\V\^' . escape(cargodir . path_sep . 'tests' . path_sep, '\')
 			let b:syntastic_rust_cargo_args = 'check --tests'
-		elseif abspath =~ '^' . cargodir . '/examples'
+		elseif abspath =~ '\V\^' . escape(cargodir . path_sep . 'examples' . path_sep, '\')
 			let b:syntastic_rust_cargo_args = 'check --examples'
-		elseif abspath =~ '^' . cargodir . '/benches'
+		elseif abspath =~ '\V\^' . escape(cargodir . path_sep . 'benches' . path_sep, '\')
 			let b:syntastic_rust_cargo_args = 'check --benches'
 		endif
 	endif
