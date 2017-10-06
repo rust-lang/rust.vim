@@ -40,6 +40,7 @@ silent! setlocal formatoptions+=j
 setlocal smartindent nocindent
 
 if !exists("g:rust_recommended_style") || g:rust_recommended_style != 0
+	let b:rust_set_style = 1
 	setlocal tabstop=4 shiftwidth=4 softtabstop=4 expandtab
 	setlocal textwidth=99
 endif
@@ -150,7 +151,9 @@ endif
 
 let b:undo_ftplugin = "
 		\ setlocal formatoptions< comments< commentstring< includeexpr< suffixesadd<
-		\|setlocal tabstop< shiftwidth< softtabstop< expandtab< textwidth<
+		\|if exists('b:rust_set_style')
+		  \|setlocal tabstop< shiftwidth< softtabstop< expandtab< textwidth<
+		\|endif
 		\|if exists('b:rust_original_delimitMate_excluded_regions')
 		  \|let b:delimitMate_excluded_regions = b:rust_original_delimitMate_excluded_regions
 		  \|unlet b:rust_original_delimitMate_excluded_regions
