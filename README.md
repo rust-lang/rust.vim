@@ -32,6 +32,11 @@ git clone --depth=1 https://github.com/rust-lang/rust.vim.git ~/.vim/bundle/rust
 1. Add `Plug 'rust-lang/rust.vim'` to `~/.vimrc`
 2. `:PlugInstall` or `$ vim +PlugInstall +qall`
 
+### Using [dein.vim][d]
+
+1. Add `call dein#add('rust-lang/rust.vim')` to `~/.vimrc`
+2. `:call dein#install()`
+
 ## Features
 
 ### Error checking with [Syntastic][syn]
@@ -91,6 +96,7 @@ LICENSE-MIT for details.
 [p]: https://github.com/tpope/vim-pathogen
 [nb]: https://github.com/Shougo/neobundle.vim
 [vp]: https://github.com/junegunn/vim-plug
+[d]: https://github.com/Shougo/dein.vim
 [rfmt]: https://github.com/rust-lang-nursery/rustfmt
 [syn]: https://github.com/scrooloose/syntastic
 [wav]: https://github.com/mattn/webapi-vim
