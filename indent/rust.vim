@@ -1,7 +1,7 @@
 " Vim indent file
 " Language:         Rust
 " Author:           Chris Morgan <me@chrismorgan.info>
-" Last Change:      2017 Mar 21
+" Last Change:      2018 Jan 10
 " For bugs, patches and license go to https://github.com/rust-lang/rust.vim
 
 " Only load this indent file when no other was loaded.
@@ -11,7 +11,7 @@ endif
 let b:did_indent = 1
 
 setlocal cindent
-setlocal cinoptions=L0,(0,Ws,J1,j1
+setlocal cinoptions=L0,(0,Ws,J1,j1,m1
 setlocal cinkeys=0{,0},!^F,o,O,0[,0]
 " Don't think cinwords will actually do anything at all... never mind
 setlocal cinwords=for,if,else,while,loop,impl,mod,unsafe,trait,struct,enum,fn,extern,macro
