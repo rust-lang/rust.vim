@@ -1,64 +1,36 @@
 function! cargo#cmd(args)
-    execute "! cargo ". a:args
+    execute "! cargo" a:args
 endfunction
 
 function! cargo#build(args)
-    if !a:args
-        execute "! cargo build " . a:args
-    else
-        execute "! cargo build"
-    endif
+    call cargo#cmd("build " . a:args)
 endfunction
 
 function! cargo#clean(args)
-    if !a:args
-        execute "! cargo clean " . a:args
-    else
-        execute "! cargo clean"
-    endif
+    call cargo#cmd("clean " . a:args)
 endfunction
 
 function! cargo#doc(args)
-    if !a:args
-        execute "! cargo doc " . a:args
-    else
-        execute "! cargo doc"
-    endif
+    call cargo#cmd("doc " . a:args)
 endfunction
 
 function! cargo#new(args)
-    execute "!cargo new " . a:args
+    call cargo#cmd("new " . a:args)
     cd `=a:args`
 endfunction
 
 function! cargo#init(args)
-    if !a:args
-        execute "! cargo init " . a:args
-    else
-        execute "! cargo init"
-    endif
+    call cargo#cmd("init " . a:args)
 endfunction
 
 function! cargo#run(args)
-    if !a:args
-        execute "! cargo run " . a:args
-    else
-        execute "! cargo run"
-    endif
+    call cargo#cmd("run " . a:args)
 endfunction
 
 function! cargo#test(args)
-    if !a:args
-        execute "! cargo test " . a:args
-    else
-        execute "! cargo test"
-    endif
+    call cargo#cmd("test " . a:args)
 endfunction
 
 function! cargo#bench(args)
-    if !a:args
-        execute "! cargo bench " . a:args
-    else
-        execute "! cargo bench"
-    endif
+    call cargo#cmd("bench " . a:args)
 endfunction
