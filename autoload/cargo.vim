@@ -1,30 +1,30 @@
 function! cargo#cmd(args)
-    execute "!" . "cargo ". a:args
+    execute "! cargo ". a:args
 endfunction
 
 function! cargo#build(args)
     if !a:args
-        execute "!" . "cargo build " . a:args
+        execute "! cargo build " . a:args
     else
-        execute "!" . "cargo build"
+        execute "! cargo build"
     endif
-    execute "!" . "cargo build"
+    execute "! cargo build"
 endfunction
 
 function! cargo#clean(args)
     if !a:args
-        execute "!" . "cargo clean " . a:args
+        execute "! cargo clean " . a:args
     else
-        execute "!" . "cargo clean"
+        execute "! cargo clean"
     endif
-    execute "!" . "cargo clean"
+    execute "! cargo clean"
 endfunction
 
 function! cargo#doc(args)
     if !a:args
-        execute "!" . "cargo doc " . a:args
+        execute "! cargo doc " . a:args
     else
-        execute "!" . "cargo doc"
+        execute "! cargo doc"
     endif
 endfunction
 
@@ -35,32 +35,32 @@ endfunction
 
 function! cargo#init(args)
     if !a:args
-        execute "!" . "cargo init " . a:args
+        execute "! cargo init " . a:args
     else
-        execute "!" . "cargo init"
+        execute "! cargo init"
     endif
 endfunction
 
 function! cargo#run(args)
     if !a:args
-        execute "!" . "cargo run " . a:args
+        execute "! cargo run " . a:args
     else
-        execute "!" . "cargo run"
+        execute "! cargo run"
     endif
 endfunction
 
 function! cargo#test(args)
     if !a:args
-        execute "!" . "cargo test " . a:args
+        execute "! cargo test " . a:args
     else
-        execute "!" . "cargo test"
+        execute "! cargo test"
     endif
 endfunction
 
 function! cargo#bench(args)
     if !a:args
-        execute "!" . "cargo bench " . a:args
+        execute "! cargo bench " . a:args
     else
-        execute "!" . "cargo bench"
+        execute "! cargo bench"
     endif
 endfunction
