@@ -1,9 +1,5 @@
 function! cargo#cmd(args)
-    if !a:args
-        execute "!" . "cargo ". a:args
-    else
-        echom "Missing arguments"
-    endif
+    execute "!" . "cargo ". a:args
 endfunction
 
 function! cargo#build(args)
@@ -33,12 +29,8 @@ function! cargo#doc(args)
 endfunction
 
 function! cargo#new(args)
-    if !a:args
-        execute "!cargo new " . a:args
-        :cd `=a:args`
-    else
-        echom "Missing arguments"
-    endif
+    execute "!cargo new " . a:args
+    cd `=a:args`
 endfunction
 
 function! cargo#init(args)
