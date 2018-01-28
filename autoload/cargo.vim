@@ -8,7 +8,6 @@ function! cargo#build(args)
     else
         execute "! cargo build"
     endif
-    execute "! cargo build"
 endfunction
 
 function! cargo#clean(args)
@@ -17,7 +16,6 @@ function! cargo#clean(args)
     else
         execute "! cargo clean"
     endif
-    execute "! cargo clean"
 endfunction
 
 function! cargo#doc(args)
