@@ -41,7 +41,7 @@ function! SyntaxCheckers_rust_cargo_GetLocList() dict
 
     return SyntasticMake({
         \ 'makeprg': makeprg,
-        \ 'cwd': expand('%:p:h'),
+        \ 'cwd': fnamemodify(findfile("Cargo.toml", ".;"), ":p:h"),
         \ 'errorformat': errorformat })
 endfunction
 
