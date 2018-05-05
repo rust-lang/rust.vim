@@ -16,7 +16,7 @@ if exists(":CompilerSet") != 2
 	command -nargs=* CompilerSet setlocal <args>
 endif
 
-if exists("g:rustc_makeprg_no_percent") && g:rustc_makeprg_no_percent != 0
+if get(g:, 'rustc_makeprg_no_percent', 0)
 	CompilerSet makeprg=rustc
 else
 	CompilerSet makeprg=rustc\ \%
