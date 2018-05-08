@@ -57,15 +57,18 @@ function! s:RunRustfmt(command, curw, tmpname)
 		" otherwise get the errors and put them in the location list
 		let errors = []
 
+		let prev_line = ""
 		for line in out
-			" src/lib.rs:13:5: 13:10 error: expected `,`, or `}`, found `value`
-			let tokens = matchlist(line, '^\(.\{-}\):\(\d\+\):\(\d\+\):\s*\(\d\+:\d\+\s*\)\?\s*error: \(.*\)')
+			" error: expected one of `;` or `as`, found `extern`
+			"  --> src/main.rs:2:1
+			let tokens = matchlist(line, '^\s-->\s\(.\{-}\):\(\d\+\):\(\d\+\)$')
 			if !empty(tokens)
 				call add(errors, {"filename": @%,
-						 \"lnum":     tokens[2],
-						 \"col":      tokens[3],
-						 \"text":     tokens[5]})
+						 \"lnum":	tokens[2],
+						 \"col":	tokens[3],
+						 \"text":	prev_line})
 			endif
+			let prev_line = line
 		endfor
 
 		if empty(errors)
