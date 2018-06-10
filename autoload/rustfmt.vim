@@ -35,12 +35,12 @@ endfunction
 
 function! s:RustfmtCommandRange(filename, line1, line2)
 	let l:arg = {"file": shellescape(a:filename), "range": [a:line1, a:line2]}
-    let l:write_mode = s:RustfmtWriteMode()
+	let l:write_mode = s:RustfmtWriteMode()
 	return printf("%s %s %s --file-lines '[%s]'", g:rustfmt_command, l:write_mode, g:rustfmt_options, json_encode(l:arg))
 endfunction
 
 function! s:RustfmtCommand(filename)
-    let l:write_mode = s:RustfmtWriteMode()
+	let l:write_mode = s:RustfmtWriteMode()
 	return g:rustfmt_command . " ". l:write_mode . " " . g:rustfmt_options . " " . shellescape(a:filename)
 endfunction
 
