@@ -20,7 +20,7 @@ if !exists("g:rustfmt_fail_silently")
 endif
 
 if !exists("g:rustfmt_emit_files")
-	let g:rustfmt_emit_files = 0
+	let g:rustfmt_emit_files = 1 - (system("rustfmt --version") =~ "rustfmt 0.[0-6].\.*")
 endif
 
 let s:got_fmt_error = 0
