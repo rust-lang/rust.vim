@@ -23,11 +23,11 @@ let s:got_fmt_error = 0
 
 function! s:RustfmtCommandRange(filename, line1, line2)
 	let l:arg = {"file": shellescape(a:filename), "range": [a:line1, a:line2]}
-	return printf("%s %s --write-mode=overwrite --file-lines '[%s]'", g:rustfmt_command, g:rustfmt_options, json_encode(l:arg))
+	return printf("%s %s --emit=files --file-lines '[%s]'", g:rustfmt_command, g:rustfmt_options, json_encode(l:arg))
 endfunction
 
 function! s:RustfmtCommand(filename)
-	return g:rustfmt_command . " --write-mode=overwrite " . g:rustfmt_options . " " . shellescape(a:filename)
+	return g:rustfmt_command . " --emit=files " . g:rustfmt_options . " " . shellescape(a:filename)
 endfunction
 
 function! s:RunRustfmt(command, curw, tmpname)
