@@ -40,6 +40,8 @@ CompilerSet errorformat+=
 			\%Eerror[E%n]:\ %m,
 			\%Wwarning:\ %m,
 			\%Inote:\ %m,
+			\%D%\\s%#Checking\ %.%#(file://%f),
+			\%D%\\s%#Compiling\ %.%#(file://%f),
 			\%C\ %#-->\ %f:%l:%c
 
 let &cpo = s:cpo_save
