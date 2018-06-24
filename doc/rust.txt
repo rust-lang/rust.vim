@@ -113,6 +113,14 @@ g:rustfmt_options~
 	defaults to '' : >
 	    let g:rustfmt_options = ''
 <
+                                                       *g:rustfmt_emit_files*
+g:rustfmt_emit_files~
+	Set this option to 1 to run rustfmt with '--emit=files' instead of
+	'--write-mode=overwrite'. Necessary for rustfmt >= 0.7.0
+	If not specified it defaults to 1 if rustfmt >= 0.7.0 is in $PATH or
+	zero otherwise : >
+	    let g:rustfmt_emit_files = 0
+<
 
                                                           *g:rust_playpen_url*
 g:rust_playpen_url~
