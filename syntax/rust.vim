@@ -153,6 +153,16 @@ syn region    rustDerive      start="derive(" end=")" contained contains=rustDer
 " Some are deprecated (Encodable, Decodable) or to be removed after a new snapshot (Show).
 syn keyword   rustDeriveTrait contained Clone Hash RustcEncodable RustcDecodable Encodable Decodable PartialEq Eq PartialOrd Ord Rand Show Debug Default FromPrimitive Send Sync Copy
 
+" dyn keyword: It's only a keyword when used inside a type expression, so
+" we make effort here to highlight it only when Rust identifiers follow it 
+" (not minding the case of pre-2018 Rust where a path starting with :: can
+" follow).
+"
+" This is so that uses of dyn variable names such as in 'let &dyn = &2' 
+" and 'let dyn = 2' will not get highlighted as a keyword.
+syn match     rustKeyword "\<dyn\ze\_s\+\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)" contains=rustDynKeyword
+syn keyword   rustDynKeyword  dyn contained
+
 " Number literals
 syn match     rustDecNumber   display "\<[0-9][0-9_]*\%([iu]\%(size\|8\|16\|32\|64\|128\)\)\="
 syn match     rustHexNumber   display "\<0x[a-fA-F0-9_]\+\%([iu]\%(size\|8\|16\|32\|64\|128\)\)\="
@@ -244,6 +254,7 @@ hi def link rustFloat         Float
 hi def link rustArrowCharacter rustOperator
 hi def link rustOperator      Operator
 hi def link rustKeyword       Keyword
+hi def link rustDynKeyword    rustKeyword
 hi def link rustTypedef       Keyword " More precise is Typedef, but it doesn't feel right for Rust
 hi def link rustStructure     Keyword " More precise is Structure
 hi def link rustUnion         rustStructure
