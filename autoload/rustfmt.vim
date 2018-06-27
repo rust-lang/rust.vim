@@ -19,8 +19,32 @@ if !exists("g:rustfmt_fail_silently")
 	let g:rustfmt_fail_silently = 0
 endif
 
+function! rustfmt#DetectVersion()
+	" Save rustfmt '--help' for feature inspection
+	silent let s:rustfmt_help = system(g:rustfmt_command . " --help")
+	let s:rustfmt_unstable_features = 1 - (s:rustfmt_help !~# "--unstable-features")
+
+	" Build a comparable rustfmt version varible out of its `--version` output:
+	silent let s:rustfmt_version = system(g:rustfmt_command . " --version")
+	let s:rustfmt_version = matchlist(s:rustfmt_version, '\vrustfmt ([0-9]+[.][0-9]+)')
+
+	if len(s:rustfmt_version) < 2 
+		let s:rustfmt_version = "0"
+	else
+		let s:rustfmt_version = s:rustfmt_version[1]
+	endif
+
+	return s:rustfmt_version
+endfunction
+
+call rustfmt#DetectVersion()
+
 if !exists("g:rustfmt_emit_files")
-	let g:rustfmt_emit_files = 1 - (system(g:rustfmt_command . " --version") =~ "rustfmt 0.[0-6].\.*")
+	let g:rustfmt_emit_files = s:rustfmt_version >= "0.6"
+endif
+
+if !exists("g:rustfmt_file_lines")
+	let g:rustfmt_file_lines = 1 - (s:rustfmt_help !~# "--file-lines JSON")
 endif
 
 let s:got_fmt_error = 0
@@ -38,9 +62,24 @@ function! s:RustfmtWriteMode()
 endfunction
 
 function! s:RustfmtCommandRange(filename, line1, line2)
+	if g:rustfmt_file_lines == 0
+		echo "--file-lines is not supported in the installed `rustfmt` executable"
+		return
+	endif
+
 	let l:arg = {"file": shellescape(a:filename), "range": [a:line1, a:line2]}
 	let l:write_mode = s:RustfmtWriteMode()
-	return printf("%s %s %s --file-lines '[%s]'", g:rustfmt_command, l:write_mode, g:rustfmt_options, json_encode(l:arg))
+
+	" FIXME: When --file-lines gets to be stable, enhance this version range checking
+	" accordingly.
+	let l:unstable_features = 
+		\ (s:rustfmt_unstable_features && (s:rustfmt_version < '1.'))
+		\ ? '--unstable-features' : ''
+
+	let l:cmd = printf("%s %s %s %s --file-lines '[%s]' %s", g:rustfmt_command, 
+				\ l:write_mode, g:rustfmt_options, 
+				\ l:unstable_features, json_encode(l:arg), shellescape(a:filename))
+	return l:cmd
 endfunction
 
 function! s:RustfmtCommand(filename)
