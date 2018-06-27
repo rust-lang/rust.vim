@@ -117,5 +117,11 @@ function! rustfmt#Format()
 
 	let command = s:RustfmtCommand(l:tmpname)
 
+	mkview!
+
 	call s:RunRustfmt(command, l:curw, l:tmpname)
+
+	silent! loadview
 endfunction
+
+" vim: set noet sw=8 ts=8:
