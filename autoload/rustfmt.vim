@@ -147,7 +147,7 @@ function! s:RunRustfmt(command, tmpname, fail_silently)
 endfunction
 
 function! s:rustfmtSaveToTmp()
-	let l:tmpname = expand("%:p:h") . "/." . expand("%:p:t") . ".rustfmt"
+	let l:tmpname = tempname()
 	call writefile(getline(1, '$'), l:tmpname)
 	return l:tmpname
 endfunction
