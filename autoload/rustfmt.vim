@@ -87,7 +87,9 @@ function! s:RustfmtCommand(filename)
 	return g:rustfmt_command . " ". l:write_mode . " " . g:rustfmt_options . " " . shellescape(a:filename)
 endfunction
 
-function! s:RunRustfmt(command, curw, tmpname)
+function! s:RunRustfmt(command, tmpname)
+	mkview!
+
 	if exists("*systemlist")
 		let out = systemlist(a:command)
 	else
@@ -140,31 +142,23 @@ function! s:RunRustfmt(command, curw, tmpname)
 		call delete(a:tmpname)
 	endif
 
-	call winrestview(a:curw)
+	silent! loadview
 endfunction
 
 function! rustfmt#FormatRange(line1, line2)
-	let l:curw = winsaveview()
 	let l:tmpname = expand("%:p:h") . "/." . expand("%:p:t") . ".rustfmt"
 	call writefile(getline(1, '$'), l:tmpname)
 
 	let command = s:RustfmtCommandRange(l:tmpname, a:line1, a:line2)
-
-	call s:RunRustfmt(command, l:curw, l:tmpname)
+	call s:RunRustfmt(command, l:tmpname)
 endfunction
 
 function! rustfmt#Format()
-	let l:curw = winsaveview()
 	let l:tmpname = expand("%:p:h") . "/." . expand("%:p:t") . ".rustfmt"
 	call writefile(getline(1, '$'), l:tmpname)
 
 	let command = s:RustfmtCommand(l:tmpname)
-
-	mkview!
-
-	call s:RunRustfmt(command, l:curw, l:tmpname)
-
-	silent! loadview
+	call s:RunRustfmt(command, l:tmpname)
 endfunction
 
-" vim: set sw=8 ts=8:
+" vim: set noet sw=8 ts=8:
