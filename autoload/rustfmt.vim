@@ -25,6 +25,10 @@ endif
 
 let s:got_fmt_error = 0
 
+function! rustfmt#Load()
+        " Utility call to get this script loaded, for debugging
+endfunction
+
 function! s:RustfmtWriteMode()
     if g:rustfmt_emit_files
 	    return "--emit=files"
@@ -124,4 +128,4 @@ function! rustfmt#Format()
 	silent! loadview
 endfunction
 
-" vim: set noet sw=8 ts=8:
+" vim: set sw=8 ts=8:

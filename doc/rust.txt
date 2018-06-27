@@ -233,6 +233,17 @@ COMMANDS                                                       *rust-commands*
 		Runs |g:rustfmt_command| with selected range. See
 		|:RustFmt| for any other information.
 
+:RustInfo                                                          *:RustInfo*
+		Emits debugging info of the Vim Rust plugin.
+
+:RustInfoToClipboard                                      *:RustInfoClipboard*
+		Saves debugging info of the Vim Rust plugin to the default
+		register.
+
+:RustInfoToFile [filename]                                   *:RustInfoToFile*
+		Saves debugging info of the Vim Rust plugin to the the given
+		file, overwritting it.
+
 ==============================================================================
 MAPPINGS                                                       *rust-mappings*
 

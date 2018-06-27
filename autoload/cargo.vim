@@ -1,3 +1,7 @@
+function! cargo#Load() 
+    " Utility call to get this script loaded, for debugging
+endfunction
+	
 function! cargo#cmd(args)
     silent! clear
     if !a:args

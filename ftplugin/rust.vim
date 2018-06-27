@@ -134,6 +134,15 @@ command! -buffer RustFmt call rustfmt#Format()
 " See |:RustFmtRange| for docs
 command! -range -buffer RustFmtRange call rustfmt#FormatRange(<line1>, <line2>)
 
+" See |:RustInfo| for docs
+command! -bar RustInfo call rust#debugging#Info()
+
+" See |:RustInfoToClipboard| for docs
+command! -bar RustInfoToClipboard call rust#debugging#InfoToClipboard()
+
+" See |:RustInfoToFile| for docs
+command! -bar -nargs=1 RustInfoToFile call rust#debugging#InfoToFile(<f-args>)
+
 " Mappings {{{1
 
 " Bind ⌘R in MacVim to :RustRun
