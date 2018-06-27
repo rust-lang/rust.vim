@@ -87,7 +87,7 @@ function! s:RustfmtCommand(filename)
 	return g:rustfmt_command . " ". l:write_mode . " " . g:rustfmt_options . " " . shellescape(a:filename)
 endfunction
 
-function! s:RunRustfmt(command, tmpname)
+function! s:RunRustfmt(command, tmpname, fail_silently)
 	mkview!
 
 	if exists("*systemlist")
@@ -100,10 +100,11 @@ function! s:RunRustfmt(command, tmpname)
 		" remove undo point caused via BufWritePre
 		try | silent undojoin | catch | endtry
 
-		" Replace current file with temp file, then reload buffer
-		call rename(a:tmpname, expand('%'))
-		silent edit!
-		let &syntax = &syntax
+		" take the tmpfile's content, this is better than rename
+		" because it preserves file modes.
+		let l:content = readfile(a:tmpname)
+		1,$d
+		call setline(1, l:content)
 
 		" only clear location list if it was previously filled to prevent
 		" clobbering other additions
@@ -112,7 +113,7 @@ function! s:RunRustfmt(command, tmpname)
 			call setloclist(0, [])
 			lwindow
 		endif
-	elseif g:rustfmt_fail_silently == 0
+	elseif g:rustfmt_fail_silently == 0 && a:fail_silently == 0
 		" otherwise get the errors and put them in the location list
 		let errors = []
 
@@ -138,27 +139,36 @@ function! s:RunRustfmt(command, tmpname)
 
 		let s:got_fmt_error = 1
 		lwindow
-		" We didn't use the temp file, so clean up
-		call delete(a:tmpname)
 	endif
+
+	call delete(a:tmpname)
 
 	silent! loadview
 endfunction
 
-function! rustfmt#FormatRange(line1, line2)
+function! s:rustfmtSaveToTmp()
 	let l:tmpname = expand("%:p:h") . "/." . expand("%:p:t") . ".rustfmt"
 	call writefile(getline(1, '$'), l:tmpname)
+	return l:tmpname
+endfunction
 
+function! rustfmt#FormatRange(line1, line2)
+	let l:tmpname = s:rustfmtSaveToTmp()
 	let command = s:RustfmtCommandRange(l:tmpname, a:line1, a:line2)
-	call s:RunRustfmt(command, l:tmpname)
+	call s:RunRustfmt(command, l:tmpname, 0)
 endfunction
 
 function! rustfmt#Format()
-	let l:tmpname = expand("%:p:h") . "/." . expand("%:p:t") . ".rustfmt"
-	call writefile(getline(1, '$'), l:tmpname)
-
+	let l:tmpname = s:rustfmtSaveToTmp()
 	let command = s:RustfmtCommand(l:tmpname)
-	call s:RunRustfmt(command, l:tmpname)
+	call s:RunRustfmt(command, l:tmpname, 0)
 endfunction
+
+function! rustfmt#FormatSilentErrors()
+	let l:tmpname = s:rustfmtSaveToTmp()
+	let command = s:RustfmtCommand(l:tmpname)
+	call s:RunRustfmt(command, l:tmpname, 1)
+endfunction
+
 
 " vim: set noet sw=8 ts=8:
