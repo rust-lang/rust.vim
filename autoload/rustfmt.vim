@@ -26,9 +26,9 @@ function! rustfmt#DetectVersion()
 
 	" Build a comparable rustfmt version varible out of its `--version` output:
 	silent let s:rustfmt_version = system(g:rustfmt_command . " --version")
-	let s:rustfmt_version = matchlist(s:rustfmt_version, '\vrustfmt ([0-9]+[.][0-9]+)')
+	let s:rustfmt_version = matchlist(s:rustfmt_version, '\vrustfmt ([0-9]+[.][0-9]+[.][0-9]+)')
 
-	if len(s:rustfmt_version) < 2 
+	if len(s:rustfmt_version) < 3 
 		let s:rustfmt_version = "0"
 	else
 		let s:rustfmt_version = s:rustfmt_version[1]
@@ -40,7 +40,7 @@ endfunction
 call rustfmt#DetectVersion()
 
 if !exists("g:rustfmt_emit_files")
-	let g:rustfmt_emit_files = s:rustfmt_version >= "0.6"
+	let g:rustfmt_emit_files = s:rustfmt_version >= "0.8.2"
 endif
 
 if !exists("g:rustfmt_file_lines")
