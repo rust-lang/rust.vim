@@ -21,6 +21,16 @@ endif
 let &cpo = s:save_cpo
 unlet s:save_cpo
 
+if exists('g:cargo_run_key')
+    :execute 'nnoremap ' . g:cargo_run_key . ' :call cargo#run("")<CR>'
+endif
+if exists('g:cargo_build_key')
+    :execute 'nnoremap ' . g:cargo_build_key . ' :call cargo#build("")<CR>'
+endif
+if exists('g:cargo_check_key')
+    :execute 'nnoremap ' . g:cargo_check_key . ' :call cargo#check("")<CR>'
+endif
+
 command! -nargs=* Cargo call cargo#cmd(<q-args>)
 command! -nargs=* Cbuild call cargo#build(<q-args>)
 command! -nargs=* Cclean call cargo#clean(<q-args>)
