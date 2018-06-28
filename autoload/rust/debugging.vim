@@ -24,6 +24,8 @@ let s:global_variable_list = [
       \ 'rustc_makeprg_no_percent',
       \ 'rustc_path',
       \ 'rustfmt_autosave',
+      \ 'rustfmt_autosave_because_of_config',
+      \ 'rustfmt_autosave_if_config_present',
       \ 'rustfmt_command',
       \ 'rustfmt_emit_files',
       \ 'rustfmt_fail_silently',

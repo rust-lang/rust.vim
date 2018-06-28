@@ -100,6 +100,23 @@ g:rustfmt_autosave~
 	buffer. If not specified it defaults to 0 : >
 	    let g:rustfmt_autosave = 0
 <
+	There is also a buffer-local b:rustfmt_autosave that can be set for
+	the same purpose, and can override the global setting.
+	
+                                                       *g:rustfmt_autosave*
+g:rustfmt_autosave_if_config_present~
+	Set this option to 1 to to have *b:rustfmt_autosave* be set automatically
+	if a `rustfmt.toml` file is present in any parent directly leading to 
+	the file being edited. If not set, default to 0: >
+
+	    let g:rustfmt_autosave_if_config_present = 0
+<
+	This is useful to have `rustfmt` only execute on save, on projects
+	that have `rustfmt.toml` configuration.
+    
+	There is also a buffer-local b:rustfmt_autosave_if_config_present
+	that can be set for the same purpose, which can overrides the global
+	setting.
                                                        *g:rustfmt_fail_silently*
 g:rustfmt_fail_silently~
 	Set this option to 1 to prevent 'rustfmt' from populating the
@@ -118,9 +135,8 @@ g:rustfmt_emit_files~
 	If not specified rust.vim tries to detect the right parameter to
 	pass to rustfmt based on its reported version. Otherwise, it
 	determines whether to run rustfmt with '--emit=files' (when 1 is
-	provided) instead of '--write-mode=overwrite'.
+	provided) instead of '--write-mode=overwrite'. >
 	    let g:rustfmt_emit_files = 0
-<
 
                                                           *g:rust_playpen_url*
 g:rust_playpen_url~

@@ -9,6 +9,18 @@ function! rust#Load()
 	" Utility call to get this script loaded, for debugging
 endfunction
 
+function! rust#GetConfigVar(name, default)
+	" Local buffer variable with same name takes predeence over global
+	if has_key(b:, a:name) 
+		return get(b:, a:name)
+	endif
+	if has_key(g:, a:name) 
+		return get(g:, a:name)
+	endif
+	return a:default
+endfunction
+
+
 function! rust#Jump(mode, function) range
 	let cnt = v:count1
 	normal! m'

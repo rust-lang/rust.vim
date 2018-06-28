@@ -164,7 +164,18 @@ function! rustfmt#Format()
 	call s:RunRustfmt(command, l:tmpname, 0)
 endfunction
 
-function! rustfmt#FormatSilentErrors()
+function! rustfmt#PreWrite()
+	if rust#GetConfigVar('rustfmt_autosave_if_config_present', 0)
+		if findfile('rustfmt.toml', '.;') !=# '' 
+			let b:rustfmt_autosave = 1
+			let b:rustfmt_autosave_because_of_config = 1
+		endif
+	endif
+
+	if !rust#GetConfigVar("rustfmt_autosave", 0)
+		return
+	endif
+
 	let l:tmpname = s:rustfmtSaveToTmp()
 	let command = s:RustfmtCommand(l:tmpname)
 	call s:RunRustfmt(command, l:tmpname, 1)
