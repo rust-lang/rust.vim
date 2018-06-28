@@ -14,7 +14,8 @@ This is a Vim plugin that provides [Rust][r] file detection, syntax highlighting
 
 *Note:* Vundle will not automatically detect Rust files properly if `filetype
 on` is executed before Vundle. Please check the [quickstart][vqs] for more
-details.
+details. Errors such as `Not an editor command: RustFmt` may occur if Vundle
+is misconfigured with this plugin.
 
 ### Using [Pathogen][p]
 

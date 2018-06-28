@@ -5,6 +5,10 @@
 
 " Jump {{{1
 
+function! rust#Load() 
+	" Utility call to get this script loaded, for debugging
+endfunction
+
 function! rust#Jump(mode, function) range
 	let cnt = v:count1
 	normal! m'
