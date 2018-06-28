@@ -39,7 +39,7 @@ silent! setlocal formatoptions+=j
 " otherwise it's better than nothing.
 setlocal smartindent nocindent
 
-if !get(g:, 'rust_recommended_style', 1)
+if get(g:, 'rust_recommended_style', 1)
 	let b:rust_set_style = 1
 	setlocal tabstop=4 shiftwidth=4 softtabstop=4 expandtab
 	setlocal textwidth=99
