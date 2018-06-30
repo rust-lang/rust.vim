@@ -24,6 +24,26 @@ endfunction
 
 function! SyntaxCheckers_rust_cargo_GetLocList() dict
     let makeprg = self.makeprgBuild({ "args": "check" })
+    let l:root_cargo_toml = cargo#nearestRootCargo(0)
+    let l:nearest_cargo_toml = cargo#nearestCargo(0)
+    let b:rust_recent_root_cargo_toml = l:root_cargo_toml
+    let b:rust_recent_nearest_cargo_toml = l:nearest_cargo_toml
+
+    " All pathname prints are relative to the Cargo.toml of the workspace, if
+    " there is a workspace, otherwise they are relative to the Cargo.toml of
+    " the single crate. Where to actually execute under these varying
+    " circumtances 'cargo' is determined here, and controlled by
+    " configuration.
+
+    if rust#GetConfigVar('rust_cargo_avoid_whole_workspace', 1)
+	if l:root_cargo_toml !=# l:nearest_cargo_toml
+	    let makeprg = "cd " . fnamemodify(l:nearest_cargo_toml, ":p:h")
+			\ . " && " . makeprg
+	endif
+    else
+	let makeprg = "cd " . fnamemodify(l:root_cargo_toml, ":p:h")
+		    \ . " && " . makeprg
+    endif
 
     " Ignored patterns, and blank lines
     let errorformat  =
@@ -41,7 +61,7 @@ function! SyntaxCheckers_rust_cargo_GetLocList() dict
 
     return SyntasticMake({
         \ 'makeprg': makeprg,
-        \ 'cwd': expand('%:p:h'),
+        \ 'cwd': fnamemodify(l:root_cargo_toml, ":p:h:."),
         \ 'errorformat': errorformat })
 endfunction
 
@@ -51,3 +71,5 @@ call g:SyntasticRegistry.CreateAndRegisterChecker({
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
+
+" vim: set noet sw=4 sts=4 ts=8:
