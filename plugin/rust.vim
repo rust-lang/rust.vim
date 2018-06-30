@@ -18,5 +18,9 @@ else
     let g:syntastic_extra_filetypes = ['rust']
 endif
 
+if !exists('g:syntastic_rust_checkers')
+    let g:syntastic_rust_checkers = ['cargo']
+endif
+
 let &cpoptions = s:save_cpo
 unlet s:save_cpo

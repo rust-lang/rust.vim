@@ -37,9 +37,8 @@ git clone --depth=1 https://github.com/rust-lang/rust.vim.git ~/.vim/bundle/rust
 
 ### Error checking with [Syntastic][syn]
 
-`rust.vim` automatically registers `rustc` as a syntax checker
-with [Syntastic][syn]. Check Syntastic's documentation for
-information on how to customize its behaviour.
+`rust.vim` automatically registers `cargo` as a syntax checker with
+[Syntastic][syn]. See `:help rust.vim`'s documentation for more details'
 
 ### Formatting with [rustfmt][rfmt]
 

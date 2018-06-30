@@ -170,6 +170,22 @@ g:rust_cargo_avoid_whole_workspace~
             let g:rust_cargo_avoid_whole_workspace = 0
 <
 
+Integration with Syntastic                                    *rust-syntastic*
+
+This plugin automatically integrates with the Syntastic checker. There are two
+checkers provided: 'rustc', and 'cargo'. The later invokes 'Cargo' in order to
+build code, and the former delivers a single edited '.rs' file as a compilation
+target directly to the Rust compiler, `rustc`. 
+
+Because Cargo is almost exclusively being used for building Rust code these
+days, 'cargo' is the default checker. >
+
+    let g:syntastic_rust_checkers = ['cargo']
+<
+If you would like to change it, you can set `g:syntastic_rust_checkers` to a
+different value.
+
+
 ==============================================================================
 COMMANDS                                                       *rust-commands*
 
