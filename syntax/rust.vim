@@ -27,6 +27,7 @@ syn match     rustPanic       "\<panic\(\w\)*!" contained
 syn keyword   rustKeyword     break
 syn keyword   rustKeyword     box nextgroup=rustBoxPlacement skipwhite skipempty
 syn keyword   rustKeyword     continue
+syn keyword   rustKeyword     crate
 syn keyword   rustKeyword     extern nextgroup=rustExternCrate,rustObsoleteExternMod skipwhite skipempty
 syn keyword   rustKeyword     fn nextgroup=rustFuncName skipwhite skipempty
 syn keyword   rustKeyword     in impl let
@@ -42,8 +43,6 @@ syn keyword   rustKeyword     use nextgroup=rustModPath skipwhite skipempty
 syn keyword   rustKeyword     mod trait nextgroup=rustIdentifier skipwhite skipempty
 syn keyword   rustStorage     move mut ref static const
 syn match rustDefault /\<default\ze\_s\+\(impl\|fn\|type\|const\)\>/
-
-syn keyword   rustInvalidBareKeyword crate
 
 syn keyword rustPubScopeCrate crate contained
 syn match rustPubScopeDelim /[()]/ contained
@@ -291,7 +290,6 @@ hi def link rustStorage       StorageClass
 hi def link rustObsoleteStorage Error
 hi def link rustLifetime      Special
 hi def link rustLabel         Label
-hi def link rustInvalidBareKeyword Error
 hi def link rustExternCrate   rustKeyword
 hi def link rustObsoleteExternMod Error
 hi def link rustBoxPlacementParens Delimiter
