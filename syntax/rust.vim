@@ -27,6 +27,7 @@ syn match     rustPanic       "\<panic\(\w\)*!" contained
 syn keyword   rustKeyword     break
 syn keyword   rustKeyword     box nextgroup=rustBoxPlacement skipwhite skipempty
 syn keyword   rustKeyword     continue
+syn keyword   rustKeyword     crate
 syn keyword   rustKeyword     extern nextgroup=rustExternCrate,rustObsoleteExternMod skipwhite skipempty
 syn keyword   rustKeyword     fn nextgroup=rustFuncName skipwhite skipempty
 syn keyword   rustKeyword     in impl let
@@ -42,8 +43,6 @@ syn keyword   rustKeyword     use nextgroup=rustModPath skipwhite skipempty
 syn keyword   rustKeyword     mod trait nextgroup=rustIdentifier skipwhite skipempty
 syn keyword   rustStorage     move mut ref static const
 syn match rustDefault /\<default\ze\_s\+\(impl\|fn\|type\|const\)\>/
-
-syn keyword   rustInvalidBareKeyword crate
 
 syn keyword rustPubScopeCrate crate contained
 syn match rustPubScopeDelim /[()]/ contained
@@ -154,11 +153,11 @@ syn region    rustDerive      start="derive(" end=")" contained contains=rustDer
 syn keyword   rustDeriveTrait contained Clone Hash RustcEncodable RustcDecodable Encodable Decodable PartialEq Eq PartialOrd Ord Rand Show Debug Default FromPrimitive Send Sync Copy
 
 " dyn keyword: It's only a keyword when used inside a type expression, so
-" we make effort here to highlight it only when Rust identifiers follow it 
+" we make effort here to highlight it only when Rust identifiers follow it
 " (not minding the case of pre-2018 Rust where a path starting with :: can
 " follow).
 "
-" This is so that uses of dyn variable names such as in 'let &dyn = &2' 
+" This is so that uses of dyn variable names such as in 'let &dyn = &2'
 " and 'let dyn = 2' will not get highlighted as a keyword.
 syn match     rustKeyword "\<dyn\ze\_s\+\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)" contains=rustDynKeyword
 syn keyword   rustDynKeyword  dyn contained
@@ -291,7 +290,6 @@ hi def link rustStorage       StorageClass
 hi def link rustObsoleteStorage Error
 hi def link rustLifetime      Special
 hi def link rustLabel         Label
-hi def link rustInvalidBareKeyword Error
 hi def link rustExternCrate   rustKeyword
 hi def link rustObsoleteExternMod Error
 hi def link rustBoxPlacementParens Delimiter
