@@ -294,17 +294,5 @@ MAPPINGS                                                       *rust-mappings*
 
 This plugin defines mappings for |[[| and |]]| to support hanging indents.
 
-It also has a few other mappings:
-
-							*rust_<D-r>*
-<D-r>			Executes |:RustRun| with no arguments.
-			Note: This binding is only available in MacVim.
-
-							*rust_<D-R>*
-<D-R>			Populates the command line with |:RustRun|! using the
-			arguments given to the last invocation, but does not
-			execute it.
-			Note: This binding is only available in MacVim.
-
 ==============================================================================
  vim:tw=78:sw=4:noet:ts=8:ft=help:norl:

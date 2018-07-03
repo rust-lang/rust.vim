@@ -144,13 +144,6 @@ command! -bar RustInfoToClipboard call rust#debugging#InfoToClipboard()
 " See |:RustInfoToFile| for docs
 command! -bar -nargs=1 RustInfoToFile call rust#debugging#InfoToFile(<f-args>)
 
-" Mappings {{{1
-
-" Bind ⌘R in MacVim to :RustRun
-nnoremap <silent> <buffer> <D-r> :RustRun<CR>
-" Bind ⌘⇧R in MacVim to :RustRun! pre-filled with the last args
-nnoremap <buffer> <D-R> :RustRun! <C-r>=join(b:rust_last_rustc_args)<CR><C-\>erust#AppendCmdLine(' -- ' . join(b:rust_last_args))<CR>
-
 if !exists("b:rust_last_rustc_args") || !exists("b:rust_last_args")
 	let b:rust_last_rustc_args = []
 	let b:rust_last_args = []
@@ -183,8 +176,6 @@ let b:undo_ftplugin = "
 		\|delcommand RustEmitIr
 		\|delcommand RustEmitAsm
 		\|delcommand RustPlay
-		\|nunmap <buffer> <D-r>
-		\|nunmap <buffer> <D-R>
 		\|nunmap <buffer> [[
 		\|nunmap <buffer> ]]
 		\|xunmap <buffer> [[
