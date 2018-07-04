@@ -103,7 +103,7 @@ function! s:RunRustfmt(command, tmpname, fail_silently)
 		" take the tmpfile's content, this is better than rename
 		" because it preserves file modes.
 		let l:content = readfile(a:tmpname)
-		1,$d
+		1,$d _
 		call setline(1, l:content)
 
 		" only clear location list if it was previously filled to prevent
