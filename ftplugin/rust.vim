@@ -200,4 +200,10 @@ let b:match_skip = 's:comment\|string\|rustArrow'
 let &cpo = s:save_cpo
 unlet s:save_cpo
 
+if strlen(findfile("Cargo.toml", ".;"))
+	compiler cargo
+else
+	compiler rustc
+endif
+
 " vim: set noet sw=8 ts=8:
