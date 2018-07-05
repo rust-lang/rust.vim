@@ -1,5 +1,5 @@
 if exists('g:loaded_rust_vim_plugin_cargo')
-  finish
+    finish
 endif
 let g:loaded_rust_vim_plugin_cargo = 1
 let s:save_cpo = &cpoptions
@@ -21,3 +21,5 @@ command! -nargs=* Cinstall call cargo#install(<q-args>)
 
 let &cpoptions = s:save_cpo
 unlet s:save_cpo
+
+" vim: set et sw=4 sts=4 ts=8:

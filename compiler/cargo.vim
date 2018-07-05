@@ -5,7 +5,7 @@
 " For bugs, patches and license go to https://github.com/rust-lang/rust.vim
 
 if exists('current_compiler')
-	finish
+    finish
 endif
 runtime compiler/rustc.vim
 let current_compiler = "cargo"
@@ -14,24 +14,26 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 if exists(':CompilerSet') != 2
-	command -nargs=* CompilerSet setlocal <args>
+    command -nargs=* CompilerSet setlocal <args>
 endif
 
 if exists('g:cargo_makeprg_params')
-	execute 'CompilerSet makeprg=cargo\ '.escape(g:cargo_makeprg_params, ' \|"').'\ $*'
+    execute 'CompilerSet makeprg=cargo\ '.escape(g:cargo_makeprg_params, ' \|"').'\ $*'
 else
-	CompilerSet makeprg=cargo\ $*
+    CompilerSet makeprg=cargo\ $*
 endif
 
 " Ignore general cargo progress messages
 CompilerSet errorformat+=
-			\%-G%\\s%#Downloading%.%#,
-			\%-G%\\s%#Compiling%.%#,
-			\%-G%\\s%#Finished%.%#,
-			\%-G%\\s%#error:\ Could\ not\ compile\ %.%#,
-			\%-G%\\s%#To\ learn\ more\\,%.%#,
-			\%-Gnote:\ Run\ with\ \`RUST_BACKTRACE=%.%#,
-			\%.%#panicked\ at\ \\'%m\\'\\,\ %f:%l:%c
+            \%-G%\\s%#Downloading%.%#,
+            \%-G%\\s%#Compiling%.%#,
+            \%-G%\\s%#Finished%.%#,
+            \%-G%\\s%#error:\ Could\ not\ compile\ %.%#,
+            \%-G%\\s%#To\ learn\ more\\,%.%#,
+            \%-Gnote:\ Run\ with\ \`RUST_BACKTRACE=%.%#,
+            \%.%#panicked\ at\ \\'%m\\'\\,\ %f:%l:%c
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
+
+" vim: set et sw=4 sts=4 ts=8:

@@ -24,3 +24,5 @@ endif
 
 let &cpoptions = s:save_cpo
 unlet s:save_cpo
+
+" vim: set et sw=4 sts=4 ts=8:

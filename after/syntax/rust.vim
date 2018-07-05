@@ -1,10 +1,10 @@
 if !get(g:, 'rust_conceal', 0) || !has('conceal') || &enc != 'utf-8'
-	finish
+    finish
 endif
 
 " For those who don't want to see `::`...
 if get(g:, 'rust_conceal_mod_path', 0)
-	syn match rustNiceOperator "::" conceal cchar=ㆍ
+    syn match rustNiceOperator "::" conceal cchar=ㆍ
 endif
 
 syn match rustRightArrowHead contained ">" conceal cchar= 
@@ -32,3 +32,5 @@ if !get(g:, 'rust_conceal_mod_path', 0)
     " And keep it after a colorscheme change
     au ColorScheme <buffer> hi! link Conceal Operator
 endif
+
+" vim: set et sw=4 sts=4 ts=8:

@@ -18,8 +18,8 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 function! SyntaxCheckers_rust_cargo_IsAvailable() dict
-  return executable(self.getExec()) &&
-    \ syntastic#util#versionIsAtLeast(self.getVersion(), [0, 16, 0])
+    return executable(self.getExec()) &&
+                \ syntastic#util#versionIsAtLeast(self.getVersion(), [0, 16, 0])
 endfunction
 
 function! SyntaxCheckers_rust_cargo_GetLocList() dict
@@ -36,13 +36,13 @@ function! SyntaxCheckers_rust_cargo_GetLocList() dict
     " configuration.
 
     if rust#GetConfigVar('rust_cargo_avoid_whole_workspace', 1)
-	if l:root_cargo_toml !=# l:nearest_cargo_toml
-	    let makeprg = "cd " . fnamemodify(l:nearest_cargo_toml, ":p:h")
-			\ . " && " . makeprg
-	endif
+        if l:root_cargo_toml !=# l:nearest_cargo_toml
+            let makeprg = "cd " . fnamemodify(l:nearest_cargo_toml, ":p:h")
+                        \ . " && " . makeprg
+        endif
     else
-	let makeprg = "cd " . fnamemodify(l:root_cargo_toml, ":p:h")
-		    \ . " && " . makeprg
+        let makeprg = "cd " . fnamemodify(l:root_cargo_toml, ":p:h")
+                    \ . " && " . makeprg
     endif
 
     let l:check_all_targets = rust#GetConfigVar('rust_cargo_check_all_targets', 0)
@@ -51,36 +51,36 @@ function! SyntaxCheckers_rust_cargo_GetLocList() dict
     let l:check_benches = rust#GetConfigVar('rust_cargo_check_benches', 0)
 
     let makeprg = makeprg. ' '
-	\  . (l:check_all_targets ? ' --all-targets' : '')
-	\  . (l:check_benches ? ' --benches' : '')
-	\  . (l:check_examples ? ' --examples' : '')
-	\  . (l:check_tests ? ' --tests' : '')
+                \  . (l:check_all_targets ? ' --all-targets' : '')
+                \  . (l:check_benches ? ' --benches' : '')
+                \  . (l:check_examples ? ' --examples' : '')
+                \  . (l:check_tests ? ' --tests' : '')
 
     " Ignored patterns, and blank lines
     let errorformat  =
-        \ '%-G,' .
-        \ '%-Gerror: aborting %.%#,' .
-        \ '%-Gerror: Could not compile %.%#,'
+                \ '%-G,' .
+                \ '%-Gerror: aborting %.%#,' .
+                \ '%-Gerror: Could not compile %.%#,'
 
     " Meaningful lines (errors, notes, warnings, contextual information)
     let errorformat .=
-        \ '%Eerror: %m,' .
-        \ '%Eerror[E%n]: %m,' .
-        \ '%Wwarning: %m,' .
-        \ '%Inote: %m,' .
-        \ '%C %#--> %f:%l:%c'
+                \ '%Eerror: %m,' .
+                \ '%Eerror[E%n]: %m,' .
+                \ '%Wwarning: %m,' .
+                \ '%Inote: %m,' .
+                \ '%C %#--> %f:%l:%c'
 
     return SyntasticMake({
-        \ 'makeprg': makeprg,
-        \ 'cwd': fnamemodify(l:root_cargo_toml, ":p:h:."),
-        \ 'errorformat': errorformat })
+                \ 'makeprg': makeprg,
+                \ 'cwd': fnamemodify(l:root_cargo_toml, ":p:h:."),
+                \ 'errorformat': errorformat })
 endfunction
 
 call g:SyntasticRegistry.CreateAndRegisterChecker({
-    \ 'filetype': 'rust',
-    \ 'name': 'cargo'})
+            \ 'filetype': 'rust',
+            \ 'name': 'cargo'})
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
 
-" vim: set noet sw=4 sts=4 ts=8:
+" vim: set et sw=4 sts=4 ts=8:

@@ -7,9 +7,9 @@
 " For bugs, patches and license go to https://github.com/rust-lang/rust.vim
 
 if version < 600
-	syntax clear
+    syntax clear
 elseif exists("b:current_syntax")
-	finish
+    finish
 endif
 
 " Syntax definitions {{{1
@@ -306,3 +306,5 @@ syn sync minlines=200
 syn sync maxlines=500
 
 let b:current_syntax = "rust"
+
+" vim: set et sw=4 sts=4 ts=8:
