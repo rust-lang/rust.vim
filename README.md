@@ -41,6 +41,11 @@ git clone --depth=1 https://github.com/rust-lang/rust.vim.git ~/.vim/bundle/rust
 [Syntastic][syn], if nothing else is specified. See `:help rust-syntastic`
 for more details.
 
+### Source browsing with [Tagbar][tgbr]
+
+`rust.vim` has builtin `ctags/` definitions for [Tagbar][tgbr] which
+are loaded if Tagbar is installed.
+
 ### Formatting with [rustfmt][rfmt]
 
 The `:RustFmt` command will format your code with
@@ -94,5 +99,6 @@ LICENSE-MIT for details.
 [vp]: https://github.com/junegunn/vim-plug
 [rfmt]: https://github.com/rust-lang-nursery/rustfmt
 [syn]: https://github.com/scrooloose/syntastic
+[tgbr]: https://github.com/majutsushi/tagbar
 [wav]: https://github.com/mattn/webapi-vim
 [pp]: https://play.rust-lang.org/
