@@ -171,20 +171,9 @@ g:rust_clip_command~
 	    let g:rust_clip_command = 'xclip -selection clipboard'
 <
 
-                                          *g:rust_cargo_avoid_whole_workspace*
-                                          *b:rust_cargo_avoid_whole_workspace*
-g:rust_cargo_avoid_whole_workspace~
-	When editing a crate that is part of a Cargo workspace, and this
-	option is set to 1 (the default), then 'cargo' will be executed
-	directly in that crate directory instead of in the workspace
-	directory. Setting 0 prevents this behavior - however be aware that if
-	you are working in large workspace, Cargo commands may take more time,
-	plus the Syntastic error list may include all the crates in the
-	workspace. >
-            let g:rust_cargo_avoid_whole_workspace = 0
-<
 
 Integration with Syntastic                                    *rust-syntastic*
+--------------------------
 
 This plugin automatically integrates with the Syntastic checker. There are two
 checkers provided: 'rustc', and 'cargo'. The later invokes 'Cargo' in order to
@@ -198,7 +187,18 @@ days, 'cargo' is the default checker. >
 <
 If you would like to change it, you can set `g:syntastic_rust_checkers` to a
 different value.
-
+                                          *g:rust_cargo_avoid_whole_workspace*
+                                          *b:rust_cargo_avoid_whole_workspace*
+g:rust_cargo_avoid_whole_workspace~
+	When editing a crate that is part of a Cargo workspace, and this
+	option is set to 1 (the default), then 'cargo' will be executed
+	directly in that crate directory instead of in the workspace
+	directory. Setting 0 prevents this behavior - however be aware that if
+	you are working in large workspace, Cargo commands may take more time,
+	plus the Syntastic error list may include all the crates in the
+	workspace. >
+            let g:rust_cargo_avoid_whole_workspace = 0
+<
 
 ==============================================================================
 COMMANDS                                                       *rust-commands*
