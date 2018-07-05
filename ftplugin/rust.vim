@@ -16,6 +16,14 @@ set cpo&vim
 augroup rust.vim
 autocmd!
 
+if get(b:, 'current_compiler', '') ==# ''
+	if strlen(findfile('Cargo.toml', '.;')) > 0
+		compiler cargo
+	else
+		compiler rustc
+	endif
+endif
+
 " Variables {{{1
 
 " The rust source code at present seems to typically omit a leader on /*!
@@ -199,11 +207,5 @@ let b:match_skip = 's:comment\|string\|rustArrow'
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
-
-if strlen(findfile("Cargo.toml", ".;"))
-	compiler cargo
-else
-	compiler rustc
-endif
 
 " vim: set noet sw=8 ts=8:
