@@ -23,7 +23,7 @@ let g:tagbar_type_rust = {
 \ }
 
 " In case you've updated/customized your ~/.ctags and prefer to use it.
-if get(g:, 'rust_use_builtin_ctags_defs', 1)
+if !get(g:, 'rust_use_custom_ctags_defs', 0)
   let g:tagbar_type_rust.deffile = expand('<sfile>:p:h:h:h') . '/ctags/rust.ctags'
 endif
 
