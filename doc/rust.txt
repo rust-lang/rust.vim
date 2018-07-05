@@ -20,6 +20,9 @@ SETTINGS                                                       *rust-settings*
 This plugin has a few variables you can define in your vimrc that change the
 behavior of the plugin.
 
+Some variables can be set buffer local (`:b` prefix), and the buffer local
+will take precedence over the global `g:` counterpart.
+
                                                                 *g:rustc_path*
 g:rustc_path~
 	Set this option to the path to rustc for use in the |:RustRun| and
@@ -199,6 +202,38 @@ g:rust_cargo_avoid_whole_workspace~
 	workspace. >
             let g:rust_cargo_avoid_whole_workspace = 0
 <
+                                              *g:rust_cargo_check_all_targets*
+                                              *b:rust_cargo_check_all_targets*
+g:rust_cargo_check_all_targets~
+	When set to 1, the `--all-targets` option will be passed to cargo when
+	Syntastic executes it, allowing the linting of all targets under the
+	package.
+	The default is 0.
+
+                                                 *g:rust_cargo_check_examples*
+                                                 *b:rust_cargo_check_examples*
+g:rust_cargo_check_examples~
+	When set to 1, the `--examples` option will be passed to cargo when
+	Syntastic executes it, to prevent the exclusion of examples from
+	linting. The examples are normally under the `examples/` directory of
+	the crate.
+	The default is 0.
+
+                                                    *g:rust_cargo_check_tests*
+                                                    *b:rust_cargo_check_tests*
+g:rust_cargo_check_tests~
+	When set to 1, the `--tests` option will be passed to cargo when
+	Syntastic executes it, to prevent the exclusion of tests from linting.
+	The tests are normally under the `tests/` directory of the crate.
+	The default is 0.
+
+                                                  *g:rust_cargo_check_benches*
+                                                  *b:rust_cargo_check_benches*
+g:rust_cargo_check_benches~
+	When set to 1, the `--benches` option will be passed to cargo when
+	Syntastic executes it.  The benches are normally under the `benches/`
+	directory of the crate.
+	The default is 0.
 
 ==============================================================================
 COMMANDS                                                       *rust-commands*
