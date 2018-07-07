@@ -203,6 +203,12 @@ syn region rustCommentBlockDocError     matchgroup=rustCommentBlockDocError star
 syn region rustCommentBlockNest         matchgroup=rustCommentBlock         start="/\*"                     end="\*/" contains=rustTodo,rustCommentBlockNest,@Spell contained transparent
 syn region rustCommentBlockDocNest      matchgroup=rustCommentBlockDoc      start="/\*"                     end="\*/" contains=rustTodo,rustCommentBlockDocNest,@Spell contained transparent
 syn region rustCommentBlockDocNestError matchgroup=rustCommentBlockDocError start="/\*"                     end="\*/" contains=rustTodo,rustCommentBlockDocNestError,@Spell contained transparent
+
+if exists("b:current_syntax_embed")
+syn match rustCommentLine                                                  "^//"
+syn match rustCommentLineDoc                                               "^//\%(//\@!\|!\)"
+endif
+
 " FIXME: this is a really ugly and not fully correct implementation. Most
 " importantly, a case like ``/* */*`` should have the final ``*`` not being in
 " a comment, but in practice at present it leaves comments open two levels
@@ -221,6 +227,15 @@ syn keyword rustTodo contained TODO FIXME XXX NB NOTE
 " Trivial folding rules to begin with.
 " FIXME: use the AST to make really good folding
 syn region rustFoldBraces start="{" end="}" transparent fold
+
+if !exists("b:current_syntax_embed")
+    let b:current_syntax_embed = 1
+    syntax include @RustCodeInComment <sfile>:p:h/rust.vim
+    unlet b:current_syntax_embed
+
+    syntax region rustCodeInRustDoc start="^//! ```" end="^//! ```" keepend contains=@RustCodeInComment
+    syntax region rustCodeInBlockComment start="^/// ```" end="^/// ```" keepend contains=@RustCodeInComment
+endif
 
 " Default highlighting {{{1
 hi def link rustDecNumber       rustNumber
