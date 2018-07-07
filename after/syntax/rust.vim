@@ -1,4 +1,6 @@
-if !get(g:, 'rust_conceal', 0) || !has('conceal') || &enc != 'utf-8'
+scriptencoding utf-8
+
+if !get(g:, 'rust_conceal', 0) || !has('conceal') || &encoding !=# 'utf-8'
     finish
 endif
 
@@ -29,8 +31,11 @@ hi link rustNiceOperator Operator
 if !get(g:, 'rust_conceal_mod_path', 0)
     hi! link Conceal Operator
 
-    " And keep it after a colorscheme change
-    au ColorScheme <buffer> hi! link Conceal Operator
+    augroup rust.vim.after
+        autocmd!
+        " And keep it after a colorscheme change
+        autocmd ColorScheme <buffer> hi! link Conceal Operator
+    augroup END
 endif
 
 " vim: set et sw=4 sts=4 ts=8:
