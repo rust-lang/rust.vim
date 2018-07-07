@@ -4,7 +4,7 @@ import os
 import sys
 
 REPO = "alonid/vim-testbed"
-TAG = "10-rust.vim"
+TAG = "11-rust.vim"
 IMAGE = "%s:%s" % (REPO, TAG)
 
 class Error(Exception):
