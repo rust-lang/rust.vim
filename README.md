@@ -79,8 +79,6 @@ If you set g:rust_clip_command RustPlay will copy the url to the clipboard.
 
         let g:rust_clip_command = 'xclip -selection clipboard'
 
-[rfmt]: https://crates.io/crates/rustfmt/
-
 ## Help
 
 Further help can be found in the documentation with `:Helptags` then `:help rust`.
