@@ -10,8 +10,10 @@ if exists("b:did_ftplugin")
 endif
 let b:did_ftplugin = 1
 
+" vint: -ProhibitAbbreviationOption
 let s:save_cpo = &cpo
 set cpo&vim
+" vint: +ProhibitAbbreviationOption
 
 augroup rust.vim
     autocmd!
@@ -205,7 +207,9 @@ set matchpairs+=<:>
 " For matchit.vim (rustArrow stops `Fn() -> X` messing things up)
 let b:match_skip = 's:comment\|string\|rustArrow'
 
+" vint: -ProhibitAbbreviationOption
 let &cpo = s:save_cpo
 unlet s:save_cpo
+" vint: +ProhibitAbbreviationOption
 
 " vim: set et sw=4 sts=4 ts=8:

@@ -9,8 +9,10 @@ if exists("current_compiler")
 endif
 let current_compiler = "rustc"
 
-let s:cpo_save = &cpo
+" vint: -ProhibitAbbreviationOption
+let s:save_cpo = &cpo
 set cpo&vim
+" vint: +ProhibitAbbreviationOption
 
 if exists(":CompilerSet") != 2
     command -nargs=* CompilerSet setlocal <args>
@@ -43,7 +45,9 @@ CompilerSet errorformat+=
             \%-G%*[\ ]^%*[~],
             \%-G%*[\ ]...
 
-let &cpo = s:cpo_save
-unlet s:cpo_save
+" vint: -ProhibitAbbreviationOption
+let &cpo = s:save_cpo
+unlet s:save_cpo
+" vint: +ProhibitAbbreviationOption
 
 " vim: set et sw=4 sts=4 ts=8:

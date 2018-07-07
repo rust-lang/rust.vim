@@ -10,8 +10,10 @@ if exists("g:loaded_syntastic_rust_rustc_checker")
 endif
 let g:loaded_syntastic_rust_rustc_checker = 1
 
+" vint: -ProhibitAbbreviationOption
 let s:save_cpo = &cpo
 set cpo&vim
+" vint: +ProhibitAbbreviationOption
 
 function! SyntaxCheckers_rust_rustc_GetLocList() dict
     let makeprg = self.makeprgBuild({})
@@ -44,7 +46,9 @@ call g:SyntasticRegistry.CreateAndRegisterChecker({
             \ 'filetype': 'rust',
             \ 'name': 'rustc'})
 
+" vint: -ProhibitAbbreviationOption
 let &cpo = s:save_cpo
 unlet s:save_cpo
+" vint: +ProhibitAbbreviationOption
 
 " vim: set et sw=4 sts=4 ts=8:
