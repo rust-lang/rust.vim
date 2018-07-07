@@ -7,36 +7,26 @@ This is a Vim plugin that provides [Rust][r] file detection, syntax highlighting
 
 ## Installation
 
-### Using [Vundle][v]
-
-1. Add `Plugin 'rust-lang/rust.vim'` to `~/.vimrc`
-2. `:PluginInstall` or `$ vim +PluginInstall +qall`
-
-*Note:* Vundle will not automatically detect Rust files properly if `filetype
+* [Vim8 packages][vim8pack]:
+  * `git clone https://github.com/rust-lang/rust.vim ~/.vim/pack/plugins/start/rust.vim`
+* [Vundle][v]:
+  * Add `Plugin 'rust-lang/rust.vim'` to `~/.vimrc`
+  * `:PluginInstall` or `$ vim +PluginInstall +qall`
+  * *Note:* Vundle will not automatically detect Rust files properly if `filetype
 on` is executed before Vundle. Please check the [quickstart][vqs] for more
 details. Errors such as `Not an editor command: RustFmt` may occur if Vundle
 is misconfigured with this plugin.
-
-### Using [Pathogen][p]
-
-```shell
-git clone --depth=1 https://github.com/rust-lang/rust.vim.git ~/.vim/bundle/rust.vim
-```
-
-### Using [NeoBundle][nb]
-
-1. Add `NeoBundle 'rust-lang/rust.vim'` to `~/.vimrc`
-2. Re-open vim or execute `:source ~/.vimrc`
-
-### Using [vim-plug][vp]
-
-1. Add `Plug 'rust-lang/rust.vim'` to `~/.vimrc`
-2. `:PlugInstall` or `$ vim +PlugInstall +qall`
-
-### Using [dein.vim][d]
-
-1. Add `call dein#add('rust-lang/rust.vim')` to `~/.vimrc`
-2. `:call dein#install()`
+* [Pathogen][p]:
+  * `git clone --depth=1 https://github.com/rust-lang/rust.vim.git ~/.vim/bundle/rust.vim`
+* [vim-plug][vp]:
+  * Add `Plug 'rust-lang/rust.vim'` to `~/.vimrc`
+  * `:PlugInstall` or `$ vim +PlugInstall +qall`
+* [dein.vim][d]:
+  * Add `call dein#add('rust-lang/rust.vim')` to `~/.vimrc`
+  * `:call dein#install()`
+* [NeoBundle][nb]:
+  * Add `NeoBundle 'rust-lang/rust.vim'` to `~/.vimrc`
+  * Re-open vim or execute `:source ~/.vimrc`
 
 ## Features
 
@@ -106,3 +96,4 @@ LICENSE-MIT for details.
 [tgbr]: https://github.com/majutsushi/tagbar
 [wav]: https://github.com/mattn/webapi-vim
 [pp]: https://play.rust-lang.org/
+[vim8pack]: http://vimhelp.appspot.com/repeat.txt.html#packages
