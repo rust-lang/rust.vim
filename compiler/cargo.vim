@@ -23,6 +23,12 @@ else
     CompilerSet makeprg=cargo\ $*
 endif
 
+augroup RustCargoQuickFixHooks
+    autocmd!
+    autocmd QuickFixCmdPre make call cargo#quickfix#CmdPre()
+    autocmd QuickFixCmdPost make call cargo#quickfix#CmdPost()
+augroup END
+
 " Ignore general cargo progress messages
 CompilerSet errorformat+=
             \%-G%\\s%#Downloading%.%#,
