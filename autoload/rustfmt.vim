@@ -61,6 +61,15 @@ function! s:RustfmtWriteMode()
     endif
 endfunction
 
+function! s:RustfmtConfig()
+    let l:rustfmt_toml = findfile('rustfmt.toml', expand('%:p:h') . ';')
+    if l:rustfmt_toml !=# ''
+        return '--config-path '.l:rustfmt_toml
+    else
+        return ''
+    endif
+endfunction
+
 function! s:RustfmtCommandRange(filename, line1, line2)
     if g:rustfmt_file_lines == 0
         echo "--file-lines is not supported in the installed `rustfmt` executable"
@@ -69,6 +78,7 @@ function! s:RustfmtCommandRange(filename, line1, line2)
 
     let l:arg = {"file": shellescape(a:filename), "range": [a:line1, a:line2]}
     let l:write_mode = s:RustfmtWriteMode()
+    let l:rustfmt_config = s:RustfmtConfig()
 
     " FIXME: When --file-lines gets to be stable, enhance this version range checking
     " accordingly.
@@ -76,15 +86,19 @@ function! s:RustfmtCommandRange(filename, line1, line2)
                 \ (s:rustfmt_unstable_features && (s:rustfmt_version < '1.'))
                 \ ? '--unstable-features' : ''
 
-    let l:cmd = printf("%s %s %s %s --file-lines '[%s]' %s", g:rustfmt_command, 
-                \ l:write_mode, g:rustfmt_options, 
-                \ l:unstable_features, json_encode(l:arg), shellescape(a:filename))
+    let l:cmd = printf("%s %s %s %s %s --file-lines '[%s]' %s", g:rustfmt_command,
+                \ l:write_mode, g:rustfmt_options,
+                \ l:unstable_features, l:rustfmt_config,
+                \ json_encode(l:arg), shellescape(a:filename))
+    echom l:cmd
     return l:cmd
 endfunction
 
 function! s:RustfmtCommand(filename)
     let l:write_mode = s:RustfmtWriteMode()
-    return g:rustfmt_command . " ". l:write_mode . " " . g:rustfmt_options . " " . shellescape(a:filename)
+    let l:rustfmt_config = s:RustfmtConfig()
+    return g:rustfmt_command . " ". l:write_mode . " " . g:rustfmt_options
+                \. " " . l:rustfmt_config . " " . shellescape(a:filename)
 endfunction
 
 function! s:RunRustfmt(command, tmpname, fail_silently)
@@ -165,6 +179,11 @@ function! rustfmt#Format()
     let l:tmpname = s:rustfmtSaveToTmp()
     let command = s:RustfmtCommand(l:tmpname)
     call s:RunRustfmt(command, l:tmpname, 0)
+endfunction
+
+function! rustfmt#Cmd()
+    " Mainly for debugging
+    return s:RustfmtCommand("<temp-file>")
 endfunction
 
 function! rustfmt#PreWrite()
