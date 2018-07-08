@@ -198,7 +198,7 @@ syn region rustCommentLine                                                  star
 syn region rustCommentLineDoc                                               start="//\%(//\@!\|!\)"         end="$"   contains=rustTodo,@Spell
 syn region rustCommentLineDocError                                          start="//\%(//\@!\|!\)"         end="$"   contains=rustTodo,@Spell contained
 syn region rustCommentBlock             matchgroup=rustCommentBlock         start="/\*\%(!\|\*[*/]\@!\)\@!" end="\*/" contains=rustTodo,rustCommentBlockNest,@Spell
-syn region rustCommentBlockDoc          matchgroup=rustCommentBlockDoc      start="/\*\%(!\|\*[*/]\@!\)"    end="\*/" contains=rustTodo,rustCommentBlockDocNest,@Spell
+syn region rustCommentBlockDoc          matchgroup=rustCommentBlockDoc      start="/\*\%(!\|\*[*/]\@!\)"    end="\*/" contains=rustTodo,rustCommentBlockDocNest,rustCommentBlockDocRustCode,@Spell
 syn region rustCommentBlockDocError     matchgroup=rustCommentBlockDocError start="/\*\%(!\|\*[*/]\@!\)"    end="\*/" contains=rustTodo,rustCommentBlockDocNestError,@Spell contained
 syn region rustCommentBlockNest         matchgroup=rustCommentBlock         start="/\*"                     end="\*/" contains=rustTodo,rustCommentBlockNest,@Spell contained transparent
 syn region rustCommentBlockDocNest      matchgroup=rustCommentBlockDoc      start="/\*"                     end="\*/" contains=rustTodo,rustCommentBlockDocNest,@Spell contained transparent
@@ -233,8 +233,25 @@ if !exists("b:current_syntax_embed")
     syntax include @RustCodeInComment <sfile>:p:h/rust.vim
     unlet b:current_syntax_embed
 
-    syntax region rustCodeInRustDoc start="^//! ```" end="^//! ```" keepend contains=@RustCodeInComment
-    syntax region rustCodeInBlockComment start="^/// ```" end="^/// ```" keepend contains=@RustCodeInComment
+    " We borrow the rules from rust’s src/librustdoc/html/markdown.rs, so that
+    " we only highlight as Rust what it would perceive as Rust (almost; it’s
+    " possible to trick it if you try hard, and indented code blocks aren’t
+    " supported because Markdown is a menace to parse and only mad dogs and
+    " Englishmen would try to handle that case correctly in this syntax file).
+    syn region rustCommentLinesDocRustCode matchgroup=rustCommentDocCodeFence start='^\z(\s*//[!/]\s*```\)[^A-Za-z0-9_-]*\%(\%(should_panic\|no_run\|ignore\|allow_fail\|rust\|test_harness\|compile_fail\|E\d\{4}\)\%([^A-Za-z0-9_-]\+\|$\)\)*$' end='^\z1$' keepend contains=@RustCodeInComment
+    syn region rustCommentBlockDocRustCode matchgroup=rustCommentDocCodeFence start='^\z(\%(\s*\*\)\?\s*```\)[^A-Za-z0-9_-]*\%(\%(should_panic\|no_run\|ignore\|allow_fail\|rust\|test_harness\|compile_fail\|E\d\{4}\)\%([^A-Za-z0-9_-]\+\|$\)\)*$' end='^\z1$' keepend contains=@RustCodeInComment,rustCommentBlockDocStar
+    " Strictly, this may or may not be correct; this code, for example, would
+    " mishighlight:
+    "
+    "     /**
+    "     ```rust
+    "     println!("{}", 1
+    "     * 1);
+    "     ```
+    "     */
+    "
+    " … but I don’t care. Balance of probability, and all that.
+    syn match rustCommentBlockDocStar /^\s*\*\s\?/ contained
 endif
 
 " Default highlighting {{{1
@@ -292,7 +309,9 @@ hi def link rustCommentLineDoc SpecialComment
 hi def link rustCommentLineDocError Error
 hi def link rustCommentBlock  rustCommentLine
 hi def link rustCommentBlockDoc rustCommentLineDoc
+hi def link rustCommentBlockDocStar rustCommentBlockDoc
 hi def link rustCommentBlockDocError Error
+hi def link rustCommentDocCodeFence rustCommentLineDoc
 hi def link rustAssert        PreCondit
 hi def link rustPanic         PreCondit
 hi def link rustMacro         Macro
