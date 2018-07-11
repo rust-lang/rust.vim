@@ -15,9 +15,9 @@ function! s:nearest_cargo(...) abort
 
     let l:is_getcwd = get(a:, 1, 0)
     if l:is_getcwd 
-	let l:starting_path = get(a:, 2, getcwd())
+        let l:starting_path = get(a:, 2, getcwd())
     else
-	let l:starting_path = get(a:, 2, expand('%:p:h'))
+        let l:starting_path = get(a:, 2, expand('%:p:h'))
     endif
 
     return findfile('Cargo.toml', l:starting_path . ';')
@@ -30,13 +30,13 @@ endfunction
 function! cargo#nearestWorkspaceCargo(is_getcwd) abort
     let l:nearest = s:nearest_cargo(a:is_getcwd)
     while l:nearest !=# ''
-	for l:line in readfile(l:nearest, '', 0x100)
-	    if l:line =~# '\V[workspace]'
-		return l:nearest
-	    endif
-	endfor
-	let l:next = fnamemodify(l:nearest, ':p:h:h')
-	let l:nearest = s:nearest_cargo(0, l:next)
+        for l:line in readfile(l:nearest, '', 0x100)
+            if l:line =~# '\V[workspace]'
+                return l:nearest
+            endif
+        endfor
+        let l:next = fnamemodify(l:nearest, ':p:h:h')
+        let l:nearest = s:nearest_cargo(0, l:next)
     endwhile
     return ''
 endfunction
@@ -46,7 +46,7 @@ function! cargo#nearestRootCargo(is_getcwd) abort
     " regular Cargo.toml
     let l:workspace_cargo = cargo#nearestWorkspaceCargo(a:is_getcwd)
     if l:workspace_cargo !=# ''
-	return l:workspace_cargo
+        return l:workspace_cargo
     endif
     return s:nearest_cargo(a:is_getcwd)
 endfunction
@@ -85,4 +85,4 @@ function! cargo#bench(args)
     call cargo#cmd("bench " . a:args)
 endfunction
 
-" vim: set noet sw=4 sts=4 ts=8:
+" vim: set et sw=4 sts=4 ts=8:

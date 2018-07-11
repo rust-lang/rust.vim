@@ -65,21 +65,30 @@ def image_exists():
     return len(r.strip().splitlines()) >= 1
 
 def tests_on_docker():
-    res = docker_run("bash -lc 'python /home/vimtest/run-tests tests'", ok_fail=True)
+    res = docker_run("bash -lc 'python /home/vimtest/run-tests inside-docker'", ok_fail=True)
     if res == 0:
         print "Tests OK"
     else:
         print "Tests Failed"
         sys.exit(1)
 
-def tests():
+def inside_docker():
     res = system("/vim-build/bin/vim80 --not-a-term '+Vader! test/*.vader'", ok_fail=True)
     if res != 0:
         sys.exit(1)
 
+def run_with_vimrc(vimrc):
+    res = system("vim -u %s --not-a-term '+Vader! test/*.vader'" % (vimrc, ), ok_fail=True)
+    if res != 0:
+        sys.exit(1)
+
 def main():
-    if sys.argv[1:] == ["tests"]:
-        tests()
+    if sys.argv[1:] == ["inside-docker"]:
+        inside_docker()
+        return
+
+    if sys.argv[1:2] == ["run-with-vimrc"]:
+        run_with_vimrc(sys.argv[2])
         return
 
     if not image_exists():

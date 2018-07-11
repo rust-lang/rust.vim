@@ -18,5 +18,7 @@ Execute (RustEmitAsm - see that we actually get assembly output):
   AssertEqual 'asm', &filetype
   normal! ggVGy:q<CR>
   AssertEqual 1,(@" =~# '\V.section')
+  bd
+  call delete('test.rs')
 
 # TODO: a lot more tests

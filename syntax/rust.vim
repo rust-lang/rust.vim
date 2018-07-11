@@ -7,9 +7,9 @@
 " For bugs, patches and license go to https://github.com/rust-lang/rust.vim
 
 if version < 600
-	syntax clear
+    syntax clear
 elseif exists("b:current_syntax")
-	finish
+    finish
 endif
 
 " Syntax definitions {{{1
@@ -198,11 +198,17 @@ syn region rustCommentLine                                                  star
 syn region rustCommentLineDoc                                               start="//\%(//\@!\|!\)"         end="$"   contains=rustTodo,@Spell
 syn region rustCommentLineDocError                                          start="//\%(//\@!\|!\)"         end="$"   contains=rustTodo,@Spell contained
 syn region rustCommentBlock             matchgroup=rustCommentBlock         start="/\*\%(!\|\*[*/]\@!\)\@!" end="\*/" contains=rustTodo,rustCommentBlockNest,@Spell
-syn region rustCommentBlockDoc          matchgroup=rustCommentBlockDoc      start="/\*\%(!\|\*[*/]\@!\)"    end="\*/" contains=rustTodo,rustCommentBlockDocNest,@Spell
+syn region rustCommentBlockDoc          matchgroup=rustCommentBlockDoc      start="/\*\%(!\|\*[*/]\@!\)"    end="\*/" contains=rustTodo,rustCommentBlockDocNest,rustCommentBlockDocRustCode,@Spell
 syn region rustCommentBlockDocError     matchgroup=rustCommentBlockDocError start="/\*\%(!\|\*[*/]\@!\)"    end="\*/" contains=rustTodo,rustCommentBlockDocNestError,@Spell contained
 syn region rustCommentBlockNest         matchgroup=rustCommentBlock         start="/\*"                     end="\*/" contains=rustTodo,rustCommentBlockNest,@Spell contained transparent
 syn region rustCommentBlockDocNest      matchgroup=rustCommentBlockDoc      start="/\*"                     end="\*/" contains=rustTodo,rustCommentBlockDocNest,@Spell contained transparent
 syn region rustCommentBlockDocNestError matchgroup=rustCommentBlockDocError start="/\*"                     end="\*/" contains=rustTodo,rustCommentBlockDocNestError,@Spell contained transparent
+
+if exists("b:current_syntax_embed")
+syn match rustCommentLine                                                  "^//"
+syn match rustCommentLineDoc                                               "^//\%(//\@!\|!\)"
+endif
+
 " FIXME: this is a really ugly and not fully correct implementation. Most
 " importantly, a case like ``/* */*`` should have the final ``*`` not being in
 " a comment, but in practice at present it leaves comments open two levels
@@ -221,6 +227,32 @@ syn keyword rustTodo contained TODO FIXME XXX NB NOTE
 " Trivial folding rules to begin with.
 " FIXME: use the AST to make really good folding
 syn region rustFoldBraces start="{" end="}" transparent fold
+
+if !exists("b:current_syntax_embed")
+    let b:current_syntax_embed = 1
+    syntax include @RustCodeInComment <sfile>:p:h/rust.vim
+    unlet b:current_syntax_embed
+
+    " We borrow the rules from rust’s src/librustdoc/html/markdown.rs, so that
+    " we only highlight as Rust what it would perceive as Rust (almost; it’s
+    " possible to trick it if you try hard, and indented code blocks aren’t
+    " supported because Markdown is a menace to parse and only mad dogs and
+    " Englishmen would try to handle that case correctly in this syntax file).
+    syn region rustCommentLinesDocRustCode matchgroup=rustCommentDocCodeFence start='^\z(\s*//[!/]\s*```\)[^A-Za-z0-9_-]*\%(\%(should_panic\|no_run\|ignore\|allow_fail\|rust\|test_harness\|compile_fail\|E\d\{4}\)\%([^A-Za-z0-9_-]\+\|$\)\)*$' end='^\z1$' keepend contains=@RustCodeInComment
+    syn region rustCommentBlockDocRustCode matchgroup=rustCommentDocCodeFence start='^\z(\%(\s*\*\)\?\s*```\)[^A-Za-z0-9_-]*\%(\%(should_panic\|no_run\|ignore\|allow_fail\|rust\|test_harness\|compile_fail\|E\d\{4}\)\%([^A-Za-z0-9_-]\+\|$\)\)*$' end='^\z1$' keepend contains=@RustCodeInComment,rustCommentBlockDocStar
+    " Strictly, this may or may not be correct; this code, for example, would
+    " mishighlight:
+    "
+    "     /**
+    "     ```rust
+    "     println!("{}", 1
+    "     * 1);
+    "     ```
+    "     */
+    "
+    " … but I don’t care. Balance of probability, and all that.
+    syn match rustCommentBlockDocStar /^\s*\*\s\?/ contained
+endif
 
 " Default highlighting {{{1
 hi def link rustDecNumber       rustNumber
@@ -277,7 +309,9 @@ hi def link rustCommentLineDoc SpecialComment
 hi def link rustCommentLineDocError Error
 hi def link rustCommentBlock  rustCommentLine
 hi def link rustCommentBlockDoc rustCommentLineDoc
+hi def link rustCommentBlockDocStar rustCommentBlockDoc
 hi def link rustCommentBlockDocError Error
+hi def link rustCommentDocCodeFence rustCommentLineDoc
 hi def link rustAssert        PreCondit
 hi def link rustPanic         PreCondit
 hi def link rustMacro         Macro
@@ -306,3 +340,5 @@ syn sync minlines=200
 syn sync maxlines=500
 
 let b:current_syntax = "rust"
+
+" vim: set et sw=4 sts=4 ts=8:

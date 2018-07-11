@@ -20,6 +20,9 @@ SETTINGS                                                       *rust-settings*
 This plugin has a few variables you can define in your vimrc that change the
 behavior of the plugin.
 
+Some variables can be set buffer local (`:b` prefix), and the buffer local
+will take precedence over the global `g:` counterpart.
+
                                                                 *g:rustc_path*
 g:rustc_path~
 	Set this option to the path to rustc for use in the |:RustRun| and
@@ -80,6 +83,20 @@ g:rust_bang_comment_leader~
 	using the /*! syntax: >
 	    let g:rust_bang_comment_leader = 1
 <
+
+                                                *g:rust_use_custom_ctags_defs*
+g:rust_use_custom_ctags_defs~
+	Set this option to 1 if you have customized ctags definitions for Rust
+	and do not wish for those included with rust.vim to be used: >
+	    let g:rust_use_custom_ctags_defs = 1
+<
+	Note that rust.vim's built-in definitions are only used for the Tagbar
+	Vim plugin, if you have it installed--it is not automatically used
+	when generating |tags| files that Vim can use to navigate to
+	definitions across different source files. Feel free to copy
+	`rust.vim/ctags/rust.ctags` into your own `~/.ctags` if you wish to
+	generate |tags| files.
+
 
                                                  *g:ftplugin_rust_source_path*
 g:ftplugin_rust_source_path~
@@ -157,20 +174,9 @@ g:rust_clip_command~
 	    let g:rust_clip_command = 'xclip -selection clipboard'
 <
 
-                                          *g:rust_cargo_avoid_whole_workspace*
-                                          *b:rust_cargo_avoid_whole_workspace*
-g:rust_cargo_avoid_whole_workspace~
-	When editing a crate that is part of a Cargo workspace, and this
-	option is set to 1 (the default), then 'cargo' will be executed
-	directly in that crate directory instead of in the workspace
-	directory. Setting 0 prevents this behavior - however be aware that if
-	you are working in large workspace, Cargo commands may take more time,
-	plus the Syntastic error list may include all the crates in the
-	workspace. >
-            let g:rust_cargo_avoid_whole_workspace = 0
-<
 
 Integration with Syntastic                                    *rust-syntastic*
+--------------------------
 
 This plugin automatically integrates with the Syntastic checker. There are two
 checkers provided: 'rustc', and 'cargo'. The later invokes 'Cargo' in order to
@@ -184,7 +190,50 @@ days, 'cargo' is the default checker. >
 <
 If you would like to change it, you can set `g:syntastic_rust_checkers` to a
 different value.
+                                          *g:rust_cargo_avoid_whole_workspace*
+                                          *b:rust_cargo_avoid_whole_workspace*
+g:rust_cargo_avoid_whole_workspace~
+	When editing a crate that is part of a Cargo workspace, and this
+	option is set to 1 (the default), then 'cargo' will be executed
+	directly in that crate directory instead of in the workspace
+	directory. Setting 0 prevents this behavior - however be aware that if
+	you are working in large workspace, Cargo commands may take more time,
+	plus the Syntastic error list may include all the crates in the
+	workspace. >
+            let g:rust_cargo_avoid_whole_workspace = 0
+<
+                                              *g:rust_cargo_check_all_targets*
+                                              *b:rust_cargo_check_all_targets*
+g:rust_cargo_check_all_targets~
+	When set to 1, the `--all-targets` option will be passed to cargo when
+	Syntastic executes it, allowing the linting of all targets under the
+	package.
+	The default is 0.
 
+                                                 *g:rust_cargo_check_examples*
+                                                 *b:rust_cargo_check_examples*
+g:rust_cargo_check_examples~
+	When set to 1, the `--examples` option will be passed to cargo when
+	Syntastic executes it, to prevent the exclusion of examples from
+	linting. The examples are normally under the `examples/` directory of
+	the crate.
+	The default is 0.
+
+                                                    *g:rust_cargo_check_tests*
+                                                    *b:rust_cargo_check_tests*
+g:rust_cargo_check_tests~
+	When set to 1, the `--tests` option will be passed to cargo when
+	Syntastic executes it, to prevent the exclusion of tests from linting.
+	The tests are normally under the `tests/` directory of the crate.
+	The default is 0.
+
+                                                  *g:rust_cargo_check_benches*
+                                                  *b:rust_cargo_check_benches*
+g:rust_cargo_check_benches~
+	When set to 1, the `--benches` option will be passed to cargo when
+	Syntastic executes it.  The benches are normally under the `benches/`
+	directory of the crate.
+	The default is 0.
 
 ==============================================================================
 COMMANDS                                                       *rust-commands*
