@@ -3,7 +3,8 @@ function! cargo#Load()
 endfunction
 
 function! cargo#cmd(args)
-    execute "! cargo" a:args
+    let cargo = exists("g:cargo_path") ? g:cargo_path : "cargo"
+    execute '!' . shellescape(cargo) . ' ' a:args
 endfunction
 
 function! s:nearest_cargo(...) abort
