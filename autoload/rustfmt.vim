@@ -65,9 +65,14 @@ function! s:RustfmtConfig()
     let l:rustfmt_toml = findfile('rustfmt.toml', expand('%:p:h') . ';')
     if l:rustfmt_toml !=# ''
         return '--config-path '.l:rustfmt_toml
-    else
-        return ''
     endif
+
+    let l:_rustfmt_toml = findfile('.rustfmt.toml', expand('%:p:h') . ';')
+    if l:_rustfmt_toml !=# ''
+        return '--config-path '.l:_rustfmt_toml
+    endif
+
+    return ''
 endfunction
 
 function! s:RustfmtCommandRange(filename, line1, line2)
@@ -189,7 +194,7 @@ endfunction
 
 function! rustfmt#PreWrite()
     if rust#GetConfigVar('rustfmt_autosave_if_config_present', 0)
-        if findfile('rustfmt.toml', '.;') !=# '' 
+        if findfile('rustfmt.toml', '.;') !=# '' || findfile('.rustfmt.toml', '.;') !=# ''
             let b:rustfmt_autosave = 1
             let b:rustfmt_autosave_because_of_config = 1
         endif
