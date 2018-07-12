@@ -69,32 +69,8 @@ augroup rust.vim
             let b:rust_original_delimitMate_excluded_regions = b:delimitMate_excluded_regions
         endif
 
-        let s:delimitMate_extra_excluded_regions = ',rustLifetimeCandidate,rustGenericLifetimeCandidate'
-
-        " For this buffer, when delimitMate issues the `User delimitMate_map`
-        " event in the autocommand system, add the above-defined extra excluded
-        " regions to delimitMate's state, if they have not already been added.
-        autocmd User <buffer>
-                    \ if expand('<afile>') ==# 'delimitMate_map' && match(
-                    \     delimitMate#Get("excluded_regions"),
-                    \     s:delimitMate_extra_excluded_regions) == -1
-                    \|  let b:delimitMate_excluded_regions =
-                    \       delimitMate#Get("excluded_regions")
-                    \       . s:delimitMate_extra_excluded_regions
-                    \|endif
-
-        " For this buffer, when delimitMate issues the `User delimitMate_unmap`
-        " event in the autocommand system, delete the above-defined extra excluded
-        " regions from delimitMate's state (the deletion being idempotent and
-        " having no effect if the extra excluded regions are not present in the
-        " targeted part of delimitMate's state).
-        autocmd User <buffer>
-                    \ if expand('<afile>') ==# 'delimitMate_unmap'
-                    \|  let b:delimitMate_excluded_regions = substitute(
-                    \       delimitMate#Get("excluded_regions"),
-                    \       '\C\V' . s:delimitMate_extra_excluded_regions,
-                    \       '', 'g')
-                    \|endif
+        autocmd User delimitMate_map   :call rust#delimitmate#onMap()
+        autocmd User delimitMate_unmap :call rust#delimitmate#onUnmap()
     endif
 
     if has("folding") && get(g:, 'rust_fold', 0)
