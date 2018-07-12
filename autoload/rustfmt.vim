@@ -159,29 +159,31 @@ function! s:RunRustfmt(command, tmpname, fail_silently)
         endif
     elseif g:rustfmt_fail_silently == 0 && a:fail_silently == 0
         " otherwise get the errors and put them in the location list
-        let errors = []
+        let l:errors = []
 
-        let prev_line = ""
-        for line in out
+        let l:prev_line = ""
+        for l:line in out
             " error: expected one of `;` or `as`, found `extern`
             "  --> src/main.rs:2:1
-            let tokens = matchlist(line, '^\s-->\s\(.\{-}\):\(\d\+\):\(\d\+\)$')
+            let tokens = matchlist(l:line, '^\s\+-->\s\(.\{-}\):\(\d\+\):\(\d\+\)$')
             if !empty(tokens)
-                call add(errors, {"filename": @%,
+                call add(l:errors, {"filename": @%,
                             \"lnum":	tokens[2],
                             \"col":	tokens[3],
-                            \"text":	prev_line})
+                            \"text":	l:prev_line})
             endif
-            let prev_line = line
+            let l:prev_line = l:line
         endfor
 
-        if empty(errors)
-            % | " Couldn't detect rustfmt error format, output errors
-        endif
-
-        if !empty(errors)
-            call setloclist(0, errors, 'r')
+        if !empty(l:errors)
+            call setloclist(0, l:errors, 'r')
             echohl Error | echomsg "rustfmt returned error" | echohl None
+        else
+            echo "rust.vim: was not able to parse rustfmt messages. Here is the raw output:"
+            echo "\n"
+            for l:line in out
+                echo l:line
+            endfor
         endif
 
         let s:got_fmt_error = 1
