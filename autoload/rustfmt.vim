@@ -95,33 +95,57 @@ function! s:RustfmtCommandRange(filename, line1, line2)
                 \ l:write_mode, g:rustfmt_options,
                 \ l:unstable_features, l:rustfmt_config,
                 \ json_encode(l:arg), shellescape(a:filename))
-    echom l:cmd
     return l:cmd
 endfunction
 
-function! s:RustfmtCommand(filename)
-    let l:write_mode = s:RustfmtWriteMode()
-    let l:rustfmt_config = s:RustfmtConfig()
+function! s:RustfmtCommand()
+    if g:rustfmt_emit_files
+        let l:write_mode = "--emit=stdout"
+    else
+        let l:write_mode = "--write-mode=display"
+    endif
+    " rustfmt will pick on the right config on its own due to the
+    " current directory change.
     return g:rustfmt_command . " ". l:write_mode . " " . g:rustfmt_options
-                \. " " . l:rustfmt_config . " " . shellescape(a:filename)
 endfunction
 
 function! s:RunRustfmt(command, tmpname, fail_silently)
     mkview!
 
-    if exists("*systemlist")
-        let out = systemlist(a:command)
+    if a:tmpname ==# ''
+        " Rustfmt in stdin/stdout mode
+
+        " chdir to the directory of the file
+        let l:has_lcd = haslocaldir()
+        let l:prev_cd = getcwd()
+        execute 'lchdir! '.expand('%:h')
+
+        let l:buffer = getline(1, '$')
+        if exists("*systemlist")
+            silent let out = systemlist(a:command, l:buffer)
+        else
+            silent let out = split(system(a:command, l:buffer), '\r\?\n')
+        endif
     else
-        let out = split(system(a:command), '\r\?\n')
+        if exists("*systemlist")
+            silent let out = systemlist(a:command)
+        else
+            silent let out = split(system(a:command), '\r\?\n')
+        endif
     endif
 
     if v:shell_error == 0 || v:shell_error == 3
         " remove undo point caused via BufWritePre
         try | silent undojoin | catch | endtry
 
-        " take the tmpfile's content, this is better than rename
-        " because it preserves file modes.
-        let l:content = readfile(a:tmpname)
+        if a:tmpname ==# ''
+            let l:content = l:out
+        else
+            " take the tmpfile's content, this is better than rename
+            " because it preserves file modes.
+            let l:content = readfile(a:tmpname)
+        endif
+
         call writefile(l:content, expand('%'))
         silent edit!
         let &syntax = &syntax
@@ -164,32 +188,33 @@ function! s:RunRustfmt(command, tmpname, fail_silently)
         lwindow
     endif
 
-    call delete(a:tmpname)
+    " Restore the current directory if needed
+    if a:tmpname ==# ''
+        if l:has_lcd
+            execute 'lchdir! '.l:prev_cd
+        else
+            execute 'chdir! '.l:prev_cd
+        endif
+    endif
 
     silent! loadview
 endfunction
 
-function! s:rustfmtSaveToTmp()
+function! rustfmt#FormatRange(line1, line2)
     let l:tmpname = tempname()
     call writefile(getline(1, '$'), l:tmpname)
-    return l:tmpname
-endfunction
-
-function! rustfmt#FormatRange(line1, line2)
-    let l:tmpname = s:rustfmtSaveToTmp()
     let command = s:RustfmtCommandRange(l:tmpname, a:line1, a:line2)
     call s:RunRustfmt(command, l:tmpname, 0)
+    call delete(l:tmpname)
 endfunction
 
 function! rustfmt#Format()
-    let l:tmpname = s:rustfmtSaveToTmp()
-    let command = s:RustfmtCommand(l:tmpname)
-    call s:RunRustfmt(command, l:tmpname, 0)
+    call s:RunRustfmt(s:RustfmtCommand(), '', 0)
 endfunction
 
 function! rustfmt#Cmd()
     " Mainly for debugging
-    return s:RustfmtCommand("<temp-file>")
+    return s:RustfmtCommand()
 endfunction
 
 function! rustfmt#PreWrite()
@@ -204,9 +229,7 @@ function! rustfmt#PreWrite()
         return
     endif
 
-    let l:tmpname = s:rustfmtSaveToTmp()
-    let command = s:RustfmtCommand(l:tmpname)
-    call s:RunRustfmt(command, l:tmpname, 1)
+    call s:RunRustfmt(s:RustfmtCommand(), '', 1)
 endfunction
 
 
