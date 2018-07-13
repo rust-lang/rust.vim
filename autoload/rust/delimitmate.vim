@@ -8,6 +8,11 @@ function! rust#delimitmate#onMap() abort
         return
     endif
 
+    if get(b:, "delimitMate_quotes")
+        let b:rust_prev_delimitMate_quotes = b:delimitMate_quotes
+    endif
+    let b:delimitMate_quotes = "\" `"
+
     if match(delimitMate#Get("excluded_regions"),
                 \ s:delimitMate_extra_excluded_regions) == -1
         call delimitMate#Set("excluded_regions",
@@ -23,6 +28,10 @@ endfunction
 function! rust#delimitmate#onUnmap() abort
     if &filetype !=# 'rust'
         return
+    endif
+
+    if get(b:, "rust_prev_delimitMate_quotes")
+        let b:delimitMate_quotes = b:rust_prev_delimitMate_quotes
     endif
 
     call delimitMate#Set("excluded_regions", substitute(
