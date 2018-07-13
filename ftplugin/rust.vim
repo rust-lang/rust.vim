@@ -73,6 +73,11 @@ augroup rust.vim
         autocmd User delimitMate_unmap :call rust#delimitmate#onUnmap()
     endif
 
+    " Integration with auto-pairs (https://github.com/jiangmiao/auto-pairs)
+    if exists("g:AutoPairsLoaded") && !get(g:, 'rust_keep_autopairs_default', 0)
+        let b:AutoPairs = {'(':')', '[':']', '{':'}','"':'"', '`':'`'}
+    endif
+
     if has("folding") && get(g:, 'rust_fold', 0)
         let b:rust_set_foldmethod=1
         setlocal foldmethod=syntax

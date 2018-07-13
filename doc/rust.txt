@@ -235,6 +235,19 @@ g:rust_cargo_check_benches~
 	directory of the crate.
 	The default is 0.
 
+Integration with auto-pairs                                    *rust-auto-pairs*
+---------------------------
+
+This plugin automatically configures the auto-pairs plugin not to duplicate single
+quotes, which used more often for lifetime annotiations than for single character
+literals.
+
+                                                  *g:rust_keep_autopairs_default*
+g:rust_keep_autopairs_default~
+
+	Don't override auto-pairs default for the Rust filetype. The default
+	is 0.
+
 ==============================================================================
 COMMANDS                                                       *rust-commands*
 
