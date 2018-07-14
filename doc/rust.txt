@@ -238,9 +238,9 @@ g:rust_cargo_check_benches~
 Integration with auto-pairs                                    *rust-auto-pairs*
 ---------------------------
 
-This plugin automatically configures the auto-pairs plugin not to duplicate single
-quotes, which used more often for lifetime annotiations than for single character
-literals.
+This plugin automatically configures the auto-pairs plugin not to duplicate
+single quotes, which are used more often for lifetime annotations than for
+single character literals.
 
                                                   *g:rust_keep_autopairs_default*
 g:rust_keep_autopairs_default~
