@@ -25,6 +25,7 @@ let s:global_variable_list = [
             \ 'rust_set_foldmethod',
             \ 'rust_set_foldmethod=1',
             \ 'rust_shortener_url',
+            \ 'rust_indent_used',
             \ 'rustc_makeprg_no_percent',
             \ 'rustc_path',
             \ 'rustfmt_autosave',
