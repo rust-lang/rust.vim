@@ -228,6 +228,12 @@ if !exists("b:current_syntax_embed")
     syntax include @RustCodeInComment <sfile>:p:h/rust.vim
     unlet b:current_syntax_embed
 
+    " Currently regions marked as ```<some-other-syntax> will not get
+    " highlighted at all. In the future, we can do as vim-markdown does and
+    " highlight with the other syntax. But for now, let's make sure we find
+    " the closing block marker, because the rules below won't catch it.
+    syn region rustCommentLinesDocNonRustCode matchgroup=rustCommentDocCodeFence start='^\z(\s*//[!/]\s*```\).\+$' end='^\z1$' keepend contains=rustCommentLineDoc
+
     " We borrow the rules from rust’s src/librustdoc/html/markdown.rs, so that
     " we only highlight as Rust what it would perceive as Rust (almost; it’s
     " possible to trick it if you try hard, and indented code blocks aren’t
