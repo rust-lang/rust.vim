@@ -180,7 +180,7 @@ augroup rust.vim
     " }}}1
 
     " Code formatting on save
-    autocmd BufWritePre *.rs silent! call rustfmt#PreWrite()
+    autocmd BufWritePre <buffer> silent! call rustfmt#PreWrite()
 
 augroup END
 
