@@ -146,7 +146,7 @@ function! s:RunRustfmt(command, tmpname, fail_silently)
             let l:content = readfile(a:tmpname)
         endif
 
-        call writefile(l:content, expand('%'))
+        call setline(1, l:content)
         silent edit!
         let &syntax = &syntax
 
