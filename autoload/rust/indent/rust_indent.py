@@ -13,7 +13,7 @@ else:
         return s
 import sys
 
-TOKEN = '|'.join([ '[ \t]+', '[a-zA-Z][a-zA-Z0-9_]*', '//.*', '::', "\\\"",
+TOKEN = '|'.join([ '[ \t]+', '[a-zA-Z][a-zA-Z0-9_]*', '//', '::', "\\\"",
    '[>][=]', '[<][=]', '[=][>]', '[-][>]', '/[*]', '[*]/', '\n', '.'])
 TOKEN = re.compile(TOKEN)
 
@@ -65,7 +65,7 @@ class LineState(object):
     """
     def __init__(self, start_state=None):
         if start_state is None:
-            self.in_comment = 0
+            self.in_comment = None
             self.in_string = 0
             self.nesting = 0
             self.item_stack = []
@@ -106,11 +106,14 @@ def parse_line(state, line_num, line_tokens, line_archive, shiftwidth):
     guess = None
 
     for token in ["\n"] + line_tokens:
+        if state.in_comment == "//" and token == "\n":
+            state.in_comment = None
         string_start = 0
 
-        if state.in_comment == 0 and token == "/*":
-            state.in_comment = 1
-        if state.in_comment == 0 and state.in_string == 0 and token == "\"":
+        if state.in_comment is None:
+            if token == "/*" or token == "//":
+                state.in_comment = token
+        if state.in_comment is None and state.in_string == 0 and token == "\"":
             state.in_string = 1
             string_start = 1
 
@@ -126,7 +129,7 @@ def parse_line(state, line_num, line_tokens, line_archive, shiftwidth):
         else:
             first_non_ws_token = None
 
-        if ((token == "\n") or first_non_ws_token) and not state.in_comment and not state.in_string:
+        if ((token == "\n") or first_non_ws_token) and state.in_comment is None and not state.in_string:
             print_log(color("    current item: %r" % (current_item, ), fg='green'))
             indent_level = indent(line, shiftwidth)
             item_line = None
@@ -177,7 +180,7 @@ def parse_line(state, line_num, line_tokens, line_archive, shiftwidth):
                 print_log(color("    OK (guess=%d)" % (guess, ), fg="blue"))
 
 
-        if not state.in_comment and not (state.in_string and not string_start) and token.strip() != '':
+        if state.in_comment is None and not (state.in_string and not string_start) and token.strip() != '':
             if token in '[{(' or (token == '<' and not prev_ws_token) or token == "where":
                 if current_item.where and token == "{":
                     current_item = item_stack.pop()
@@ -221,8 +224,8 @@ def parse_line(state, line_num, line_tokens, line_archive, shiftwidth):
                         print_log(color("     %s - item known" % (token, ), fg='cyan'))
                         current_item.next_token_start_inner = False
 
-        if state.in_comment and token == "*/":
-            state.in_comment = 0
+        if state.in_comment == "/*" and token == "*/":
+            state.in_comment = None
         if not state.in_comment and not string_start and state.in_string and token == "\"":
             state.in_string = 0
 
@@ -231,7 +234,7 @@ def parse_line(state, line_num, line_tokens, line_archive, shiftwidth):
 
     state.current_item = current_item
 
-    print_log(color("    Line ended. state.in_comment=%d, nesting=%d, item_stack=%r"
+    print_log(color("    Line ended. state.in_comment=%r, nesting=%d, item_stack=%r"
         % (state.in_comment, state.nesting, item_stack), fg='blue'))
     print_log(color("%d: %s" % (line_num, line), fg='white'))
     print_log("")
