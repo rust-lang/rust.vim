@@ -29,9 +29,7 @@ sys.path.insert(0, python_root_dir)
 import rust_indent
 def rust_indent_func(lnum, shiftwidth):
     cb = vim.current.buffer
-    indent = rust_indent.get_line_indent(cb, lnum, cb.number, shiftwidth)
-    print(indent)
-    return indent
+    return rust_indent.get_line_indent(cb, lnum, cb.number, shiftwidth)
 EOF
     endfunction
 
