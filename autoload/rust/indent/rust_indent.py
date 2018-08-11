@@ -241,11 +241,11 @@ def parse_line(state, line_num, line_tokens, line_archive, shiftwidth):
 
     return (state, errors, guess)
 
-CACHE_BUF_NR = None
+CACHE_KEY = None
 CACHE = [None]
 ARCHIVE = [None]
 
-def get_line_indent(line_array, lnum, buf_nr, shiftwidth):
+def get_line_indent(line_array, start_line, lnum, buf_nr, shiftwidth):
     """
     Indentation entry point from within Vim.
 
@@ -255,17 +255,20 @@ def get_line_indent(line_array, lnum, buf_nr, shiftwidth):
     NO_PRINTS = 1
 
     global CACHE
-    global CACHE_BUF_NR
+    global CACHE_KEY
     global ARCHIVE
 
-    if CACHE_BUF_NR != buf_nr:
-        CACHE_BUF_NR = buf_nr
+    assert lnum >= start_line
+
+    if CACHE_KEY != (buf_nr, start_line):
+        CACHE_KEY = (buf_nr, start_line)
         CACHE = [None]
         ARCHIVE = [None]
 
+    lnum -= start_line - 1
     i = 1
     while i <= lnum and i < len(CACHE):
-        if ARCHIVE[i] != line_array[i - 1]:
+        if ARCHIVE[i] != line_array[start_line - 1 + i - 1]:
             break
         i += 1
 
@@ -283,7 +286,7 @@ def get_line_indent(line_array, lnum, buf_nr, shiftwidth):
     guess = 0
 
     while i <= lnum:
-        line = line_array[i - 1]
+        line = line_array[start_line - 1 + i - 1]
         tokens = TOKEN.findall(line)
         (next_line_state, line_errors, guess) = parse_line(line_state, i, tokens, ARCHIVE, shiftwidth)
         errors += line_errors
@@ -359,7 +362,7 @@ def main():
         lines = content.splitlines()
         for param in args[1:]:
             lnum = int(param)
-            print(get_line_indent(lines, lnum, 0, indent))
+            print(get_line_indent(lines, 1, lnum, 0, indent))
     else:
         calculate_whole_buffer_indent(content, indent)
 

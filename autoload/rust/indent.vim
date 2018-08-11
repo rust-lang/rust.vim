@@ -27,9 +27,9 @@ python_root_dir = normpath(join(plugin_root_dir, 'indent'))
 sys.path.insert(0, python_root_dir)
 
 import rust_indent
-def rust_indent_func(lnum, shiftwidth):
+def rust_indent_func(start_line, lnum, shiftwidth):
     cb = vim.current.buffer
-    return rust_indent.get_line_indent(cb, lnum, cb.number, shiftwidth)
+    return rust_indent.get_line_indent(cb, start_line, lnum, cb.number, shiftwidth)
 EOF
     endfunction
 
@@ -46,9 +46,9 @@ python_root_dir = normpath(join(plugin_root_dir, 'indent'))
 sys.path.insert(0, python_root_dir)
 
 import rust_indent
-def rust_indent_func(lnum, shiftwidth):
+def rust_indent_func(start_line, lnum, shiftwidth):
     cb = vim.current.buffer
-    return rust_indent.get_line_indent(cb, lnum, cb.number, shiftwidth)
+    return rust_indent.get_line_indent(cb, start_line, lnum, cb.number, shiftwidth)
 EOF
     endfunction
 
@@ -231,13 +231,25 @@ function! s:VimLRustIndent(lnum)
     return cindent(a:lnum)
 endfunction
 
+function s:calc_start_line()
+    let l:num = search('\V\n}\n', "nbW")
+    if l:num != 0
+        " After the end of a top-level block.
+        let l:num += 2
+    else
+        " Start of the buffer.
+        let l:num = 1
+    endif
+    return string(l:num)
+endfunction
+
 function! rust#indent#Indent(lnum) abort
     if has("pythonx")
         let b:rust_indent_used = "pythonx"
-        return pyxeval('rust_indent_func('.string(a:lnum).', '.string(s:shiftwidth()).')')
+        return pyxeval('rust_indent_func('.s:calc_start_line().', '.string(a:lnum).', '.string(s:shiftwidth()).')')
     elseif has("python")
         let b:rust_indent_used = "python"
-        return pyeval('rust_indent_func('.string(a:lnum).', '.string(s:shiftwidth()).')')
+        return pyeval('rust_indent_func('.s:calc_start_line().','.string(a:lnum).', '.string(s:shiftwidth()).')')
     else
         let b:rust_indent_used = "VimL"
         return s:VimLRustIndent(a:lnum)
