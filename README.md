@@ -7,6 +7,8 @@ This is a Vim plugin that provides [Rust][r] file detection, syntax highlighting
 
 ## Installation
 
+Use one of the following package managers:
+
 * [Vim8 packages][vim8pack]:
   * `git clone https://github.com/rust-lang/rust.vim ~/.vim/pack/plugins/start/rust.vim`
 * [Vundle][v]:
