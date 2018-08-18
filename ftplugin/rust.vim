@@ -173,7 +173,7 @@ augroup rust.vim
                                     \|xunmap <buffer> ]]
                                     \|ounmap <buffer> [[
                                     \|ounmap <buffer> ]]
-                                    \|set matchpairs-=<:>
+                                    \|setlocal matchpairs-=<:>
                                     \|unlet b:match_skip
                                     \"
 
@@ -184,7 +184,7 @@ augroup rust.vim
 
 augroup END
 
-set matchpairs+=<:>
+setlocal matchpairs+=<:>
 " For matchit.vim (rustArrow stops `Fn() -> X` messing things up)
 let b:match_skip = 's:comment\|string\|rustArrow'
 
