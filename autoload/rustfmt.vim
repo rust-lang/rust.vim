@@ -116,6 +116,9 @@ endfunction
 function! s:RunRustfmt(command, tmpname, fail_silently)
     mkview!
 
+    let l:stderr_tmpname = tempname()
+    let l:command = a:command . ' 2> ' . l:stderr_tmpname
+
     if a:tmpname ==# ''
         " Rustfmt in stdin/stdout mode
 
@@ -126,19 +129,23 @@ function! s:RunRustfmt(command, tmpname, fail_silently)
 
         let l:buffer = getline(1, '$')
         if exists("*systemlist")
-            silent let out = systemlist(a:command, l:buffer)
+            silent let out = systemlist(l:command, l:buffer)
         else
-            silent let out = split(system(a:command, l:buffer), '\r\?\n')
+            silent let out = split(system(l:command, l:buffer), '\r\?\n')
         endif
     else
         if exists("*systemlist")
-            silent let out = systemlist(a:command)
+            silent let out = systemlist(l:command)
         else
-            silent let out = split(system(a:command), '\r\?\n')
+            silent let out = split(system(l:command), '\r\?\n')
         endif
     endif
 
-    if v:shell_error == 0 || v:shell_error == 3
+    let l:stderr = readfile(l:stderr_tmpname)
+
+    call delete(l:stderr_tmpname)
+
+    if v:shell_error == 0
         " remove undo point caused via BufWritePre
         try | silent undojoin | catch | endtry
 
@@ -165,7 +172,7 @@ function! s:RunRustfmt(command, tmpname, fail_silently)
         let l:errors = []
 
         let l:prev_line = ""
-        for l:line in out
+        for l:line in l:stderr
             " error: expected one of `;` or `as`, found `extern`
             "  --> src/main.rs:2:1
             let tokens = matchlist(l:line, '^\s\+-->\s\(.\{-}\):\(\d\+\):\(\d\+\)$')
@@ -184,7 +191,7 @@ function! s:RunRustfmt(command, tmpname, fail_silently)
         else
             echo "rust.vim: was not able to parse rustfmt messages. Here is the raw output:"
             echo "\n"
-            for l:line in out
+            for l:line in l:stderr
                 echo l:line
             endfor
         endif
