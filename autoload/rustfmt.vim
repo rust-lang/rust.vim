@@ -146,8 +146,8 @@ function! s:RunRustfmt(command, tmpname, fail_silently)
             let l:content = readfile(a:tmpname)
         endif
 
-        call writefile(l:content, expand('%'))
-        silent edit!
+        normal! "_ggdG
+        call setline(1, l:content)
         let &syntax = &syntax
 
         " only clear location list if it was previously filled to prevent
