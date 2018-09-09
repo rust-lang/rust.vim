@@ -109,6 +109,10 @@ function! s:RustfmtCommand()
     return g:rustfmt_command . " ". l:write_mode . " " . g:rustfmt_options
 endfunction
 
+function! s:DeleteLines(start, end) abort
+    silent! execute a:start . ',' . a:end . 'delete _'
+endfunction
+
 function! s:RunRustfmt(command, tmpname, fail_silently)
     mkview!
 
@@ -146,9 +150,8 @@ function! s:RunRustfmt(command, tmpname, fail_silently)
             let l:content = readfile(a:tmpname)
         endif
 
-        call writefile(l:content, expand('%'))
-        silent edit!
-        let &syntax = &syntax
+        call s:DeleteLines(len(l:content), line('$'))
+        call setline(1, l:content)
 
         " only clear location list if it was previously filled to prevent
         " clobbering other additions
