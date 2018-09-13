@@ -292,6 +292,9 @@ This plug defines very simple shortcuts for invoking Cargo from with Vim.
 :Cinstall <args>                                                 *:Cinstall*
                 Shortcut for 'cargo install`.
 
+:Cruntarget <args>                                                 *:Cruntarget*
+                Shortcut for 'cargo run --target' or 'cargo run --example',
+                depending on the currently open buffer.
 
 Formatting
 ----------
