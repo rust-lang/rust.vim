@@ -18,6 +18,7 @@ command! -nargs=* Cupdate call cargo#update(<q-args>)
 command! -nargs=* Csearch  call cargo#search(<q-args>)
 command! -nargs=* Cpublish call cargo#publish(<q-args>)
 command! -nargs=* Cinstall call cargo#install(<q-args>)
+command! -nargs=* Cruntarget call cargo#runtarget(<q-args>)
 
 let &cpoptions = s:save_cpo
 unlet s:save_cpo
