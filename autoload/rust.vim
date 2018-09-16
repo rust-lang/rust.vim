@@ -412,16 +412,18 @@ function! rust#Play(count, line1, line2, ...) abort
         call setreg('"', save_regcont, save_regtype)
     endif
 
-    let body = l:rust_playpen_url."?code=".webapi#http#encodeURI(content)
+    let url = l:rust_playpen_url."?code=".webapi#http#encodeURI(content)
 
-    if strlen(body) > 5000
-        echohl ErrorMsg | echomsg 'Buffer too large, max 5000 encoded characters ('.strlen(body).')' | echohl None
+    if strlen(url) > 5000
+        echohl ErrorMsg | echomsg 'Buffer too large, max 5000 encoded characters ('.strlen(url).')' | echohl None
         return
     endif
 
-    let payload = "format=simple&url=".webapi#http#encodeURI(body)
+    let payload = "format=simple&url=".webapi#http#encodeURI(url)
     let res = webapi#http#post(l:rust_shortener_url.'create.php', payload, {})
-    let url = res.content
+    if res.status[0] ==# '2'
+        let url = res.content
+    endif
 
     if exists('g:rust_clip_command')
         call system(g:rust_clip_command, url)
