@@ -425,11 +425,14 @@ function! rust#Play(count, line1, line2, ...) abort
         let url = res.content
     endif
 
+    let footer = ''
     if exists('g:rust_clip_command')
         call system(g:rust_clip_command, url)
+        if !v:shell_error
+            let footer = ' (copied to clipboard)'
+        endif
     endif
-
-    redraw | echomsg 'Done: '.url
+    redraw | echomsg 'Done: '.url.footer
 endfunction
 
 " }}}1
