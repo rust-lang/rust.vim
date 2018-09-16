@@ -217,6 +217,14 @@ g:rust_cargo_check_all_targets~
 	package.
 	The default is 0.
 
+                                              *g:rust_cargo_check_all_features*
+                                              *b:rust_cargo_check_all_features*
+g:rust_cargo_check_all_features~
+	When set to 1, the `--all-features` option will be passed to cargo when
+	Syntastic executes it, allowing the linting of all features of the
+	package.
+	The default is 0.
+
                                                  *g:rust_cargo_check_examples*
                                                  *b:rust_cargo_check_examples*
 g:rust_cargo_check_examples~
