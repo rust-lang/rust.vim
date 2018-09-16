@@ -20,6 +20,7 @@ details. Errors such as `Not an editor command: RustFmt` may occur if Vundle
 is misconfigured with this plugin.
 * [Pathogen][p]:
   * `git clone --depth=1 https://github.com/rust-lang/rust.vim.git ~/.vim/bundle/rust.vim`
+  * Add the following line to your `~/.vimrc` file: `filetype plugin on`
 * [vim-plug][vp]:
   * Add `Plug 'rust-lang/rust.vim'` to `~/.vimrc`
   * `:PlugInstall` or `$ vim +PlugInstall +qall`
