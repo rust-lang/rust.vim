@@ -435,6 +435,62 @@ function! rust#Play(count, line1, line2, ...) abort
     redraw | echomsg 'Done: '.url.footer
 endfunction
 
+" Run a test under the cursor or all tests {{{1
+
+" Finds a test function name under the cursor. Returns empty string when a
+" test function is not found.
+function! s:SearchTestFunctionNameUnderCursor() abort
+    let cursor_line = line('.')
+
+    " Find #[test] attribute
+    if search('#\[test]', 'bcW') is 0
+        return ''
+    endif
+
+    " Move to an opening brace of the test function
+    let test_func_line = search('^\s*fn\s\+\h\w*\s*(.\+{$', 'eW')
+    if test_func_line is 0
+        return ''
+    endif
+
+    " Search the end of test function (closing brace) to ensure that the
+    " cursor position is within function definition
+    normal! %
+    if line('.') < cursor_line
+        return ''
+    endif
+
+    return matchstr(getline(test_func_line), '^\s*fn\s\+\zs\h\w*')
+endfunction
+
+function! rust#Test(all, options) abort
+    let pwd = expand('%:p:h')
+    if findfile('Cargo.toml', pwd . ';') ==# ''
+        return rust#Run(1, '--test ' . a:options)
+    endif
+
+    let pwd = shellescape(pwd)
+
+    if a:all
+        execute '!cd ' . pwd . ' && cargo test ' . a:options
+        return
+    endif
+
+    let saved = getpos('.')
+    try
+        let func_name = s:SearchTestFunctionNameUnderCursor()
+        if func_name ==# ''
+            echohl ErrorMsg
+            echo 'No test function was found under the cursor. Please add ! to command if you want to run all tests'
+            echohl None
+            return
+        endif
+        execute '!cd ' . pwd . ' && cargo test ' . func_name . ' ' . a:options
+    finally
+        call setpos('.', saved)
+    endtry
+endfunction
+
 " }}}1
 
 " vim: set et sw=4 sts=4 ts=8:
