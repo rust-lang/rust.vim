@@ -469,11 +469,15 @@ function! rust#Test(all, options) abort
         return rust#Run(1, '--test ' . a:options)
     endif
 
-    let pwd = shellescape(pwd)
-
     if a:all
-        execute 'silent !cd' pwd
-        execute '!cargo test' a:options
+        let cd = haslocaldir() ? 'lcd' : 'cd'
+        let prevdir = getcwd()
+        try
+            silent execute cd pwd
+            execute '!cargo test' a:options
+        finally
+            silent execute cd prevdir
+        endtry
         return
     endif
 
@@ -486,8 +490,15 @@ function! rust#Test(all, options) abort
             echohl None
             return
         endif
-        execute 'silent !cd' pwd
-        execute '!cargo test' func_name a:options
+        let cd = haslocaldir() ? 'lcd' : 'cd'
+        let prevdir = getcwd()
+        try
+            silent execute cd pwd
+            execute '!cargo test' func_name a:options
+        finally
+            silent execute cd prevdir
+        endtry
+        return
     finally
         call setpos('.', saved)
     endtry
