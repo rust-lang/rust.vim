@@ -464,20 +464,14 @@ function! s:SearchTestFunctionNameUnderCursor() abort
 endfunction
 
 function! rust#Test(all, options) abort
-    let pwd = expand('%:p:h')
-    if findfile('Cargo.toml', pwd . ';') ==# ''
+    let manifest = findfile('Cargo.toml', expand('%:p:h') . ';')
+    if manifest ==# ''
         return rust#Run(1, '--test ' . a:options)
     endif
+    let manifest = shellescape(manifest)
 
     if a:all
-        let cd = haslocaldir() ? 'lcd' : 'cd'
-        let prevdir = getcwd()
-        try
-            silent execute cd pwd
-            execute '!cargo test' a:options
-        finally
-            silent execute cd prevdir
-        endtry
+        execute '!cargo test --manifest-path' manifest a:options
         return
     endif
 
@@ -490,14 +484,7 @@ function! rust#Test(all, options) abort
             echohl None
             return
         endif
-        let cd = haslocaldir() ? 'lcd' : 'cd'
-        let prevdir = getcwd()
-        try
-            silent execute cd pwd
-            execute '!cargo test' func_name a:options
-        finally
-            silent execute cd prevdir
-        endtry
+        execute '!cargo test --manifest-path' manifest func_name a:options
         return
     finally
         call setpos('.', saved)
