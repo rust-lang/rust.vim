@@ -25,15 +25,14 @@ function! rustfmt#DetectVersion()
     let s:rustfmt_unstable_features = 1 - (s:rustfmt_help !~# "--unstable-features")
 
     " Build a comparable rustfmt version varible out of its `--version` output:
-    silent let s:rustfmt_version = system(g:rustfmt_command . " --version")
-    let s:rustfmt_version = matchlist(s:rustfmt_version, '\vrustfmt ([0-9]+[.][0-9]+[.][0-9]+)')
-
-    if len(s:rustfmt_version) < 3 
+    silent let l:rustfmt_version_full = system(g:rustfmt_command . " --version")
+    let l:rustfmt_version_list = matchlist(l:rustfmt_version_full,
+        \    '\vrustfmt ([0-9]+[.][0-9]+[.][0-9]+)')
+    if len(l:rustfmt_version_list) < 3
         let s:rustfmt_version = "0"
     else
-        let s:rustfmt_version = s:rustfmt_version[1]
+        let s:rustfmt_version = l:rustfmt_version_list[1]
     endif
-
     return s:rustfmt_version
 endfunction
 
