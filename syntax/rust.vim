@@ -16,6 +16,10 @@ endif
 " Basic keywords {{{2
 syn keyword   rustConditional match if else
 syn keyword   rustRepeat for loop while
+syn keyword   rustCtrlFlow    break
+syn keyword   rustCtrlFlow    continue
+syn keyword   rustCtrlFlow    return
+syn keyword   rustCtrlFlow    yield
 syn keyword   rustTypedef type nextgroup=rustIdentifier skipwhite skipempty
 syn keyword   rustStructure struct enum nextgroup=rustIdentifier skipwhite skipempty
 syn keyword   rustUnion union nextgroup=rustIdentifier skipwhite skipempty contained
@@ -24,10 +28,6 @@ syn keyword   rustOperator    as
 
 syn match     rustAssert      "\<assert\(\w\)*!" contained
 syn match     rustPanic       "\<panic\(\w\)*!" contained
-syn keyword   rustCtrlFlow    break
-syn keyword   rustCtrlFlow    continue
-syn keyword   rustCtrlFlow    return
-syn keyword   rustCtrlFlow    yield
 syn keyword   rustKeyword     box nextgroup=rustBoxPlacement skipwhite skipempty
 syn keyword   rustKeyword     crate
 syn keyword   rustKeyword     extern nextgroup=rustExternCrate,rustObsoleteExternMod skipwhite skipempty
@@ -297,7 +297,7 @@ hi def link rustPubScopeCrate rustKeyword
 hi def link rustSuper         rustKeyword
 hi def link rustUnsafeKeyword Exception
 hi def link rustReservedKeyword Error
-hi def link rustRepeat        Conditional
+hi def link rustRepeat        Repeat
 hi def link rustConditional   Conditional
 hi def link rustIdentifier    Identifier
 hi def link rustCapsIdent     rustIdentifier
