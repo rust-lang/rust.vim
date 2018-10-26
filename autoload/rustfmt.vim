@@ -130,7 +130,8 @@ function! s:RunRustfmt(command, tmpname, fail_silently)
         if exists("*systemlist")
             silent let out = systemlist(l:command, l:buffer)
         else
-            silent let out = split(system(l:command, l:buffer), '\r\?\n')
+            silent let out = split(system(l:command,
+                        \ join(l:buffer, "\n")), '\r\?\n')
         endif
     else
         if exists("*systemlist")
