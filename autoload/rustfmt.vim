@@ -56,7 +56,7 @@ function! s:RustfmtWriteMode()
     if g:rustfmt_emit_files
         return "--emit=files"
     else
-        return "--write-mode=overwrite"
+        return ""
     endif
 endfunction
 
