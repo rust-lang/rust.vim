@@ -18,6 +18,11 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 function! SyntaxCheckers_rust_cargo_IsAvailable() dict
+    if exists("*syntastic#util#getVersion")
+        echom "rust.vim: version of Syntastic is too old. Needs to be at least 3.7.0."
+        return v:false
+    endif
+
     return executable(self.getExec()) &&
                 \ syntastic#util#versionIsAtLeast(self.getVersion(), [0, 16, 0])
 endfunction
