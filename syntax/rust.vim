@@ -16,6 +16,10 @@ endif
 " Basic keywords {{{2
 syn keyword   rustConditional match if else
 syn keyword   rustRepeat for loop while
+syn keyword   rustCtrlFlow    break
+syn keyword   rustCtrlFlow    continue
+syn keyword   rustCtrlFlow    return
+syn keyword   rustCtrlFlow    yield
 syn keyword   rustTypedef type nextgroup=rustIdentifier skipwhite skipempty
 syn keyword   rustStructure struct enum nextgroup=rustIdentifier skipwhite skipempty
 syn keyword   rustUnion union nextgroup=rustIdentifier skipwhite skipempty contained
@@ -24,17 +28,13 @@ syn keyword   rustOperator    as
 
 syn match     rustAssert      "\<assert\(\w\)*!" contained
 syn match     rustPanic       "\<panic\(\w\)*!" contained
-syn keyword   rustKeyword     break
 syn keyword   rustKeyword     box nextgroup=rustBoxPlacement skipwhite skipempty
-syn keyword   rustKeyword     continue
 syn keyword   rustKeyword     crate
 syn keyword   rustKeyword     extern nextgroup=rustExternCrate,rustObsoleteExternMod skipwhite skipempty
 syn keyword   rustKeyword     fn nextgroup=rustFuncName skipwhite skipempty
 syn keyword   rustKeyword     in impl let
 syn keyword   rustKeyword     macro
 syn keyword   rustKeyword     pub nextgroup=rustPubScope skipwhite skipempty
-syn keyword   rustKeyword     return
-syn keyword   rustKeyword     yield
 syn keyword   rustSuper       super
 syn keyword   rustKeyword     where
 syn keyword   rustUnsafeKeyword unsafe
@@ -287,6 +287,7 @@ hi def link rustFloat         Float
 hi def link rustArrowCharacter rustOperator
 hi def link rustOperator      Operator
 hi def link rustKeyword       Keyword
+hi def link rustCtrlFlow      Statement
 hi def link rustDynKeyword    rustKeyword
 hi def link rustTypedef       Keyword " More precise is Typedef, but it doesn't feel right for Rust
 hi def link rustStructure     Keyword " More precise is Structure
@@ -296,7 +297,7 @@ hi def link rustPubScopeCrate rustKeyword
 hi def link rustSuper         rustKeyword
 hi def link rustUnsafeKeyword Exception
 hi def link rustReservedKeyword Error
-hi def link rustRepeat        Conditional
+hi def link rustRepeat        Repeat
 hi def link rustConditional   Conditional
 hi def link rustIdentifier    Identifier
 hi def link rustCapsIdent     rustIdentifier
