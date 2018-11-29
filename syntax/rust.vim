@@ -21,6 +21,8 @@ syn keyword   rustStructure struct enum nextgroup=rustIdentifier skipwhite skipe
 syn keyword   rustUnion union nextgroup=rustIdentifier skipwhite skipempty contained
 syn match rustUnionContextual /\<union\_s\+\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*/ transparent contains=rustUnion
 syn keyword   rustOperator    as
+syn keyword   rustExistential existential nextgroup=rustTypedef skipwhite skipempty contained
+syn match rustExistentialContextual /\<existential\_s\+type/ transparent contains=rustExistential,rustTypedef
 
 syn match     rustAssert      "\<assert\(\w\)*!" contained
 syn match     rustPanic       "\<panic\(\w\)*!" contained
@@ -29,7 +31,6 @@ syn keyword   rustKeyword     break
 syn keyword   rustKeyword     box nextgroup=rustBoxPlacement skipwhite skipempty
 syn keyword   rustKeyword     continue
 syn keyword   rustKeyword     crate
-syn keyword   rustKeyword     existential
 syn keyword   rustKeyword     extern nextgroup=rustExternCrate,rustObsoleteExternMod skipwhite skipempty
 syn keyword   rustKeyword     fn nextgroup=rustFuncName skipwhite skipempty
 syn keyword   rustKeyword     in impl let
@@ -293,6 +294,7 @@ hi def link rustDynKeyword    rustKeyword
 hi def link rustTypedef       Keyword " More precise is Typedef, but it doesn't feel right for Rust
 hi def link rustStructure     Keyword " More precise is Structure
 hi def link rustUnion         rustStructure
+hi def link rustExistential   rustKeyword
 hi def link rustPubScopeDelim Delimiter
 hi def link rustPubScopeCrate rustKeyword
 hi def link rustSuper         rustKeyword
