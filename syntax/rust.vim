@@ -21,6 +21,8 @@ syn keyword   rustStructure struct enum nextgroup=rustIdentifier skipwhite skipe
 syn keyword   rustUnion union nextgroup=rustIdentifier skipwhite skipempty contained
 syn match rustUnionContextual /\<union\_s\+\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*/ transparent contains=rustUnion
 syn keyword   rustOperator    as
+syn keyword   rustExistential existential nextgroup=rustTypedef skipwhite skipempty contained
+syn match rustExistentialCtxt /\<existential\_s\+type/ transparent contains=rustExistential,rustTypedef
 
 syn match     rustAssert      "\<assert\(\w\)*!" contained
 syn match     rustPanic       "\<panic\(\w\)*!" contained
@@ -281,6 +283,7 @@ hi def link rustNumber        Number
 hi def link rustBoolean       Boolean
 hi def link rustEnum          rustType
 hi def link rustEnumVariant   rustConstant
+hi def link rustExistential   Keyword
 hi def link rustConstant      Constant
 hi def link rustSelf          Constant
 hi def link rustFloat         Float
