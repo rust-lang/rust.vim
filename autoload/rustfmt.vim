@@ -116,6 +116,8 @@ function! s:RunRustfmt(command, tmpname, fail_silently)
     mkview!
 
     let l:stderr_tmpname = tempname()
+    call writefile([], l:stderr_tmpname)
+
     let l:command = a:command . ' 2> ' . l:stderr_tmpname
 
     if a:tmpname ==# ''
