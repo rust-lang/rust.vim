@@ -84,11 +84,9 @@ function! s:RustfmtCommandRange(filename, line1, line2)
     let l:write_mode = s:RustfmtWriteMode()
     let l:rustfmt_config = s:RustfmtConfig()
 
-    " FIXME: When --file-lines gets to be stable, enhance this version range checking
+    " FIXME: When --file-lines gets to be stable, add version range checking
     " accordingly.
-    let l:unstable_features = 
-                \ (s:rustfmt_unstable_features && (s:rustfmt_version < '1.'))
-                \ ? '--unstable-features' : ''
+    let l:unstable_features = s:rustfmt_unstable_features ? '--unstable-features' : ''
 
     let l:cmd = printf("%s %s %s %s %s --file-lines '[%s]' %s", g:rustfmt_command,
                 \ l:write_mode, g:rustfmt_options,
