@@ -22,7 +22,7 @@ endif
 function! rustfmt#DetectVersion()
     " Save rustfmt '--help' for feature inspection
     silent let s:rustfmt_help = system(g:rustfmt_command . " --help")
-    let s:rustfmt_unstable_features = 1 - (s:rustfmt_help !~# "--unstable-features")
+    let s:rustfmt_unstable_features = s:rustfmt_help =~# "--unstable-features"
 
     " Build a comparable rustfmt version varible out of its `--version` output:
     silent let l:rustfmt_version_full = system(g:rustfmt_command . " --version")
@@ -43,7 +43,7 @@ if !exists("g:rustfmt_emit_files")
 endif
 
 if !exists("g:rustfmt_file_lines")
-    let g:rustfmt_file_lines = 1 - (s:rustfmt_help !~# "--file-lines JSON")
+    let g:rustfmt_file_lines = s:rustfmt_help =~# "--file-lines JSON"
 endif
 
 let s:got_fmt_error = 0
