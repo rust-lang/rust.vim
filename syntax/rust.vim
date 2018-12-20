@@ -26,7 +26,7 @@ syn match rustExistentialContextual /\<existential\_s\+type/ transparent contain
 
 syn match     rustAssert      "\<assert\(\w\)*!" contained
 syn match     rustPanic       "\<panic\(\w\)*!" contained
-syn keyword   rustKeyword     async
+syn match     rustKeyword     "\<async\%(\s\|\n\)\@="
 syn keyword   rustKeyword     break
 syn keyword   rustKeyword     box nextgroup=rustBoxPlacement skipwhite skipempty
 syn keyword   rustKeyword     continue
