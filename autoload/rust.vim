@@ -468,10 +468,20 @@ function! rust#Test(all, options) abort
     if manifest ==# ''
         return rust#Run(1, '--test ' . a:options)
     endif
-    let manifest = shellescape(manifest)
+
+    if exists(':terminal')
+        let cmd = 'terminal '
+    else
+        let cmd = '!'
+        let manifest = shellescape(manifest)
+    endif
 
     if a:all
-        execute '!cargo test --manifest-path' manifest a:options
+        if a:options ==# ''
+            execute cmd . 'cargo test --manifest-path' manifest
+        else
+            execute cmd . 'cargo test --manifest-path' manifest a:options
+        endif
         return
     endif
 
@@ -484,7 +494,11 @@ function! rust#Test(all, options) abort
             echohl None
             return
         endif
-        execute '!cargo test --manifest-path' manifest func_name a:options
+        if a:options ==# ''
+            execute cmd . 'cargo test --manifest-path' manifest func_name
+        else
+            execute cmd . 'cargo test --manifest-path' manifest func_name a:options
+        endif
         return
     finally
         call setpos('.', saved)
