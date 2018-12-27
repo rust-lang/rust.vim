@@ -3,23 +3,59 @@
 " Last Modified: May 27, 2014
 " For bugs, patches and license go to https://github.com/rust-lang/rust.vim
 
-" Jump {{{1
-
-function! rust#Load() 
+function! rust#Load()
     " Utility call to get this script loaded, for debugging
 endfunction
 
 function! rust#GetConfigVar(name, default)
     " Local buffer variable with same name takes predeence over global
-    if has_key(b:, a:name) 
+    if has_key(b:, a:name)
         return get(b:, a:name)
     endif
-    if has_key(g:, a:name) 
+    if has_key(g:, a:name)
         return get(g:, a:name)
     endif
     return a:default
 endfunction
 
+" Include expression {{{1
+
+function! rust#IncludeExpr(fname) abort
+    " Remove leading 'crate::' to deal with 2018 edition style 'use'
+    " statements
+    let l:fname = substitute(a:fname, '^crate::', '', '')
+
+    " Remove trailing colons arising from lines like
+    "
+    "     use foo::{Bar, Baz};
+    let l:fname = substitute(l:fname, ':\+$', '', '')
+
+    " Replace '::' with '/'
+    let l:fname = substitute(l:fname, '::', '/', 'g')
+
+    " When we have
+    "
+    "    use foo::bar::baz;
+    "
+    " we can't tell whether baz is a module or a function; and we can't tell
+    " which modules correspond to files.
+    "
+    " So we work our way up, trying
+    "
+    "     foo/bar/baz.rs
+    "     foo/bar.rs
+    "     foo.rs
+    while l:fname !=# '.'
+        let l:path = findfile(l:fname)
+        if !empty(l:path)
+            return l:fname
+        endif
+        let l:fname = fnamemodify(l:fname, ':h')
+    endwhile
+    return l:fname
+endfunction
+
+" Jump {{{1
 
 function! rust#Jump(mode, function) range
     let cnt = v:count1
