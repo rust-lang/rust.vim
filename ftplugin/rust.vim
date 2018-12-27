@@ -3,7 +3,7 @@
 " Maintainer:   Chris Morgan <me@chrismorgan.info>
 " Maintainer:   Kevin Ballard <kevin@sb.org>
 " Last Change:  June 08, 2016
-" For bugs, patches and license go to https://github.com/rust-lang/rust.vim 
+" For bugs, patches and license go to https://github.com/rust-lang/rust.vim
 
 if exists("b:did_ftplugin")
     finish
@@ -52,8 +52,14 @@ if get(g:, 'rust_recommended_style', 1)
     setlocal textwidth=99
 endif
 
-" This includeexpr isn't perfect, but it's a good start
-setlocal includeexpr=substitute(v:fname,'::','/','g')
+" The following line changes a global variable but is necessary to make [i and
+" similar commands work. If this causes a problem for you, add an
+" after/ftplugin/rust.vim file that contains
+"       set isfname-=:
+set isfname+=:
+
+setlocal include=^\\s*use
+setlocal includeexpr=rust#IncludeExpr(v:fname)
 
 setlocal suffixesadd=.rs
 
@@ -147,7 +153,7 @@ endif
 " Cleanup {{{1
 
 let b:undo_ftplugin = "
-            \ setlocal formatoptions< comments< commentstring< includeexpr< suffixesadd<
+            \ setlocal formatoptions< comments< commentstring< include< includeexpr< suffixesadd<
             \|if exists('b:rust_set_style')
                 \|setlocal tabstop< shiftwidth< softtabstop< expandtab< textwidth<
                 \|endif
