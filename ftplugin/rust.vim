@@ -58,7 +58,7 @@ endif
 "       set isfname-=:
 set isfname+=:
 
-setlocal include=^\\s*use
+setlocal include=^\\s*\\(pub\\s\\+\\)\\?use
 setlocal includeexpr=rust#IncludeExpr(v:fname)
 
 setlocal suffixesadd=.rs
