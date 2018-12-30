@@ -485,14 +485,6 @@ function! rust#Test(all, options) abort
         return
     endif
 
-    let mod_name = expand('%:t:r')
-    if mod_name ==# ''
-        echohl ErrorMsg
-        echo 'Cannot extract a module name from file name. Please add ! to command if you want to run all tests'
-        echohl None
-        return
-    endif
-
     let saved = getpos('.')
     try
         let func_name = s:SearchTestFunctionNameUnderCursor()
@@ -502,11 +494,10 @@ function! rust#Test(all, options) abort
             echohl None
             return
         endif
-        let spec = mod_name . '::' . func_name
         if a:options ==# ''
-            execute cmd . 'cargo test --manifest-path' manifest spec
+            execute cmd . 'cargo test --manifest-path' manifest func_name
         else
-            execute cmd . 'cargo test --manifest-path' manifest spec a:options
+            execute cmd . 'cargo test --manifest-path' manifest func_name a:options
         endif
         return
     finally
