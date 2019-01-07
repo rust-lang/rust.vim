@@ -52,13 +52,7 @@ if get(g:, 'rust_recommended_style', 1)
     setlocal textwidth=99
 endif
 
-" The following line changes a global variable but is necessary to make [i and
-" similar commands work. If this causes a problem for you, add an
-" after/ftplugin/rust.vim file that contains
-"       set isfname-=:
-set isfname+=:
-
-setlocal include=^\\s*\\(pub\\s\\+\\)\\?use
+setlocal include=\\v^\\s*(pub\\s+)?use\\s+\\zs(\\f\|:)+
 setlocal includeexpr=rust#IncludeExpr(v:fname)
 
 setlocal suffixesadd=.rs
