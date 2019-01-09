@@ -186,7 +186,7 @@ let b:undo_ftplugin = "
 " Code formatting on save
 augroup rust.vim.PreWrite
     autocmd!
-    autocmd BufWritePre <buffer> silent! call rustfmt#PreWrite()
+    autocmd BufWritePre *.rs silent! call rustfmt#PreWrite()
 augroup END
 
 setlocal matchpairs+=<:>
