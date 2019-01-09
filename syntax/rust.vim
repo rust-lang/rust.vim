@@ -21,9 +21,12 @@ syn keyword   rustStructure struct enum nextgroup=rustIdentifier skipwhite skipe
 syn keyword   rustUnion union nextgroup=rustIdentifier skipwhite skipempty contained
 syn match rustUnionContextual /\<union\_s\+\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*/ transparent contains=rustUnion
 syn keyword   rustOperator    as
+syn keyword   rustExistential existential nextgroup=rustTypedef skipwhite skipempty contained
+syn match rustExistentialContextual /\<existential\_s\+type/ transparent contains=rustExistential,rustTypedef
 
 syn match     rustAssert      "\<assert\(\w\)*!" contained
 syn match     rustPanic       "\<panic\(\w\)*!" contained
+syn match     rustKeyword     "\<async\%(\s\|\n\)\@="
 syn keyword   rustKeyword     break
 syn keyword   rustKeyword     box nextgroup=rustBoxPlacement skipwhite skipempty
 syn keyword   rustKeyword     continue
@@ -239,8 +242,8 @@ if !exists("b:current_syntax_embed")
     " possible to trick it if you try hard, and indented code blocks aren’t
     " supported because Markdown is a menace to parse and only mad dogs and
     " Englishmen would try to handle that case correctly in this syntax file).
-    syn region rustCommentLinesDocRustCode matchgroup=rustCommentDocCodeFence start='^\z(\s*//[!/]\s*```\)[^A-Za-z0-9_-]*\%(\%(should_panic\|no_run\|ignore\|allow_fail\|rust\|test_harness\|compile_fail\|E\d\{4}\)\%([^A-Za-z0-9_-]\+\|$\)\)*$' end='^\z1$' keepend contains=@RustCodeInComment,rustCommentLineDocLeader
-    syn region rustCommentBlockDocRustCode matchgroup=rustCommentDocCodeFence start='^\z(\%(\s*\*\)\?\s*```\)[^A-Za-z0-9_-]*\%(\%(should_panic\|no_run\|ignore\|allow_fail\|rust\|test_harness\|compile_fail\|E\d\{4}\)\%([^A-Za-z0-9_-]\+\|$\)\)*$' end='^\z1$' keepend contains=@RustCodeInComment,rustCommentBlockDocStar
+    syn region rustCommentLinesDocRustCode matchgroup=rustCommentDocCodeFence start='^\z(\s*//[!/]\s*```\)[^A-Za-z0-9_-]*\%(\%(should_panic\|no_run\|ignore\|allow_fail\|rust\|test_harness\|compile_fail\|E\d\{4}\|edition201[58]\)\%([^A-Za-z0-9_-]\+\|$\)\)*$' end='^\z1$' keepend contains=@RustCodeInComment,rustCommentLineDocLeader
+    syn region rustCommentBlockDocRustCode matchgroup=rustCommentDocCodeFence start='^\z(\%(\s*\*\)\?\s*```\)[^A-Za-z0-9_-]*\%(\%(should_panic\|no_run\|ignore\|allow_fail\|rust\|test_harness\|compile_fail\|E\d\{4}\|edition201[58]\)\%([^A-Za-z0-9_-]\+\|$\)\)*$' end='^\z1$' keepend contains=@RustCodeInComment,rustCommentBlockDocStar
     " Strictly, this may or may not be correct; this code, for example, would
     " mishighlight:
     "
@@ -291,6 +294,7 @@ hi def link rustDynKeyword    rustKeyword
 hi def link rustTypedef       Keyword " More precise is Typedef, but it doesn't feel right for Rust
 hi def link rustStructure     Keyword " More precise is Structure
 hi def link rustUnion         rustStructure
+hi def link rustExistential   rustKeyword
 hi def link rustPubScopeDelim Delimiter
 hi def link rustPubScopeCrate rustKeyword
 hi def link rustSuper         rustKeyword

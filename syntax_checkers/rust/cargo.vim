@@ -18,6 +18,11 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 function! SyntaxCheckers_rust_cargo_IsAvailable() dict
+    if exists("*syntastic#util#getVersion")
+        echom "rust.vim: version of Syntastic is too old. Needs to be at least 3.7.0."
+        return v:false
+    endif
+
     return executable(self.getExec()) &&
                 \ syntastic#util#versionIsAtLeast(self.getVersion(), [0, 16, 0])
 endfunction
@@ -46,12 +51,14 @@ function! SyntaxCheckers_rust_cargo_GetLocList() dict
     endif
 
     let l:check_all_targets = rust#GetConfigVar('rust_cargo_check_all_targets', 0)
+    let l:check_all_features = rust#GetConfigVar('rust_cargo_check_all_features', 0)
     let l:check_examples = rust#GetConfigVar('rust_cargo_check_examples', 0)
     let l:check_tests = rust#GetConfigVar('rust_cargo_check_tests', 0)
     let l:check_benches = rust#GetConfigVar('rust_cargo_check_benches', 0)
 
     let makeprg = makeprg. ' '
                 \  . (l:check_all_targets ? ' --all-targets' : '')
+                \  . (l:check_all_features ? ' --all-features' : '')
                 \  . (l:check_benches ? ' --benches' : '')
                 \  . (l:check_examples ? ' --examples' : '')
                 \  . (l:check_tests ? ' --tests' : '')

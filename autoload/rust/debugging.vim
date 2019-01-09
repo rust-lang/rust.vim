@@ -71,6 +71,12 @@ function! rust#debugging#Info() abort
     echo l:output
 
     version
+
+    if exists(":SyntasticInfo")
+        echo "----"
+        echo "Info from Syntastic:"
+        execute "SyntasticInfo"
+    endif
 endfunction
 
 function! rust#debugging#InfoToClipboard() abort
