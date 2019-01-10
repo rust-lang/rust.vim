@@ -3,7 +3,7 @@
 " Maintainer:   Chris Morgan <me@chrismorgan.info>
 " Maintainer:   Kevin Ballard <kevin@sb.org>
 " Last Change:  June 08, 2016
-" For bugs, patches and license go to https://github.com/rust-lang/rust.vim 
+" For bugs, patches and license go to https://github.com/rust-lang/rust.vim
 
 if exists("b:did_ftplugin")
     finish
@@ -52,8 +52,8 @@ if get(g:, 'rust_recommended_style', 1)
     setlocal textwidth=99
 endif
 
-" This includeexpr isn't perfect, but it's a good start
-setlocal includeexpr=substitute(v:fname,'::','/','g')
+setlocal include=\\v^\\s*(pub\\s+)?use\\s+\\zs(\\f\|:)+
+setlocal includeexpr=rust#IncludeExpr(v:fname)
 
 setlocal suffixesadd=.rs
 
@@ -147,7 +147,7 @@ endif
 " Cleanup {{{1
 
 let b:undo_ftplugin = "
-            \ setlocal formatoptions< comments< commentstring< includeexpr< suffixesadd<
+            \ setlocal formatoptions< comments< commentstring< include< includeexpr< suffixesadd<
             \|if exists('b:rust_set_style')
                 \|setlocal tabstop< shiftwidth< softtabstop< expandtab< textwidth<
                 \|endif
