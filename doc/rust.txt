@@ -12,7 +12,8 @@ CONTENTS                                                      *rust*
 INTRODUCTION                                                      *rust-intro*
 
 This plugin provides syntax and supporting functionality for the Rust
-filetype.
+filetype. To fuction properly, it requires Vim 8 or higher. Some commands
+will not work on earlier versions.
 
 ==============================================================================
 SETTINGS                                                       *rust-settings*
