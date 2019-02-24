@@ -35,7 +35,8 @@ function! SyntaxCheckers_rust_rustc_GetLocList() dict
                 \ '%-Gwarning: the option `Z` is unstable %.%#,' .
                 \ '%Wwarning: %m,' .
                 \ '%Inote: %m,' .
-                \ '%C %#--> %f:%l:%c'
+                \ '%C %#--> %f:%l:%c' .
+                \ '%C %#::: %f:%l:%c'
 
     return SyntasticMake({
                 \ 'makeprg': makeprg,

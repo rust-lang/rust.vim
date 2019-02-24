@@ -75,7 +75,8 @@ function! SyntaxCheckers_rust_cargo_GetLocList() dict
                 \ '%Eerror[E%n]: %m,' .
                 \ '%Wwarning: %m,' .
                 \ '%Inote: %m,' .
-                \ '%C %#--> %f:%l:%c'
+                \ '%C %#--> %f:%l:%c' .
+                \ '%C %#::: %f:%l:%c'
 
     return SyntasticMake({
                 \ 'makeprg': makeprg,
