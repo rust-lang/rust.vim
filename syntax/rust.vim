@@ -149,7 +149,7 @@ syn region    rustString      start=+b"+ skip=+\\\\\|\\"+ end=+"+ contains=rustE
 syn region    rustString      start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=rustEscape,rustEscapeUnicode,rustEscapeError,rustStringContinuation,@Spell
 syn region    rustString      start='b\?r\z(#*\)"' end='"\z1' contains=@Spell
 
-syn region    rustAttribute   start="#!\?\[" end="\]" contains=rustString,rustDerive,rustCommentLine,rustCommentBlock,rustCommentLineDocError,rustCommentBlockDocError
+syn region    rustAttribute   start="#!\?\[" end="\]$" contains=rustString,rustDerive,rustCommentLine,rustCommentBlock,rustCommentLineDocError,rustCommentBlockDocError
 syn region    rustDerive      start="derive(" end=")" contained contains=rustDeriveTrait
 " This list comes from src/libsyntax/ext/deriving/mod.rs
 " Some are deprecated (Encodable, Decodable) or to be removed after a new snapshot (Show).
