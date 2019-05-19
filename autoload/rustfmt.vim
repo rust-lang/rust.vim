@@ -111,6 +111,7 @@ function! s:DeleteLines(start, end) abort
 endfunction
 
 function! s:RunRustfmt(command, tmpname, fail_silently)
+    let l:current_position = getpos('.')
     mkview!
 
     let l:stderr_tmpname = tempname()
@@ -216,6 +217,7 @@ function! s:RunRustfmt(command, tmpname, fail_silently)
     endif
 
     silent! loadview
+    call setpos('.', l:current_position)
 endfunction
 
 function! rustfmt#FormatRange(line1, line2)
