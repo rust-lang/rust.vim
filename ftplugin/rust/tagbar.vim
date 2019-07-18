@@ -1,7 +1,7 @@
 "
 " Support for Tagbar -- https://github.com/majutsushi/tagbar
 "
-if !exists(':Tagbar')
+if !exists(':Tagbar') || system('ctags --version') =~? 'universal ctags'
     finish
 endif
 
