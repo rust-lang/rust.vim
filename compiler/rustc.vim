@@ -21,7 +21,7 @@ endif
 if get(g:, 'rustc_makeprg_no_percent', 0)
     CompilerSet makeprg=rustc
 else
-    CompilerSet makeprg=rustc\ \%
+    CompilerSet makeprg=rustc\ \%:S
 endif
 
 " New errorformat (after nightly 2016/08/10)
