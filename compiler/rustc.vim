@@ -24,7 +24,7 @@ else
     if has('patch-7.4.191')
       CompilerSet makeprg=rustc\ \%:S
     else
-      exe 'CompilerSet makeprg=rustc ' . shellescape(expand('%'))
+      CompilerSet makeprg=rustc\ \%
     endif
 endif
 
