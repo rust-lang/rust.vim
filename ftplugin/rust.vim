@@ -191,7 +191,7 @@ augroup END
 
 setlocal matchpairs+=<:>
 " For matchit.vim (rustArrow stops `Fn() -> X` messing things up)
-let b:match_skip = 's:comment\|string\|rustArrow'
+let b:match_skip = 's:comment\|string\|rustCharacter\|rustArrow'
 
 " vint: -ProhibitAbbreviationOption
 let &cpo = s:save_cpo
