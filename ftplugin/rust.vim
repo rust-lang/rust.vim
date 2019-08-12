@@ -35,7 +35,7 @@ if get(g:, 'rust_bang_comment_leader', 0)
     " leaders. I'm fairly sure that's a Vim bug.
     setlocal comments=s1:/*,mb:*,ex:*/,s0:/*,mb:\ ,ex:*/,:///,://!,://
 else
-    setlocal comments=s0:/*!,m:\ ,ex:*/,s1:/*,mb:*,ex:*/,:///,://!,://
+    setlocal comments=s0:/*!,ex:*/,s1:/*,mb:*,ex:*/,:///,://!,://
 endif
 setlocal commentstring=//%s
 setlocal formatoptions-=t formatoptions+=croqnl
