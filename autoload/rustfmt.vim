@@ -246,7 +246,7 @@ function! rustfmt#PreWrite()
         endif
     endif
 
-    if !rust#GetConfigVar("rustfmt_autosave", 0)
+    if rust#GetConfigVar("rustfmt_autosave", 0)
         return
     endif
 
