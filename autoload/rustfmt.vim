@@ -244,6 +244,11 @@ function! rustfmt#PreWrite()
             let b:rustfmt_autosave = 1
             let b:rustfmt_autosave_because_of_config = 1
         endif
+    else
+        if has_key(b:, 'rustfmt_autosave_because_of_config')
+            unlet b:rustfmt_autosave_because_of_config
+            unlet b:rustfmt_autosave
+        endif
     endif
 
     if !rust#GetConfigVar("rustfmt_autosave", 0)
