@@ -44,7 +44,9 @@ endfunction
 
 function! s:EchoGlobalVariables() abort
     for l:key in s:global_variable_list
-        call s:Echo('let g:' . l:key . ' = ' . string(get(g:, l:key, v:null)))
+        if l:key !~# '^_'
+            call s:Echo('let g:' . l:key . ' = ' . string(get(g:, l:key, v:null)))
+        endif
 
         if has_key(b:, l:key)
             call s:Echo('let b:' . l:key . ' = ' . string(b:[l:key]))
