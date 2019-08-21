@@ -505,7 +505,7 @@ function! rust#Test(all, options) abort
         return rust#Run(1, '--test ' . a:options)
     endif
 
-    if exists(':terminal')
+    if has('terminal')
         let cmd = 'terminal '
     else
         let cmd = '!'
