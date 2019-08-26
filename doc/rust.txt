@@ -91,12 +91,17 @@ g:rust_use_custom_ctags_defs~
 	and do not wish for those included with rust.vim to be used: >
 	    let g:rust_use_custom_ctags_defs = 1
 <
-	Note that rust.vim's built-in definitions are only used for the Tagbar
-	Vim plugin, if you have it installed--it is not automatically used
-	when generating |tags| files that Vim can use to navigate to
-	definitions across different source files. Feel free to copy
-	`rust.vim/ctags/rust.ctags` into your own `~/.ctags` if you wish to
-	generate |tags| files.
+
+	NOTE: rust.vim's built-in definitions are only used for the Tagbar Vim
+	plugin, if you have it installed, AND if Universal Ctags is not
+	detected. This is because Universal Ctags already has built-in
+	support for Rust when used with Tagbar.
+
+	Also, note that when using ctags other than Universal Ctags, it is not
+	automatically used when generating |tags| files that Vim can use to
+	navigate to definitions across different source files. Feel free to
+	copy `rust.vim/ctags/rust.ctags` into your own `~/.ctags` if you wish
+	to generate |tags| files.
 
 
                                                  *g:ftplugin_rust_source_path*

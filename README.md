@@ -41,8 +41,9 @@ for more details.
 
 ### Source browsing with [Tagbar][tgbr]
 
-`rust.vim` has builtin `ctags/` definitions for [Tagbar][tgbr] which
-are loaded if Tagbar is installed.
+The installation of Tagbar along with [Universal Ctags](uctags) is recommended
+for a good Tagbar experience. For other kinds of setups, `rust.vim` tries to
+configure Tagbar to some degree.
 
 ### Formatting with [rustfmt][rfmt]
 
@@ -102,6 +103,7 @@ LICENSE-MIT for details.
 [rfmt]: https://github.com/rust-lang-nursery/rustfmt
 [syn]: https://github.com/scrooloose/syntastic
 [tgbr]: https://github.com/majutsushi/tagbar
+[uctags]: https://ctags.io
 [wav]: https://github.com/mattn/webapi-vim
 [pp]: https://play.rust-lang.org/
 [vim8pack]: http://vimhelp.appspot.com/repeat.txt.html#packages
