@@ -505,7 +505,9 @@ function! rust#Test(all, options) abort
         return rust#Run(1, '--test ' . a:options)
     endif
 
-    if has('terminal') || has('nvim')
+    if exists('g:rust_terminal_command')
+        let cmd = g:rust_terminal_command . ' '
+    elseif has('terminal') || has('nvim')
         let cmd = 'terminal '
     else
         let cmd = '!'

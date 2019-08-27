@@ -187,6 +187,12 @@ g:cargo_makeprg_params~
 	    let g:cargo_makeprg_params = 'build'
 <
 
+                                                        *g:rust_terminal_command*
+g:rust_terminal_command~
+	Set this option to change the way the terminal is invoked to run
+	tests:
+	    let g:rust_terminal_command = 'split | resize 20 | terminal'
+<
 
 Integration with Syntastic                                    *rust-syntastic*
 --------------------------
