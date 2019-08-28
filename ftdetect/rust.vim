@@ -1,7 +1,10 @@
 " vint: -ProhibitAutocmdWithNoGroup
 
 autocmd BufRead,BufNewFile *.rs call s:set_rust_filetype()
-autocmd BufRead,BufNewFile Cargo.toml setf FALLBACK cfg
+
+if has('patch-8.0.613')
+    autocmd BufRead,BufNewFile Cargo.toml setf FALLBACK cfg
+endif
 
 function! s:set_rust_filetype() abort
     if &filetype !=# 'rust'
