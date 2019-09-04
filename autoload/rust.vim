@@ -104,7 +104,7 @@ function! rust#Run(bang, args)
     let b:rust_last_rustc_args = l:rustc_args
     let b:rust_last_args = l:args
 
-    call s:WithPath(function("s:Run"), rustc_args, args)
+    call WithPath(function("s:Run"), rustc_args, args)
 endfunction
 
 function! s:Run(dict, rustc_args, args)
@@ -139,7 +139,7 @@ function! rust#Expand(bang, args)
     else
         let pretty = "expanded"
     endif
-    call s:WithPath(function("s:Expand"), pretty, args)
+    call WithPath(function("s:Expand"), pretty, args)
 endfunction
 
 function! s:Expand(dict, pretty, args)
@@ -203,7 +203,7 @@ endfunction
 
 function! rust#Emit(type, args)
     let args = s:ShellTokenize(a:args)
-    call s:WithPath(function("s:Emit"), a:type, args)
+    call WithPath(function("s:Emit"), a:type, args)
 endfunction
 
 function! s:Emit(dict, type, args)
@@ -270,7 +270,7 @@ endfunction
 " {dict.path} may be a path to a file inside of {dict.tmpdir} or it may be the
 " existing path of the current buffer. If the path is inside of {dict.tmpdir}
 " then it is guaranteed to have a '.rs' extension.
-function! s:WithPath(func, ...)
+function! WithPath(func, ...)
     let buf = bufnr('')
     let saved = {}
     let dict = {}
