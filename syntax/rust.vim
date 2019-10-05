@@ -34,7 +34,7 @@ syn match     rustAssert      "\<assert\(\w\)*!" contained
 syn match     rustPanic       "\<panic\(\w\)*!" contained
 syn match     rustAsync       "\<async\%(\s\|\n\)\@="
 syn keyword   rustKeyword     break
-syn keyword   rustKeyword     box nextgroup=rustBoxPlacement skipwhite skipempty
+syn keyword   rustKeyword     box
 syn keyword   rustKeyword     continue
 syn keyword   rustKeyword     crate
 syn keyword   rustKeyword     extern nextgroup=rustExternCrate,rustObsoleteExternMod skipwhite skipempty
@@ -65,14 +65,6 @@ syn keyword   rustObsoleteExternMod mod contained nextgroup=rustIdentifier skipw
 
 syn match     rustIdentifier  contains=rustIdentifierPrime "\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
 syn match     rustFuncName    "\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
-
-syn region    rustBoxPlacement matchgroup=rustBoxPlacementParens start="(" end=")" contains=TOP contained
-" Ideally we'd have syntax rules set up to match arbitrary expressions. Since
-" we don't, we'll just define temporary contained rules to handle balancing
-" delimiters.
-syn region    rustBoxPlacementBalance start="(" end=")" containedin=rustBoxPlacement transparent
-syn region    rustBoxPlacementBalance start="\[" end="\]" containedin=rustBoxPlacement transparent
-" {} are handled by rustFoldBraces
 
 syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end=")" contains=TOP nextgroup=rustMacroRepeatCount
 syn match rustMacroRepeatCount ".\?[*+]" contained
@@ -350,7 +342,6 @@ hi def link rustLifetime      Special
 hi def link rustLabel         Label
 hi def link rustExternCrate   rustKeyword
 hi def link rustObsoleteExternMod Error
-hi def link rustBoxPlacementParens Delimiter
 hi def link rustQuestionMark  Special
 hi def link rustAsync         rustKeyword
 hi def link rustAwait         rustKeyword
