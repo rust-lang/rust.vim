@@ -41,7 +41,7 @@ for more details.
 
 ### Source browsing with [Tagbar][tgbr]
 
-The installation of Tagbar along with [Universal Ctags](uctags) is recommended
+The installation of Tagbar along with [Universal Ctags][uctags] is recommended
 for a good Tagbar experience. For other kinds of setups, `rust.vim` tries to
 configure Tagbar to some degree.
 
