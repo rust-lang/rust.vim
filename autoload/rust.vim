@@ -514,8 +514,10 @@ function! rust#Test(all, options) abort
         return rust#Run(1, '--test ' . a:options)
     endif
 
-    if has('terminal') || has('nvim')
+    if has('terminal')
         let cmd = 'terminal '
+    elseif has('nvim')
+        let cmd = 'new | terminal '
     else
         let cmd = '!'
         let manifest = shellescape(manifest)
