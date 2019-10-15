@@ -517,7 +517,7 @@ function! rust#Test(all, options) abort
     if has('terminal')
         let cmd = 'terminal '
     elseif has('nvim')
-        let cmd = 'new | terminal '
+        let cmd = 'noautocmd new | terminal '
     else
         let cmd = '!'
         let manifest = shellescape(manifest)
