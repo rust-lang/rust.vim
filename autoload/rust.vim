@@ -514,7 +514,11 @@ function! rust#Test(mods, all, options) abort
     endif
 
     if has('terminal')
-        let cmd = printf('%s terminal ', a:mods)
+        if has('patch-8.0.910')
+            let cmd = printf('%s noautocmd new | terminal ++curwin ', a:mods)
+        else
+            let cmd = printf('%s terminal ', a:mods)
+        endif
     elseif has('nvim')
         let cmd = printf('%s noautocmd new | terminal ', a:mods)
     else
