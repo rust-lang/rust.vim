@@ -136,7 +136,7 @@ command! -bar RustInfoToClipboard call rust#debugging#InfoToClipboard()
 command! -bar -nargs=1 RustInfoToFile call rust#debugging#InfoToFile(<f-args>)
 
 " See |:RustTest| for docs
-command! -buffer -nargs=* -bang RustTest call rust#Test(<bang>0, <q-args>)
+command! -buffer -nargs=* -bang RustTest call rust#Test(<q-mods>, <bang>0, <q-args>)
 
 if !exists("b:rust_last_rustc_args") || !exists("b:rust_last_args")
     let b:rust_last_rustc_args = []
