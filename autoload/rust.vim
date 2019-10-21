@@ -508,16 +508,16 @@ function! s:SearchTestFunctionNameUnderCursor() abort
     return matchstr(getline(test_func_line), '\m\C^\s*fn\s\+\zs\h\w*')
 endfunction
 
-function! rust#Test(all, options) abort
+function! rust#Test(mods, all, options) abort
     let manifest = findfile('Cargo.toml', expand('%:p:h') . ';')
     if manifest ==# ''
         return rust#Run(1, '--test ' . a:options)
     endif
 
     if has('terminal')
-        let cmd = 'terminal '
+        let cmd = printf('%s terminal ', a:mods)
     elseif has('nvim')
-        let cmd = 'noautocmd new | terminal '
+        let cmd = printf('%s noautocmd new | terminal ', a:mods)
     else
         let cmd = '!'
         let manifest = shellescape(manifest)
