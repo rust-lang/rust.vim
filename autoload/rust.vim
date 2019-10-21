@@ -507,20 +507,23 @@ function! s:SearchTestFunctionNameUnderCursor() abort
     return matchstr(getline(test_func_line), '\m\C^\s*fn\s\+\zs\h\w*')
 endfunction
 
-function! rust#Test(mods, all, options) abort
+function! rust#Test(mods, winsize, all, options) abort
     let manifest = findfile('Cargo.toml', expand('%:p:h') . ';')
     if manifest ==# ''
         return rust#Run(1, '--test ' . a:options)
     endif
 
+    " <count> defaults to 0, but we prefer an empty string
+    let winsize = a:winsize ? a:winsize : ''
+
     if has('terminal')
         if has('patch-8.0.910')
-            let cmd = printf('%s noautocmd new | terminal ++curwin ', a:mods)
+            let cmd = printf('%s noautocmd %snew | terminal ++curwin ', a:mods, winsize)
         else
             let cmd = printf('%s terminal ', a:mods)
         endif
     elseif has('nvim')
-        let cmd = printf('%s noautocmd new | terminal ', a:mods)
+        let cmd = printf('%s noautocmd %snew | terminal ', a:mods, winsize)
     else
         let cmd = '!'
         let manifest = shellescape(manifest)
