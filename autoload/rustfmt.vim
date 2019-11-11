@@ -71,7 +71,7 @@ function! s:RustfmtConfig()
         return '--config-path '.l:_rustfmt_toml
     endif
 
-    return ''
+    return '--edition 2018'
 endfunction
 
 function! s:RustfmtCommandRange(filename, line1, line2)
@@ -96,14 +96,9 @@ function! s:RustfmtCommandRange(filename, line1, line2)
 endfunction
 
 function! s:RustfmtCommand()
-    if g:rustfmt_emit_files
-        let l:write_mode = "--emit=stdout"
-    else
-        let l:write_mode = "--write-mode=display"
-    endif
-    " rustfmt will pick on the right config on its own due to the
-    " current directory change.
-    return g:rustfmt_command . " ". l:write_mode . " " . g:rustfmt_options
+    let write_mode = g:rustfmt_emit_files ? '--emit=stdout' : '--write-mode=display'
+    let config = s:RustfmtConfig()
+    return join([g:rustfmt_command, write_mode, config, g:rustfmt_options])
 endfunction
 
 function! s:DeleteLines(start, end) abort
