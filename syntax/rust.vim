@@ -101,9 +101,7 @@ syn keyword rustTrait Default
 syn keyword rustTrait Iterator Extend IntoIterator
 syn keyword rustTrait DoubleEndedIterator ExactSizeIterator
 syn keyword rustEnum Option
-syn keyword rustEnumVariant Some None
 syn keyword rustEnum Result
-syn keyword rustEnumVariant Ok Err
 syn keyword rustTrait SliceConcatExt
 syn keyword rustTrait String ToString
 syn keyword rustTrait Vec
@@ -112,13 +110,15 @@ syn keyword rustTrait Vec
 syn keyword   rustSelf        self
 syn keyword   rustBoolean     true false
 
+syn match     rustEnumVariant "[A-Z0-9_]\(\w\)*\((\)\@="
+
 " If foo::bar changes to foo.bar, change this ("::" to "\.").
 " If foo::bar changes to Foo::bar, change this (first "\w" to "\u").
 syn match     rustModPath     "\w\(\w\)*::[^<]"he=e-3,me=e-3
 syn match     rustModPathSep  "::"
 
-syn match     rustFuncCall    "\w\(\w\)*("he=e-1,me=e-1
-syn match     rustFuncCall    "\w\(\w\)*::<"he=e-3,me=e-3 " foo::<T>();
+syn match     rustFuncCall    "[a-z0-9_]\([a-z0-9_]\)*("he=e-1,me=e-1
+syn match     rustFuncCall    "[a-z0-9_]\([a-z0-9_]\)*::<"he=e-3,me=e-3 " foo::<T>();
 
 " This is merely a convention; note also the use of [A-Z], restricting it to
 " latin identifiers rather than the full Unicode uppercase. I have not used
