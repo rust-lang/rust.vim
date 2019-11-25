@@ -107,6 +107,17 @@ syn keyword rustEnumVariant Ok Err
 syn keyword rustTrait SliceConcatExt
 syn keyword rustTrait String ToString
 syn keyword rustTrait Vec
+syn keyword rustTrait Arc
+syn keyword rustTrait Duration
+syn keyword rustTrait HashMap
+syn keyword rustTrait HashSet
+syn keyword rustTrait Instant
+syn keyword rustTrait Mutex
+syn keyword rustTrait Rc
+syn keyword rustTrait RefCell
+syn keyword rustTrait SocketAddr
+syn keyword rustTrait TcpListener
+syn keyword rustTrait TcpStream
 
 " Other syntax {{{2
 syn keyword   rustSelf        self
