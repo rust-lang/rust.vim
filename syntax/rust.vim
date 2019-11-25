@@ -64,6 +64,8 @@ syn match   rustExternCrateString /".*"\_s*as/ contained nextgroup=rustIdentifie
 syn keyword   rustObsoleteExternMod mod contained nextgroup=rustIdentifier skipwhite skipempty
 
 syn match     rustIdentifier  contains=rustIdentifierPrime "\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
+syn match     rustIdentifier  "\v((let|static|const) (ref )?(mut )?)@<=[a-z_]+"
+syn match     rustIdentifier  "\v<[A-Z_][A-Z0-9_]+>" " Leave out the numbers on the first char to avoid matching numbers
 syn match     rustFuncName    "\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
 
 syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end=")" contains=TOP nextgroup=rustMacroRepeatCount
