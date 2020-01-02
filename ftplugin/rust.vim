@@ -37,9 +37,6 @@ else
     setlocal comments=s0:/*!,ex:*/,s1:/*,mb:*,ex:*/,:///,://!,://
 endif
 setlocal commentstring=//%s
-setlocal formatoptions-=t formatoptions+=croqnl
-" j was only added in 7.3.541, so stop complaints about its nonexistence
-silent! setlocal formatoptions+=j
 
 " smartindent will be overridden by indentexpr if filetype indent is on, but
 " otherwise it's better than nothing.
@@ -146,7 +143,7 @@ endif
 " Cleanup {{{1
 
 let b:undo_ftplugin = "
-            \ setlocal formatoptions< comments< commentstring< include< includeexpr< suffixesadd<
+            \ setlocal comments< commentstring< include< includeexpr< suffixesadd<
             \|if exists('b:rust_set_style')
                 \|setlocal tabstop< shiftwidth< softtabstop< expandtab< textwidth<
                 \|endif
