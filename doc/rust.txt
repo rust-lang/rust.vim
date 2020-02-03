@@ -187,6 +187,16 @@ g:cargo_makeprg_params~
 	    let g:cargo_makeprg_params = 'build'
 <
 
+                                                  *g:cargo_shell_command_runner*
+g:cargo_shell_command_runner~
+	Set this option to change how to run shell commands for cargo commands
+	|:Cargo|, |:Cbuild|, |:Crun|, ...
+	By default, |:terminal| is used to run shell command in terminal window
+	asynchronously. But if you prefer |:!| for running the commands, it can
+	be specified: >
+	    let g:cargo_shell_command_runner = '!'
+<
+
 
 Integration with Syntastic                                    *rust-syntastic*
 --------------------------
