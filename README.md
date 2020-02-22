@@ -48,7 +48,8 @@ configure Tagbar to some degree.
 ### Formatting with [rustfmt][rfmt]
 
 The `:RustFmt` command will format your code with
-[rustfmt][rfmt] if installed.
+[rustfmt][rfmt] if installed and if you have `filetype plugin on`
+in your `.vimrc`.
 
 Placing `let g:rustfmt_autosave = 1` in your `~/.vimrc` will
 enable automatic running of `:RustFmt` when you save a buffer.
