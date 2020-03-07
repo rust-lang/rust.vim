@@ -541,21 +541,20 @@ function! rust#Test(mods, winsize, all, options) abort
     let saved = getpos('.')
     try
         let func_name = s:SearchTestFunctionNameUnderCursor()
-        if func_name ==# ''
-            echohl ErrorMsg
-            echomsg 'No test function was found under the cursor. Please add ! to command if you want to run all tests'
-            echohl None
-            return
-        endif
-        if a:options ==# ''
-            execute cmd . 'cargo test --manifest-path' manifest func_name
-        else
-            execute cmd . 'cargo test --manifest-path' manifest func_name a:options
-        endif
-        return
     finally
         call setpos('.', saved)
     endtry
+    if func_name ==# ''
+        echohl ErrorMsg
+        echomsg 'No test function was found under the cursor. Please add ! to command if you want to run all tests'
+        echohl None
+        return
+    endif
+    if a:options ==# ''
+        execute cmd . 'cargo test --manifest-path' manifest func_name
+    else
+        execute cmd . 'cargo test --manifest-path' manifest func_name a:options
+    endif
 endfunction
 
 " }}}1
