@@ -213,6 +213,14 @@ days, 'cargo' is the default checker. >
 <
 If you would like to change it, you can set `g:syntastic_rust_checkers` to a
 different value.
+						      *g:rust_cargo_check_cmd*
+						      *b:rust_cargo_check_cmd*
+g:rust_cargo_check_cmd~
+	Cargo will check files with this command. For embedded applications,
+	where sysroot may change, this can be used (e.g. with cargo-xbuild) to
+	invoke a different cargo command when checking files.
+	The default is 'check'.
+
                                           *g:rust_cargo_avoid_whole_workspace*
                                           *b:rust_cargo_avoid_whole_workspace*
 g:rust_cargo_avoid_whole_workspace~

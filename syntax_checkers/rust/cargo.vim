@@ -14,6 +14,10 @@ let g:loaded_syntastic_rust_cargo_checker = 1
 " Force syntastic to call cargo without a specific file name
 let g:syntastic_rust_cargo_fname = ""
 
+if !exists("g:rust_cargo_check_cmd")
+    let g:rust_cargo_check_cmd = "check"
+endif
+
 let s:save_cpo = &cpo
 set cpo&vim
 
@@ -28,7 +32,7 @@ function! SyntaxCheckers_rust_cargo_IsAvailable() dict
 endfunction
 
 function! SyntaxCheckers_rust_cargo_GetLocList() dict
-    let makeprg = self.makeprgBuild({ "args": "check" })
+    let makeprg = self.makeprgBuild({ "args": g:rust_cargo_check_cmd })
     let l:root_cargo_toml = cargo#nearestRootCargo(0)
     let l:nearest_cargo_toml = cargo#nearestCargo(0)
     let b:rust_recent_root_cargo_toml = l:root_cargo_toml
