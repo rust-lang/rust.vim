@@ -26,7 +26,7 @@ syn match     rustKeyword /\%(\<impl\>.\+\)\@<=\<for\>/
 syn keyword   rustRepeat in
 syn keyword   rustTypedef type nextgroup=rustIdentifier skipwhite skipempty
 syn keyword   rustStructure struct enum nextgroup=rustIdentifier skipwhite skipempty
-syn match     rustFieldName "\(pub \)\w*" contained contains=rustKeyword nextgroup=rustFieldSep
+syn match     rustFieldName "\(pub \)\?\w\+" contained contains=rustKeyword nextgroup=rustFieldSep
 syn match     rustFieldSep  ":\s*" contained nextgroup=rustModPath,rustType,rustIdentifier
 syn region    rustStructDefinition start="\(struct.*\n\?\)\@<={" end="}" contains=rustFieldName,rustGeneric,rustLifetime,rustModPathSep,rustNoise,rustSigil,rustType matchgroup=rustBraces transparent fold
 syn keyword   rustUnion union nextgroup=rustIdentifier skipwhite skipempty contained
