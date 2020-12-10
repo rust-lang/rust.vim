@@ -14,6 +14,8 @@ endif
 
 " Syntax definitions {{{1
 " Basic keywords {{{2
+syn match     rustNoise "[,.;]"
+syn match     rustConstraint "\s\+:\s\+"
 syn keyword   rustConditional match if else
 syn keyword   rustRepeat loop while
 " `:syn match` must be used to prioritize highlighting `for` keyword.
@@ -24,9 +26,9 @@ syn match     rustKeyword /\%(\<impl\>.\+\)\@<=\<for\>/
 syn keyword   rustRepeat in
 syn keyword   rustTypedef type nextgroup=rustIdentifier skipwhite skipempty
 syn keyword   rustStructure struct enum nextgroup=rustIdentifier skipwhite skipempty
-syn match     rustFieldName "_*\l\+\(_*\l*\)*" contained nextgroup=rustFieldSep
-syn match     rustFieldSep  ":\s*" contained nextgroup=rustIdentifier,rustType
-syn region    rustStructDefinition start="\(struct.*\)\@<={" end="}" contains=rustFieldName matchgroup=rustBraces transparent fold
+syn match     rustFieldName "\(pub \)\w*" contained contains=rustKeyword nextgroup=rustFieldSep
+syn match     rustFieldSep  ":\s*" contained nextgroup=rustModPath,rustType,rustIdentifier
+syn region    rustStructDefinition start="\(struct.*\n\?\)\@<={" end="}" contains=rustFieldName,rustGeneric,rustLifetime,rustModPathSep,rustNoise,rustSigil,rustType matchgroup=rustBraces transparent fold
 syn keyword   rustUnion union nextgroup=rustIdentifier skipwhite skipempty contained
 syn match rustUnionContextual /\<union\_s\+\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*/ transparent contains=rustUnion
 syn keyword   rustOperator    as
@@ -129,7 +131,8 @@ syn match     rustFuncCall    "\w\(\w\)*::<"he=e-3,me=e-3 " foo::<T>();
 " [:upper:] as it depends upon 'noignorecase'
 "syn match     rustCapsIdent    display "[A-Z]\w\(\w\)*"
 
-syn match     rustOperator     display "\%(+\|-\|/\|*\|=\|\^\|&\||\|!\|>\|<\|%\)=\?"
+syn match     rustOperator     display "\%(+\|-\|/\|*\|=\|\^\|&\||\|!\| [<>]\|%\)=\?"
+syn match     rustGeneric      display "[<>]" contains=rustOperator
 " This one isn't *quite* right, as we could have binary-& with a reference
 syn match     rustSigil        display /&\s\+[&~@*][^)= \t\r\n]/he=e-1,me=e-1
 syn match     rustSigil        display /[&~@*][^)= \t\r\n]/he=e-1,me=e-1
@@ -194,11 +197,6 @@ syn match     rustFloat       display "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\%([eE][
 syn match     rustFloat       display "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\=\%([eE][+-]\=[0-9_]\+\)\(f32\|f64\)\="
 syn match     rustFloat       display "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\=\%([eE][+-]\=[0-9_]\+\)\=\(f32\|f64\)"
 
-" For the benefit of delimitMate
-syn region rustLifetimeCandidate display start=/&'\%(\([^'\\]\|\\\(['nrt0\\\"]\|x\x\{2}\|u{\%(\x_*\)\{1,6}}\)\)'\)\@!/ end=/[[:cntrl:][:space:][:punct:]]\@=\|$/ contains=rustSigil,rustLifetime
-syn region rustGenericRegion display start=/<\%('\|[^[:cntrl:][:space:][:punct:]]\)\@=')\S\@=/ end=/>/ contains=rustGenericLifetimeCandidate
-syn region rustGenericLifetimeCandidate display start=/\%(<\|,\s*\)\@<='/ end=/[[:cntrl:][:space:][:punct:]]\@=\|$/ contains=rustSigil,rustLifetime
-
 "rustLifetime must appear before rustCharacter, or chars will get the lifetime highlighting
 syn match     rustLifetime    display "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*"
 syn match     rustLabel       display "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*:"
@@ -258,7 +256,7 @@ syn keyword rustAsmOptions pure nomem readonly preserves_flags noreturn nostack 
 " Folding rules {{{2
 " Trivial folding rules to begin with.
 " FIXME: use the AST to make really good folding
-syn region rustFoldBraces start="\(struct.*\)\@<!{" end="}" matchgroup=rustBraces transparent fold
+syn region rustFoldBraces start="\(struct.*\n\?\)\@<!{" end="}" matchgroup=rustBraces transparent fold
 
 if !exists("b:current_syntax_embed")
     let b:current_syntax_embed = 1
