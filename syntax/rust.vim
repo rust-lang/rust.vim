@@ -14,25 +14,26 @@ endif
 
 " Syntax definitions {{{1
 " Basic keywords {{{2
-syn match     rustNoise "[,.;]"
-syn match     rustConstraint "\s\+:\s\+"
+syn match     rustNoise display "[,.;\[\]()]" nextgroup=rustNoise,rustKeyword,rustStorage,rustLifetime,rustModPath,rustFuncName,rustType skipempty skipwhite
+syn match     rustNoise display ":" nextgroup=rustNoise,rustKeyword,rustStorage,rustLifetime,rustModPath,rustFuncName,rustIdentifier,rustType skipempty skipwhite
+syn match     rustConstraint display "\(where\)\@<=\w\+\s*:" contains=rustType,rustModPath,rustIdentifier
 syn keyword   rustConditional match if else
 syn keyword   rustRepeat loop while
 " `:syn match` must be used to prioritize highlighting `for` keyword.
 syn match     rustRepeat /\<for\>/
 " Highlight `for` keyword in `impl ... for ... {}` statement. This line must
 " be put after previous `syn match` line to overwrite it.
-syn match     rustKeyword /\%(\<impl\>.\+\)\@<=\<for\>/
+syn match     rustKeyword /\%(\<impl\>.\+\)\@<=\<for\>/ nextgroup=rustType,rustModPath,rustIdentifier skipempty skipwhite
 syn keyword   rustRepeat in
-syn keyword   rustTypedef type nextgroup=rustIdentifier skipwhite skipempty
-syn keyword   rustStructure struct enum nextgroup=rustIdentifier skipwhite skipempty
-syn match     rustFieldName "\(pub \)\?\w\+" contained contains=rustKeyword nextgroup=rustFieldSep
-syn match     rustFieldSep  ":\s*" contained nextgroup=rustModPath,rustType,rustIdentifier
-syn region    rustStructDefinition start="\(struct.*\n\?\)\@<={" end="}" contains=rustFieldName,rustGeneric,rustLifetime,rustModPathSep,rustNoise,rustSigil,rustType matchgroup=rustBraces transparent fold
-syn keyword   rustUnion union nextgroup=rustIdentifier skipwhite skipempty contained
+syn keyword   rustTypedef type nextgroup=rustIdentifier skipempty skipwhite
+syn keyword   rustStructure struct enum nextgroup=rustIdentifier skipempty skipwhite
+syn match     rustFieldName display "\(pub \)\?\w\+" contained contains=rustKeyword nextgroup=rustFieldSep
+syn match     rustFieldSep  display ":" contained contains=rustNoise nextgroup=rustType,rustModPath,rustIdentifier skipempty skipwhite
+syn region    rustStructDefinition matchgroup=rustNoise start="\(struct.*\n\?\)\@<={" end="}" contains=rustFieldName,rustGeneric,rustLifetime,rustModPathSep,rustNoise,rustSigil,rustType transparent fold
+syn keyword   rustUnion union nextgroup=rustIdentifier skipempty skipwhite contained
 syn match rustUnionContextual /\<union\_s\+\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*/ transparent contains=rustUnion
 syn keyword   rustOperator    as
-syn keyword   rustExistential existential nextgroup=rustTypedef skipwhite skipempty contained
+syn keyword   rustExistential existential nextgroup=rustTypedef skipempty skipwhite contained
 syn match rustExistentialContextual /\<existential\_s\+type/ transparent contains=rustExistential,rustTypedef
 
 syn match     rustAssert      "\<assert\(\w\)*!" contained
@@ -42,19 +43,20 @@ syn keyword   rustKeyword     break
 syn keyword   rustKeyword     box
 syn keyword   rustKeyword     continue
 syn keyword   rustKeyword     crate
-syn keyword   rustKeyword     extern nextgroup=rustExternCrate,rustObsoleteExternMod skipwhite skipempty
-syn keyword   rustKeyword     fn nextgroup=rustFuncName skipwhite skipempty
-syn keyword   rustKeyword     impl let
+syn keyword   rustKeyword     extern nextgroup=rustExternCrate,rustObsoleteExternMod skipempty skipwhite
+syn keyword   rustKeyword     fn nextgroup=rustFuncName skipempty skipwhite
+syn keyword   rustKeyword     impl nextgroup=rustType,rustModPath,rustIdentifier skipempty skipwhite
+syn keyword   rustKeyword     let
 syn keyword   rustKeyword     macro
-syn keyword   rustKeyword     pub nextgroup=rustPubScope skipwhite skipempty
+syn keyword   rustKeyword     pub nextgroup=rustPubScope skipempty skipwhite
 syn keyword   rustKeyword     return
 syn keyword   rustKeyword     yield
 syn keyword   rustSuper       super
 syn keyword   rustKeyword     where
 syn keyword   rustUnsafeKeyword unsafe
-syn keyword   rustKeyword     use nextgroup=rustModPath skipwhite skipempty
+syn keyword   rustKeyword     use nextgroup=rustModPath skipempty skipwhite
 " FIXME: Scoped impl's name is also fallen in this category
-syn keyword   rustKeyword     mod trait nextgroup=rustIdentifier skipwhite skipempty
+syn keyword   rustKeyword     mod trait nextgroup=rustIdentifier skipempty skipwhite
 syn keyword   rustStorage     move mut ref static const
 syn match     rustDefault     /\<default\ze\_s\+\(impl\|fn\|type\|const\)\>/
 syn keyword   rustAwait       await
@@ -64,13 +66,13 @@ syn keyword rustPubScopeCrate crate contained
 syn match rustPubScopeDelim /[()]/ contained
 syn match rustPubScope /([^()]*)/ contained contains=rustPubScopeDelim,rustPubScopeCrate,rustSuper,rustModPath,rustModPathSep,rustSelf transparent
 
-syn keyword   rustExternCrate crate contained nextgroup=rustIdentifier,rustExternCrateString skipwhite skipempty
+syn keyword   rustExternCrate crate contained nextgroup=rustIdentifier,rustExternCrateString skipempty skipwhite
 " This is to get the `bar` part of `extern crate "foo" as bar;` highlighting.
 syn match   rustExternCrateString /".*"\_s*as/ contained nextgroup=rustIdentifier skipwhite transparent skipempty contains=rustString,rustOperator
-syn keyword   rustObsoleteExternMod mod contained nextgroup=rustIdentifier skipwhite skipempty
+syn keyword   rustObsoleteExternMod mod contained nextgroup=rustIdentifier skipempty skipwhite
 
-syn match     rustIdentifier  "\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contains=rustIdentifierPrime contained
-syn match     rustFuncName    "\%(r#\)\=\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
+syn match     rustIdentifier  "\w\+\(:\|(\)\@!" display contains=rustIdentifierPrime contained
+syn match     rustFuncName    "\w\+\(<.*>\)\?\((\)\@=" display contained contains=rustGenericRegion
 
 syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end="),\=[*+]" contains=TOP
 syn match rustMacroVariable "$\w\+"
@@ -120,8 +122,9 @@ syn keyword   rustBoolean     true false
 
 " If foo::bar changes to foo.bar, change this ("::" to "\.").
 " If foo::bar changes to Foo::bar, change this (first "\w" to "\u").
-syn match     rustModPath     "\w\(\w\)*::[^<]"he=e-3,me=e-3
-syn match     rustModPathSep  "::"
+syn match     rustModPath     "\w\(\w\)*::[^<]"he=e-3,me=e-3 nextgroup=rustModPathSep contains=rustSelf
+syn match     rustModPathSep  "::" nextgroup=rustModPath,rustFuncName,rustIdentifier skipwhite skipempty
+syn region    rustFoldModPath matchgroup=rustNoise start="\(::\)\@<={" end="}" contains=rustType,rustModPath,rustIdentifier,rustNoise transparent fold
 
 syn match     rustFuncCall    "\w\(\w\)*("he=e-1,me=e-1
 syn match     rustFuncCall    "\w\(\w\)*::<"he=e-3,me=e-3 " foo::<T>();
@@ -132,7 +135,7 @@ syn match     rustFuncCall    "\w\(\w\)*::<"he=e-3,me=e-3 " foo::<T>();
 "syn match     rustCapsIdent    display "[A-Z]\w\(\w\)*"
 
 syn match     rustOperator     display "\%(+\|-\|/\|*\|=\|\^\|&\||\|!\| [<>]\|%\)=\?"
-syn match     rustGeneric      display "[<>]" contains=rustOperator
+syn region    rustGenericRegion display matchgroup=rustNoise start="\(\s\+\|=\)\@<!<" end="\(\s\+\|=\|-\)\@<!>" contains=rustNoise,rustGenericRegion,rustLifetime,rustType,rustModPath,rustIdentifier
 " This one isn't *quite* right, as we could have binary-& with a reference
 syn match     rustSigil        display /&\s\+[&~@*][^)= \t\r\n]/he=e-1,me=e-1
 syn match     rustSigil        display /[&~@*][^)= \t\r\n]/he=e-1,me=e-1
@@ -141,7 +144,8 @@ syn match     rustSigil        display /[&~@*][^)= \t\r\n]/he=e-1,me=e-1
 syn match     rustOperator     display "&&\|||"
 " This is rustArrowCharacter rather than rustArrow for the sake of matchparen,
 " so it skips the ->; see http://stackoverflow.com/a/30309949 for details.
-syn match     rustArrowCharacter display "->"
+syn match     rustArrowCharacter display "->" nextgroup=rustType,rustModPath,rustIdentifier skipempty skipwhite
+syn match     rustArrowCharacter display "=>"
 syn match     rustQuestionMark display "?\([a-zA-Z]\+\)\@!"
 
 syn match     rustMacro       '\w\(\w\)*!' contains=rustAssert,rustPanic
@@ -198,7 +202,7 @@ syn match     rustFloat       display "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\=\%([eE
 syn match     rustFloat       display "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\=\%([eE][+-]\=[0-9_]\+\)\=\(f32\|f64\)"
 
 "rustLifetime must appear before rustCharacter, or chars will get the lifetime highlighting
-syn match     rustLifetime    display "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*"
+syn match     rustLifetime    display "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" nextgroup=rustNoise,rustType,rustModPath,rustIdentifier
 syn match     rustLabel       display "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*:"
 syn match     rustLabel       display "\%(\<\%(break\|continue\)\s*\)\@<=\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*"
 syn match   rustCharacterInvalid   display contained /b\?'\zs[\n\r\t']\ze'/
@@ -236,11 +240,11 @@ syn keyword rustTodo contained TODO FIXME XXX NB NOTE SAFETY
 syn region rustAsmMacro matchgroup=rustMacro start="\<asm!\s*(" end=")" contains=rustAsmDirSpec,rustAsmSym,rustAsmConst,rustAsmOptionsGroup,rustComment.*,rustString.*
 
 " Clobbered registers
-syn keyword rustAsmDirSpec in out lateout inout inlateout contained nextgroup=rustAsmReg skipwhite skipempty
+syn keyword rustAsmDirSpec in out lateout inout inlateout contained nextgroup=rustAsmReg skipempty skipwhite
 syn region  rustAsmReg start="(" end=")" contained contains=rustString
 
 " Symbol operands
-syn keyword rustAsmSym sym contained nextgroup=rustAsmSymPath skipwhite skipempty
+syn keyword rustAsmSym sym contained nextgroup=rustAsmSymPath skipempty skipwhite
 syn region  rustAsmSymPath start="\S" end=",\|)"me=s-1 contained contains=rustComment.*,rustIdentifier
 
 " Const
@@ -256,7 +260,7 @@ syn keyword rustAsmOptions pure nomem readonly preserves_flags noreturn nostack 
 " Folding rules {{{2
 " Trivial folding rules to begin with.
 " FIXME: use the AST to make really good folding
-syn region rustFoldBraces start="\(struct.*\n\?\)\@<!{" end="}" matchgroup=rustBraces transparent fold
+syn region rustFoldBraces matchgroup=rustNoise start="\(struct.*\n\?\|::\)\@<!{" end="}" transparent fold
 
 if !exists("b:current_syntax_embed")
     let b:current_syntax_embed = 1
