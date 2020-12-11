@@ -25,15 +25,15 @@ syn match     rustRepeat /\<for\>/
 " be put after previous `syn match` line to overwrite it.
 syn match     rustKeyword /\%(\<impl\>.\+\)\@<=\<for\>/ nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustRepeat in
-syn keyword   rustBuiltinTypedef type nextgroup=rustType skipempty skipwhite
+syn keyword   rustTypedef type nextgroup=rustType skipempty skipwhite
 syn keyword   rustStructure struct enum nextgroup=rustType skipempty skipwhite
 syn match     rustFieldName display "\(pub \)\?\w\+" contained contains=rustKeyword nextgroup=rustNoise
 syn region    rustStructDefinition matchgroup=rustNoise start="\(struct.*\n\?\)\@<={" end="}" contains=rustCommentBlock,rustCommentBlockDoc,rustCommentLineDoc,rustCommentLine,rustFieldName,rustGenericRegion,rustLifetime,rustModPathSep,rustNoise,rustSigil,rustBuiltinType transparent fold
 syn keyword   rustUnion union nextgroup=rustType skipempty skipwhite contained
 syn match rustUnionContextual /\<union\_s\+\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*/ transparent contains=rustUnion
 syn keyword   rustOperator    as
-syn keyword   rustExistential existential nextgroup=rustBuiltinTypedef skipempty skipwhite contained
-syn match rustExistentialContextual /\<existential\_s\+type/ transparent contains=rustExistential,rustBuiltinTypedef
+syn keyword   rustExistential existential nextgroup=rustTypedef skipempty skipwhite contained
+syn match rustExistentialContextual /\<existential\_s\+type/ transparent contains=rustExistential,rustTypedef
 
 syn match     rustAssert      "\<assert\(\w\)*!" contained
 syn match     rustPanic       "\<panic\(\w\)*!" contained
@@ -328,7 +328,7 @@ hi def link rustArrowCharacter rustOperator
 hi def link rustOperator      Operator
 hi def link rustKeyword       Keyword
 hi def link rustDynKeyword    rustKeyword
-hi def link rustBuiltinTypedef       Keyword " More precise is Typedef, but it doesn't feel right for Rust
+hi def link rustTypedef       Keyword " More precise is Typedef, but it doesn't feel right for Rust
 hi def link rustStructure     Keyword " More precise is Structure
 hi def link rustUnion         rustStructure
 hi def link rustExistential   rustKeyword
