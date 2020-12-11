@@ -27,9 +27,9 @@ syn match     rustKeyword /\%(\<impl\>.\+\)\@<=\<for\>/ nextgroup=rustType,rustM
 syn keyword   rustRepeat in
 syn keyword   rustTypedef type nextgroup=rustIdentifier skipempty skipwhite
 syn keyword   rustStructure struct enum nextgroup=rustIdentifier skipempty skipwhite
-syn match     rustFieldName display "\(pub \)\?\w\+" contained contains=rustKeyword nextgroup=rustFieldSep
+syn match     rustFieldName display "\(/\{2,3}\s*\)\@<!\(pub \)\?\w\+" contained contains=rustKeyword nextgroup=rustFieldSep
 syn match     rustFieldSep  display ":" contained contains=rustNoise nextgroup=rustType,rustModPath,rustIdentifier skipempty skipwhite
-syn region    rustStructDefinition matchgroup=rustNoise start="\(struct.*\n\?\)\@<={" end="}" contains=rustFieldName,rustGeneric,rustLifetime,rustModPathSep,rustNoise,rustSigil,rustType transparent fold
+syn region    rustStructDefinition matchgroup=rustNoise start="\(struct.*\n\?\)\@<={" end="}" contains=rustCommentBlock,rustCommentBlockDoc,rustCommentLineDoc,rustCommentLine,rustFieldName,rustGenericRegion,rustLifetime,rustModPathSep,rustNoise,rustSigil,rustType transparent fold
 syn keyword   rustUnion union nextgroup=rustIdentifier skipempty skipwhite contained
 syn match rustUnionContextual /\<union\_s\+\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*/ transparent contains=rustUnion
 syn keyword   rustOperator    as
@@ -124,7 +124,7 @@ syn keyword   rustBoolean     true false
 " If foo::bar changes to Foo::bar, change this (first "\w" to "\u").
 syn match     rustModPath     "\w\(\w\)*::[^<]"he=e-3,me=e-3 nextgroup=rustModPathSep contains=rustSelf
 syn match     rustModPathSep  "::" nextgroup=rustModPath,rustFuncName,rustIdentifier skipwhite skipempty
-syn region    rustFoldModPath matchgroup=rustNoise start="\(::\)\@<={" end="}" contains=rustType,rustModPath,rustIdentifier,rustNoise transparent fold
+syn region    rustFoldModPath matchgroup=rustNoise start="\(::\)\@<={" end="}" contains=rustCommentBlock,rustCommentBlockDoc,rustCommentLineDoc,rustCommentLine,rustType,rustModPath,rustIdentifier,rustNoise transparent fold
 
 syn match     rustFuncCall    "\w\(\w\)*("he=e-1,me=e-1
 syn match     rustFuncCall    "\w\(\w\)*::<"he=e-3,me=e-3 " foo::<T>();
