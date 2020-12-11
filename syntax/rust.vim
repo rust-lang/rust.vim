@@ -72,7 +72,7 @@ syn match   rustExternCrateString /".*"\_s*as/ contained nextgroup=rustIdentifie
 syn keyword   rustObsoleteExternMod mod contained nextgroup=rustIdentifier skipempty skipwhite
 
 syn match     rustIdentifier  "\w\+\(:\|(\)\@!" display contains=rustIdentifierPrime contained
-syn match     rustFuncName    "\w\+\((\)\@=" display contained
+syn match     rustFuncName    "\w\+\(<.*>\)\?\((\)\@=" display contained contains=rustGenericRegion
 
 syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end="),\=[*+]" contains=TOP
 syn match rustMacroVariable "$\w\+"
