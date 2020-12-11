@@ -1,0 +1,19 @@
+1. Struct instantiation
+	```rust
+	impl RegexMatcherBuilder
+	{
+		/// Create a new builder for configuring a regex matcher.
+		pub fn new() -> RegexMatcherBuilder
+		{
+			// XXX: `RegexMatcherBuilder` is not highlighted.
+			RegexMatcherBuilder { config: Config::default() }
+		}
+	}
+	```
+2. Function ocnstraint
+	```rust
+	fn find_iter<F>(&self, haystack: &[u8], matched: F) -> Result<(), NoError>
+	where
+		// XXX: `Match` is not highlighted
+		F: FnMut(Match) -> bool,
+	```
