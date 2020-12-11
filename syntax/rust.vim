@@ -124,7 +124,7 @@ syn keyword   rustBoolean     true false
 " If foo::bar changes to Foo::bar, change this (first "\w" to "\u").
 syn match     rustModPath     "\w\(\w\)*::[^<]"he=e-3,me=e-3 nextgroup=rustModPathSep contains=rustSelf
 syn match     rustModPathSep  "::" nextgroup=rustModPath,rustFuncName,rustIdentifier skipwhite skipempty
-syn region    rustFoldModPath matchgroup=rustNoise start="\(::\)\@<={" end="}" contains=rustType,rustModPath,rustIdentifier,rustNoise transparent fold
+syn region    rustFoldModPath matchgroup=rustNoise start="\(::\)\@<={" end="}" contains=rustCommentBlock,rustCommentBlockDoc,rustCommentLineDoc,rustCommentLine,rustType,rustModPath,rustIdentifier,rustNoise transparent fold
 
 syn match     rustFuncCall    "\w\(\w\)*("he=e-1,me=e-1
 syn match     rustFuncCall    "\w\(\w\)*::<"he=e-3,me=e-3 " foo::<T>();
