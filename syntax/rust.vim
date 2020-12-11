@@ -73,7 +73,7 @@ syn match  rustIdentifier "[\l_]\+\(:\|(\)\@!" display contained
 syn match  rustType       "\(\u\l*\)\+\(:\|(\)\@!" display contains=rustTypePrime contained
 syn match  rustConstant   "[\u_]\+\(:\|(\)\@!" display contained
 syn match  rustFuncName   "\w\+\(<.*>\)\?\((\)\@=" display contained contains=rustEnumVariant,rustGenericRegion
-syn cluster rustIdentifiers contains=rustModPath,rustFuncName,rustBuiltinType,rustEnum,rustTrait,rustEnumVariant,rustLifetime,rustIdentifier,rustType
+syn cluster rustIdentifiers contains=rustModPath,rustBuiltinType,rustEnum,rustTrait,rustEnumVariant,rustLifetime,rustFuncName,rustIdentifier,rustType
 
 syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end="),\=[*+]" contains=TOP
 syn match rustMacroVariable "$\w\+"
