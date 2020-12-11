@@ -22,12 +22,12 @@ syn keyword   rustRepeat loop while
 syn match     rustRepeat /\<for\>/
 " Highlight `for` keyword in `impl ... for ... {}` statement. This line must
 " be put after previous `syn match` line to overwrite it.
-syn match     rustKeyword /\%(\<impl\>.\+\)\@<=\<for\>/
+syn match     rustKeyword /\%(\<impl\>.\+\)\@<=\<for\>/ nextgroup=rustType,rustModPath,rustIdentifier skipwhite
 syn keyword   rustRepeat in
 syn keyword   rustTypedef type nextgroup=rustIdentifier skipempty skipwhite
 syn keyword   rustStructure struct enum nextgroup=rustIdentifier skipempty skipwhite
 syn match     rustFieldName display "\(pub \)\?\w\+" contained contains=rustKeyword nextgroup=rustFieldSep
-syn match     rustFieldSep  display ":" contained contains=rustNoise nextgroup=rustIdentifier,rustModPath,rustType skipwhite
+syn match     rustFieldSep  display ":" contained contains=rustNoise nextgroup=rustType,rustModPath,rustIdentifier skipwhite
 syn region    rustStructDefinition matchgroup=rustNoise start="\(struct.*\n\?\)\@<={" end="}" contains=rustFieldName,rustGeneric,rustLifetime,rustModPathSep,rustNoise,rustSigil,rustType transparent fold
 syn keyword   rustUnion union nextgroup=rustIdentifier skipempty skipwhite contained
 syn match rustUnionContextual /\<union\_s\+\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*/ transparent contains=rustUnion
@@ -69,8 +69,8 @@ syn keyword   rustExternCrate crate contained nextgroup=rustIdentifier,rustExter
 syn match   rustExternCrateString /".*"\_s*as/ contained nextgroup=rustIdentifier skipwhite transparent skipempty contains=rustString,rustOperator
 syn keyword   rustObsoleteExternMod mod contained nextgroup=rustIdentifier skipempty skipwhite
 
-syn match     rustIdentifier  "\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contains=rustIdentifierPrime contained
-syn match     rustFuncName    "\%(r#\)\=\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
+syn match     rustIdentifier  "\w\+\(:\|(\)\@!" display contains=rustIdentifierPrime contained
+syn match     rustFuncName    "\w\+\((\)\@=" display contained
 
 syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end="),\=[*+]" contains=TOP
 syn match rustMacroVariable "$\w\+"
@@ -121,7 +121,8 @@ syn keyword   rustBoolean     true false
 " If foo::bar changes to foo.bar, change this ("::" to "\.").
 " If foo::bar changes to Foo::bar, change this (first "\w" to "\u").
 syn match     rustModPath     "\w\(\w\)*::[^<]"he=e-3,me=e-3 nextgroup=rustModPathSep
-syn match     rustModPathSep  "::" nextgroup=rustModPath,rustIdentifier
+syn match     rustModPathSep  "::" nextgroup=rustModPath,rustIdentifier skipwhite skipempty
+syn region    rustFoldModPath matchgroup=rustNoise start="\(::\)\@<={" end="}" contains=rustType,rustModPath,rustIdentifier,rustNoise transparent fold
 
 syn match     rustFuncCall    "\w\(\w\)*("he=e-1,me=e-1
 syn match     rustFuncCall    "\w\(\w\)*::<"he=e-3,me=e-3 " foo::<T>();
@@ -141,7 +142,7 @@ syn match     rustSigil        display /[&~@*][^)= \t\r\n]/he=e-1,me=e-1
 syn match     rustOperator     display "&&\|||"
 " This is rustArrowCharacter rather than rustArrow for the sake of matchparen,
 " so it skips the ->; see http://stackoverflow.com/a/30309949 for details.
-syn match     rustArrowCharacter display "->"
+syn match     rustArrowCharacter display "->" nextgroup=rustType,rustModPath,rustIdentifier skipwhite
 syn match     rustQuestionMark display "?\([a-zA-Z]\+\)\@!"
 
 syn match     rustMacro       '\w\(\w\)*!' contains=rustAssert,rustPanic
@@ -256,7 +257,7 @@ syn keyword rustAsmOptions pure nomem readonly preserves_flags noreturn nostack 
 " Folding rules {{{2
 " Trivial folding rules to begin with.
 " FIXME: use the AST to make really good folding
-syn region rustFoldBraces matchgroup=rustNoise start="\(struct.*\n\?\)\@<!{" end="}" transparent fold
+syn region rustFoldBraces matchgroup=rustNoise start="\(struct.*\n\?\|::\)\@<!{" end="}" transparent fold
 
 if !exists("b:current_syntax_embed")
     let b:current_syntax_embed = 1
