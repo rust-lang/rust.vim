@@ -71,7 +71,7 @@ syn keyword   rustObsoleteExternMod mod contained nextgroup=rustType skipempty s
 syn match  rustIdentifier "\l\+\(_\l\+\)*\((\)\@!" display contained contains=rustBoolean,rustSelf
 syn match  rustType       "\(\u\l*\)\+\(:\|(\)\@!" display contains=rustTypePrime contained
 syn match  rustConstant   "\u\+\(_\u\+\)*\(:\|(\)\@!" display contained
-syn match  rustFuncName   "\w\+\(<.*>\)\?\((\)\@=" display contained contains=rustEnumVariant,rustGenericRegion
+syn match  rustFuncName   "\w\+\(::\)\?\(<.*>\)\?\s*\((\)\@=" display contains=rustEnumVariant,rustModPathSep,rustGenericRegion
 syn cluster rustIdentifiers contains=rustModPath,rustBuiltinType,rustEnum,rustTrait,rustEnumVariant,rustLifetime,rustMacro,rustFuncName,rustIdentifier,rustType
 
 syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end="),\=[*+]" contains=TOP
@@ -124,9 +124,6 @@ syn keyword   rustBoolean     true false
 " If foo::bar changes to Foo::bar, change this (first "\w" to "\u").
 syn match     rustModPath     "\w\(\w\)*::\(<\)\@!"he=e-2,me=e-2 nextgroup=rustModPathSep contains=rustSelf
 syn match     rustModPathSep  "::" nextgroup=@rustIdentifiers skipwhite skipempty
-
-syn match     rustFuncCall    "\w\(\w\)*("he=e-1,me=e-1
-syn match     rustFuncCall    "\w\(\w\)*::<"he=e-3,me=e-3 " foo::<T>();
 
 " This is merely a convention; note also the use of [A-Z], restricting it to
 " latin identifiers rather than the full Unicode uppercase. I have not used
