@@ -14,20 +14,21 @@ endif
 
 " Syntax definitions {{{1
 " Basic keywords {{{2
-syn match     rustNoise display "[,.;\[\]:()]" nextgroup=rustNoise,rustLifetime,rustModPath,rustFuncName,rustIdentifier,rustType skipwhite
-syn match     rustConstraint display "\(where\)\@<=\w\+\s*:" contains=rustType,rustModPath,rustIdentifier skipwhite
+syn match     rustNoise display "[,.;\[\]()]" nextgroup=rustNoise,rustKeyword,rustStorage,rustLifetime,rustModPath,rustFuncName,rustType skipempty skipwhite
+syn match     rustNoise display ":" nextgroup=rustNoise,rustKeyword,rustStorage,rustLifetime,rustModPath,rustFuncName,rustIdentifier,rustType skipempty skipwhite
+syn match     rustConstraint display "\(where\)\@<=\w\+\s*:" contains=rustType,rustModPath,rustIdentifier
 syn keyword   rustConditional match if else
 syn keyword   rustRepeat loop while
 " `:syn match` must be used to prioritize highlighting `for` keyword.
 syn match     rustRepeat /\<for\>/
 " Highlight `for` keyword in `impl ... for ... {}` statement. This line must
 " be put after previous `syn match` line to overwrite it.
-syn match     rustKeyword /\%(\<impl\>.\+\)\@<=\<for\>/ nextgroup=rustType,rustModPath,rustIdentifier skipwhite
+syn match     rustKeyword /\%(\<impl\>.\+\)\@<=\<for\>/ nextgroup=rustType,rustModPath,rustIdentifier skipempty skipwhite
 syn keyword   rustRepeat in
 syn keyword   rustTypedef type nextgroup=rustIdentifier skipempty skipwhite
 syn keyword   rustStructure struct enum nextgroup=rustIdentifier skipempty skipwhite
 syn match     rustFieldName display "\(pub \)\?\w\+" contained contains=rustKeyword nextgroup=rustFieldSep
-syn match     rustFieldSep  display ":" contained contains=rustNoise nextgroup=rustType,rustModPath,rustIdentifier skipwhite
+syn match     rustFieldSep  display ":" contained contains=rustNoise nextgroup=rustType,rustModPath,rustIdentifier skipempty skipwhite
 syn region    rustStructDefinition matchgroup=rustNoise start="\(struct.*\n\?\)\@<={" end="}" contains=rustFieldName,rustGeneric,rustLifetime,rustModPathSep,rustNoise,rustSigil,rustType transparent fold
 syn keyword   rustUnion union nextgroup=rustIdentifier skipempty skipwhite contained
 syn match rustUnionContextual /\<union\_s\+\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*/ transparent contains=rustUnion
@@ -121,7 +122,7 @@ syn keyword   rustBoolean     true false
 
 " If foo::bar changes to foo.bar, change this ("::" to "\.").
 " If foo::bar changes to Foo::bar, change this (first "\w" to "\u").
-syn match     rustModPath     "\w\(\w\)*::[^<]"he=e-3,me=e-3 nextgroup=rustModPathSep
+syn match     rustModPath     "\w\(\w\)*::[^<]"he=e-3,me=e-3 nextgroup=rustModPathSep contains=rustSelf
 syn match     rustModPathSep  "::" nextgroup=rustModPath,rustFuncName,rustIdentifier skipwhite skipempty
 syn region    rustFoldModPath matchgroup=rustNoise start="\(::\)\@<={" end="}" contains=rustType,rustModPath,rustIdentifier,rustNoise transparent fold
 
@@ -134,7 +135,7 @@ syn match     rustFuncCall    "\w\(\w\)*::<"he=e-3,me=e-3 " foo::<T>();
 "syn match     rustCapsIdent    display "[A-Z]\w\(\w\)*"
 
 syn match     rustOperator     display "\%(+\|-\|/\|*\|=\|\^\|&\||\|!\| [<>]\|%\)=\?"
-syn match     rustGeneric      display "\(-\)\@<![<>]" contains=rustOperator nextgroup=rustType,rustModPath,rustIdentifier skipwhite
+syn region    rustGenericRegion display matchgroup=rustNoise start="\(\s\+\|=\)\@<!<" end="\(\s\+\|=\|-\)\@<!>" contains=rustNoise,rustGenericRegion,rustLifetime,rustType,rustModPath,rustIdentifier
 " This one isn't *quite* right, as we could have binary-& with a reference
 syn match     rustSigil        display /&\s\+[&~@*][^)= \t\r\n]/he=e-1,me=e-1
 syn match     rustSigil        display /[&~@*][^)= \t\r\n]/he=e-1,me=e-1
@@ -143,7 +144,8 @@ syn match     rustSigil        display /[&~@*][^)= \t\r\n]/he=e-1,me=e-1
 syn match     rustOperator     display "&&\|||"
 " This is rustArrowCharacter rather than rustArrow for the sake of matchparen,
 " so it skips the ->; see http://stackoverflow.com/a/30309949 for details.
-syn match     rustArrowCharacter display "->" nextgroup=rustType,rustModPath,rustIdentifier skipwhite
+syn match     rustArrowCharacter display "->" nextgroup=rustType,rustModPath,rustIdentifier skipempty skipwhite
+syn match     rustArrowCharacter display "=>"
 syn match     rustQuestionMark display "?\([a-zA-Z]\+\)\@!"
 
 syn match     rustMacro       '\w\(\w\)*!' contains=rustAssert,rustPanic
