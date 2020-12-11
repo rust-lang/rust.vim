@@ -15,7 +15,7 @@ endif
 " Syntax definitions {{{1
 " Basic keywords {{{2
 syn match     rustNoise display "[,\.;\[\]()]" nextgroup=rustNoise,rustKeyword,rustStorage,@rustIdentifiers skipempty skipwhite
-syn match     rustNoise display ":" nextgroup=rustNoise,rustKeyword,rustStorage,@rustIdentifiers skipempty skipwhite
+syn match     rustBounds display ":" nextgroup=rustKeyword,rustStorage,@rustIdentifiers skipempty skipwhite
 syn keyword   rustConditional match if else
 syn keyword   rustRepeat loop while
 " `:syn match` must be used to prioritize highlighting `for` keyword.
@@ -27,7 +27,7 @@ syn keyword   rustRepeat in nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustTypedef type nextgroup=rustType skipempty skipwhite
 syn keyword   rustStructure struct enum nextgroup=rustType skipempty skipwhite
 syn match     rustFieldName display "\(pub \)\?\w\+" contained contains=rustKeyword nextgroup=rustNoise skipempty skipwhite
-syn region    rustStructDefinition matchgroup=rustNoise start="\(struct.*\n\?\)\@<={" end="}" contains=rustCommentBlock,rustCommentBlockDoc,rustCommentLineDoc,rustCommentLine,rustFieldName,rustGenericRegion,rustLifetime,rustModPathSep,rustNoise,rustSigil,rustBuiltinType transparent fold
+syn region    rustStructDefinition matchgroup=rustNoise start="\(struct.*\n\?\)\@<={" end="}" contains=rustCommentBlock,rustCommentBlockDoc,rustCommentLineDoc,rustCommentLine,rustFieldName,rustGenericRegion,rustLifetime,rustModPathSep,rustNoise,rustBounds,,rustSigil,rustBuiltinType transparent fold
 syn keyword   rustUnion union nextgroup=rustType skipempty skipwhite contained
 syn match rustUnionContextual /\<union\_s\+\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*/ transparent contains=rustUnion
 syn keyword   rustOperator    as nextgroup=@rustIdentifiers skipempty skipwhite
@@ -325,6 +325,7 @@ hi def link rustSelf          Constant
 hi def link rustFloat         Float
 hi def link rustArrowCharacter rustOperator
 hi def link rustOperator      Operator
+hi def link rustBounds        rustOperator
 hi def link rustKeyword       Keyword
 hi def link rustDynKeyword    rustKeyword
 hi def link rustTypedef       Keyword " More precise is Typedef, but it doesn't feel right for Rust
