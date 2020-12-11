@@ -14,7 +14,7 @@ endif
 
 " Syntax definitions {{{1
 " Basic keywords {{{2
-syn match     rustNoise display "[,.;\[\]:()]" nextgroup=rustNoise,rustLifetime,rustModPath,rustIdentifier,rustType skipwhite
+syn match     rustNoise display "[,.;\[\]:()]" nextgroup=rustNoise,rustLifetime,rustModPath,rustFuncName,rustIdentifier,rustType skipwhite
 syn match     rustConstraint display "\(where\)\@<=\w\+\s*:" contains=rustType,rustModPath,rustIdentifier skipwhite
 syn keyword   rustConditional match if else
 syn keyword   rustRepeat loop while
@@ -121,7 +121,7 @@ syn keyword   rustBoolean     true false
 " If foo::bar changes to foo.bar, change this ("::" to "\.").
 " If foo::bar changes to Foo::bar, change this (first "\w" to "\u").
 syn match     rustModPath     "\w\(\w\)*::[^<]"he=e-3,me=e-3 nextgroup=rustModPathSep
-syn match     rustModPathSep  "::" nextgroup=rustModPath,rustIdentifier skipwhite skipempty
+syn match     rustModPathSep  "::" nextgroup=rustModPath,rustFuncName,rustIdentifier skipwhite skipempty
 syn region    rustFoldModPath matchgroup=rustNoise start="\(::\)\@<={" end="}" contains=rustType,rustModPath,rustIdentifier,rustNoise transparent fold
 
 syn match     rustFuncCall    "\w\(\w\)*("he=e-1,me=e-1
