@@ -15,8 +15,7 @@ endif
 " Syntax definitions {{{1
 " Basic keywords {{{2
 syn match     rustNoise display "[,\.;\[\]()]" nextgroup=rustNoise,rustKeyword,rustStorage,@rustIdentifiers skipempty skipwhite
-syn match     rustNoise display ":" nextgroup=rustNoise,rustKeyword,rustStorage,@rustIdentifiers,rustBuiltinType skipempty skipwhite
-syn match     rustConstraint display "\(where\)\@<=\w\+\s*:" contains=@rustIdentifiers
+syn match     rustNoise display ":" nextgroup=rustNoise,rustKeyword,rustStorage,@rustIdentifiers skipempty skipwhite
 syn keyword   rustConditional match if else
 syn keyword   rustRepeat loop while
 " `:syn match` must be used to prioritize highlighting `for` keyword.
@@ -138,8 +137,8 @@ syn match     rustFuncCall    "\w\(\w\)*::<"he=e-3,me=e-3 " foo::<T>();
 syn match     rustOperator     display "\%(+\|-\|/\|*\|=\|\^\|&\||\|!\| [<>]\|%\)=\?" nextgroup=rustDecNumber,@rustIdentifiers skipempty skipwhite
 syn region    rustGenericRegion display matchgroup=rustNoise start="\(\s\+\|=\)\@<!<" end="\(\s\+\|=\|-\)\@<!>" contains=rustNoise,rustGenericRegion,@rustIdentifiers
 " This one isn't *quite* right, as we could have binary-& with a reference
-syn match     rustSigil        display /&\s\+[&~@*][^)= \t\r\n]/he=e-1,me=e-1
-syn match     rustSigil        display /[&~@*][^)= \t\r\n]/he=e-1,me=e-1
+syn match     rustSigil        display /&\s\+[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustStorage,@rustIdentifiers skipempty skipwhite
+syn match     rustSigil        display /[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustStorage,@rustIdentifiers skipempty skipwhite
 " This isn't actually correct; a closure with no arguments can be `|| { }`.
 " Last, because the & in && isn't a sigil
 syn match     rustOperator     display "&&\|||" nextgroup=rustBoolean,@rustIdentifiers skipempty skipwhite
@@ -359,7 +358,7 @@ hi def link rustCommentDocCodeFence rustCommentLineDoc
 hi def link rustAssert        PreCondit
 hi def link rustPanic         PreCondit
 hi def link rustMacro         Macro
-hi def link rustBuiltinType          Type
+hi def link rustBuiltinType   Type
 hi def link rustTodo          Todo
 hi def link rustAttribute     PreProc
 hi def link rustDerive        PreProc
