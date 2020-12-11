@@ -44,7 +44,8 @@ syn keyword   rustKeyword     continue
 syn keyword   rustKeyword     crate
 syn keyword   rustKeyword     extern nextgroup=rustExternCrate,rustObsoleteExternMod skipempty skipwhite
 syn keyword   rustKeyword     fn nextgroup=rustFuncName skipempty skipwhite
-syn keyword   rustKeyword     impl let
+syn keyword   rustKeyword     impl nextgroup=rustType,rustModPath,rustIdentifier skipempty skipwhite
+syn keyword   rustKeyword     let
 syn keyword   rustKeyword     macro
 syn keyword   rustKeyword     pub nextgroup=rustPubScope skipempty skipwhite
 syn keyword   rustKeyword     return
