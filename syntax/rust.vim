@@ -84,6 +84,7 @@ syn keyword   rustReservedKeyword become do priv typeof unsized abstract virtual
 
 " Built-in types {{{2
 syn keyword   rustBuiltinType        isize usize char bool u8 u16 u32 u64 u128 f32
+syn keyword   rustBuiltinType        error env thread
 syn keyword   rustBuiltinType        f64 i8 i16 i32 i64 i128 str Self
 
 " Things from the libstd v1 prelude (src/libstd/prelude/v1.rs) {{{2
