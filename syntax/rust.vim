@@ -14,29 +14,29 @@ endif
 
 " Syntax definitions {{{1
 " Basic keywords {{{2
-syn match     rustNoise display "[,\.\[\]()]" nextgroup=rustNoise,rustKeyword,rustStorage,@rustIdentifiers skipempty skipwhite
-syn match     rustNoise display ";"
-syn match     rustBounds display ":" nextgroup=rustKeyword,rustStorage,@rustIdentifiers skipempty skipwhite
+syn match     rustNoise "[,\.\[\]()]" display nextgroup=rustNoise,rustKeyword,rustStorage,@rustIdentifiers skipempty skipwhite
+syn match     rustNoise ";" display
+syn match     rustBounds ":" display nextgroup=rustKeyword,rustStorage,@rustIdentifiers skipempty skipwhite
 syn keyword   rustConditional match if else nextgroup=rustConditional,@rustIdentifiers skipempty skipwhite
 syn keyword   rustRepeat loop while nextgroup=@rustIdentifiers skipempty skipwhite
 " `:syn match` must be used to prioritize highlighting `for` keyword.
-syn match     rustRepeat /\<for\>/ nextgroup=@rustIdentifiers skipempty skipwhite
+syn match     rustRepeat /\<for\>/ display nextgroup=@rustIdentifiers skipempty skipwhite
 " Highlight `for` keyword in `impl ... for ... {}` statement. This line must
 " be put after previous `syn match` line to overwrite it.
-syn match     rustKeyword /\%(\<impl\>.\+\)\@<=\<for\>/ nextgroup=@rustIdentifiers skipempty skipwhite
+syn match     rustKeyword /\%(\<impl\>.\+\)\@<=\<for\>/ display nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustRepeat in nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustTypedef type nextgroup=rustType skipempty skipwhite
 syn keyword   rustStructure struct enum nextgroup=rustType skipempty skipwhite
-syn match     rustFieldName display "\(pub \)\?\w\+" contained contains=rustKeyword nextgroup=rustNoise skipempty skipwhite
-syn region    rustStructDefinition matchgroup=rustNoise start="\(struct.*\n\?\)\@<={" end="}" contains=rustCommentBlock,rustCommentBlockDoc,rustCommentLineDoc,rustCommentLine,rustFieldName,rustGenericRegion,rustLifetime,rustModPathSep,rustNoise,rustBounds,,rustSigil,rustBuiltinType transparent fold
+syn match     rustFieldName "\(pub \)\?\w\+" contained contains=rustKeyword display nextgroup=rustNoise skipempty skipwhite
+syn region    rustStructDefinition matchgroup=rustNoise start="\(struct.*\n\?\)\@<={" end="}" contains=rustCommentBlock,rustCommentBlockDoc,rustCommentLineDoc,rustCommentLine,rustFieldName,rustGenericRegion,rustLifetime,rustModPathSep,rustNoise,rustBounds,rustSigil,rustBuiltinType transparent fold
 syn keyword   rustUnion union nextgroup=rustType skipempty skipwhite contained
 syn match rustUnionContextual /\<union\_s\+\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*/ transparent contains=rustUnion
 syn keyword   rustOperator    as nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustExistential existential nextgroup=rustTypedef skipempty skipwhite contained
-syn match rustExistentialContextual /\<existential\_s\+type/ transparent contains=rustExistential,rustTypedef
+syn match rustExistentialContextual /\<existential\_s\+type/ display transparent contains=rustExistential,rustTypedef
 
-syn match     rustAssert      "\<assert\(\w\)*!" contained
-syn match     rustPanic       "\<panic\(\w\)*!" contained
+syn match     rustAssert      "\<assert\(\w\)*!" contained display
+syn match     rustPanic       "\<panic\(\w\)*!" contained display
 syn match     rustAsync       "\<async\%(\s\|\n\)\@="
 syn keyword   rustKeyword     break nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     box
@@ -57,27 +57,27 @@ syn keyword   rustKeyword     use nextgroup=rustModPath skipempty skipwhite
 " FIXME: Scoped impl's name is also fallen in this category
 syn keyword   rustKeyword     mod trait nextgroup=rustType skipempty skipwhite
 syn keyword   rustStorage     move mut ref static const nextgroup=@rustIdentifiers skipempty skipwhite
-syn match     rustDefault     /\<default\ze\_s\+\(impl\|fn\|type\|const\)\>/
+syn match     rustDefault     /\<default\ze\_s\+\(impl\|fn\|type\|const\)\>/ display
 syn keyword   rustAwait       await nextgroup=@rustIdentifiers skipempty skipwhite
 syn match     rustKeyword     /\<try\>!\@!/ display
 
 syn keyword rustPubScopeCrate crate contained
-syn match rustPubScope /([^()]*)/ contained contains=rustNoise,rustPubScopeCrate,rustSuper,rustModPath,rustModPathSep,rustSelf transparent
+syn match rustPubScope /([^()]*)/ contained contains=rustNoise,rustPubScopeCrate,rustSuper,rustModPath,rustModPathSep,rustSelf display transparent
 
 syn keyword   rustExternCrate crate contained nextgroup=rustType,rustExternCrateString skipempty skipwhite
 " This is to get the `bar` part of `extern crate "foo" as bar;` highlighting.
-syn match   rustExternCrateString /".*"\_s*as/ contained nextgroup=rustType skipwhite transparent skipempty contains=rustString,rustOperator
+syn match   rustExternCrateString /".*"\_s*as/ contained display nextgroup=rustType skipwhite transparent skipempty contains=rustString,rustOperator
 syn keyword   rustObsoleteExternMod mod contained nextgroup=rustType skipempty skipwhite
 
-syn match  rustIdentifier "\l\+\(_\l\+\)*\((\)\@!" display contained contains=rustBoolean,rustSelf
-syn match  rustType       "\(\u\l*\)\+\((\)\@!" display contains=rustTypePrime contained
-syn match  rustConstant   "\u\+\(_\u\+\)*\((\)\@!" display contained
-syn match  rustFuncName   "\w\+\(::\)\?\(<.*>\)\?\s*\((\)\@=" display contains=rustEnumVariant,rustModPathSep,rustGenericRegion
+syn match  rustIdentifier "\l\+\(_\l\+\)*\((\)\@!" contained contains=rustBoolean,rustSelf display
+syn match  rustType       "\(\u\l*\)\+\((\)\@!" contains=rustTypePrime contained display
+syn match  rustConstant   "\u\+\(_\u\+\)*\((\)\@!" contained display
+syn match  rustFuncName   "\w\+\(::\)\?\(<.*>\)\?\s*\((\)\@=" contains=rustEnumVariant,rustModPathSep,rustGenericRegion display
 syn cluster rustIdentifiers contains=rustModPath,rustBuiltinType,rustEnum,rustTrait,rustEnumVariant,rustLifetime,rustMacro,rustFuncName,rustIdentifier,rustType
 
 syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end="),\=[*+]" contains=TOP
-syn match rustMacroVariable "$\w\+"
-syn match rustRawIdent "\<r#\h\w*" contains=NONE
+syn match rustMacroVariable "\$\w\+" display
+syn match rustRawIdent "\<r#\h\w*" contains=NONE display
 
 " Reserved (but not yet used) keywords {{{2
 syn keyword   rustReservedKeyword become do priv typeof unsized abstract virtual final override
@@ -123,8 +123,8 @@ syn keyword   rustBoolean     true false
 
 " If foo::bar changes to foo.bar, change this ("::" to "\.").
 " If foo::bar changes to Foo::bar, change this (first "\w" to "\u").
-syn match     rustModPath     "\w\(\w\)*::\(<\)\@!"he=e-2,me=e-2 nextgroup=rustModPathSep contains=rustSelf
-syn match     rustModPathSep  "::" nextgroup=@rustIdentifiers skipwhite skipempty
+syn match     rustModPath     "\w\(\w\)*::\(<\)\@!"he=e-2,me=e-2 nextgroup=rustModPathSep contains=rustSelf display
+syn match     rustModPathSep  "::" nextgroup=@rustIdentifiers skipempty skipwhite display
 syn region    rustFoldModPath matchgroup=rustNoise start="\(::\s*\n*\)\@<={" end="}" contains=rustCommentBlock,rustCommentBlockDoc,rustCommentLineDoc,rustCommentLine,@rustIdentifiers,rustNoise transparent fold
 
 " This is merely a convention; note also the use of [A-Z], restricting it to
@@ -132,30 +132,30 @@ syn region    rustFoldModPath matchgroup=rustNoise start="\(::\s*\n*\)\@<={" end
 " [:upper:] as it depends upon 'noignorecase'
 "syn match     rustCapsIdent    display "[A-Z]\w\(\w\)*"
 
-syn match     rustOperator     display "\%(+\|-\|/\|*\|=\|\^\|&\||\|!\| [<>]\|%\)=\?" nextgroup=rustDecNumber,@rustIdentifiers skipempty skipwhite
-syn region    rustGenericRegion display matchgroup=rustNoise start="\(\s\+\|=\)\@<!<" end="\(=\|-\)\@<!>" contains=rustNoise,rustBounds,rustGenericRegion,@rustIdentifiers
+syn match     rustOperator     "\%(+\|-\|/\|*\|=\|\^\|&\||\|!\| [<>]\|%\)=\?" display nextgroup=rustFloat,rustDecNumber,@rustIdentifiers skipempty skipwhite
+syn region    rustGenericRegion matchgroup=rustNoise start="\(\s\+\|=\)\@<!<" end="\(=\|-\)\@<!>" contains=rustNoise,rustBounds,rustGenericRegion,@rustIdentifiers
 " This one isn't *quite* right, as we could have binary-& with a reference
-syn match     rustSigil        display /&\s\+[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustStorage,@rustIdentifiers skipempty skipwhite
-syn match     rustSigil        display /[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustStorage,@rustIdentifiers skipempty skipwhite
+syn match     rustSigil /&\s\+[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustStorage,@rustIdentifiers skipempty skipwhite
+syn match     rustSigil /[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustStorage,@rustIdentifiers skipempty skipwhite
 " This isn't actually correct; a closure with no arguments can be `|| { }`.
 " Last, because the & in && isn't a sigil
-syn match     rustOperator     display "&&\|||" nextgroup=rustBoolean,@rustIdentifiers skipempty skipwhite
+syn match     rustOperator  "&&\|||" display nextgroup=rustBoolean,@rustIdentifiers skipempty skipwhite
 " This is rustArrowCharacter rather than rustArrow for the sake of matchparen,
 " so it skips the ->; see http://stackoverflow.com/a/30309949 for details.
-syn match     rustArrowCharacter display "->" nextgroup=@rustIdentifiers skipempty skipwhite
-syn match     rustArrowCharacter display "=>"
-syn match     rustQuestionMark display "?\([a-zA-Z]\+\)\@!"
+syn match     rustArrowCharacter "->" display nextgroup=@rustIdentifiers skipempty skipwhite
+syn match     rustArrowCharacter "=>" display
+syn match     rustQuestionMark "?\([a-zA-Z]\+\)\@!" display
 
-syn match     rustMacro       '\w\(\w\)*!' contains=rustAssert,rustPanic
-syn match     rustMacro       '#\w\(\w\)*' contains=rustAssert,rustPanic
+syn match     rustMacro '\w\(\w\)*!' contains=rustAssert,rustPanic
+syn match     rustMacro '#\w\(\w\)*' contains=rustAssert,rustPanic
 
-syn match     rustEscapeError   display contained /\\./
-syn match     rustEscape        display contained /\\\([nrt0\\'"]\|x\x\{2}\)/
-syn match     rustEscapeUnicode display contained /\\u{\%(\x_*\)\{1,6}}/
-syn match     rustStringContinuation display contained /\\\n\s*/
-syn region    rustString      matchgroup=rustStringDelimiter start=+b"+ skip=+\\\\\|\\"+ end=+"+ contains=rustEscape,rustEscapeError,rustStringContinuation
-syn region    rustString      matchgroup=rustStringDelimiter start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=rustEscape,rustEscapeUnicode,rustEscapeError,rustStringContinuation,@Spell
-syn region    rustString      matchgroup=rustStringDelimiter start='b\?r\z(#*\)"' end='"\z1' contains=@Spell
+syn match     rustEscapeError   /\\./ contained display
+syn match     rustEscape        /\\\([bnrstw0\\'"]\|x\x\{2}\)/ contained display
+syn match     rustEscapeUnicode /\\u{\%(\x_*\)\{1,6}}/ contained display
+syn match     rustStringContinuation /\\\n\s*/ contained
+syn region    rustString matchgroup=rustStringDelimiter start=+b"+ skip=+\\\\\|\\"+ end=+"+ contains=rustEscape,rustEscapeError,rustStringContinuation
+syn region    rustString matchgroup=rustStringDelimiter start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=rustEscape,rustEscapeUnicode,rustEscapeError,rustStringContinuation,@Spell
+syn region    rustString matchgroup=rustStringDelimiter start='b\?r\z(#*\)"' end='"\z1' contains=@Spell
 
 " Match attributes with either arbitrary syntax or special highlighting for
 " derives. We still highlight strings and comments inside of the attribute.
@@ -179,37 +179,37 @@ syn keyword   rustDeriveTrait contained Clone Hash RustcEncodable RustcDecodable
 "
 " This is so that uses of dyn variable names such as in 'let &dyn = &2'
 " and 'let dyn = 2' will not get highlighted as a keyword.
-syn match     rustKeyword "\<dyn\ze\_s\+\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)" contains=rustDynKeyword
+syn match     rustKeyword "\<dyn\ze\_s\+\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)" contains=rustDynKeyword display
 syn keyword   rustDynKeyword  dyn contained
 
 " Number literals
-syn match     rustDecNumber   display "\<[0-9][0-9_]*\%([iu]\%(size\|8\|16\|32\|64\|128\)\)\="
-syn match     rustHexNumber   display "\<0x[a-fA-F0-9_]\+\%([iu]\%(size\|8\|16\|32\|64\|128\)\)\="
-syn match     rustOctNumber   display "\<0o[0-7_]\+\%([iu]\%(size\|8\|16\|32\|64\|128\)\)\="
-syn match     rustBinNumber   display "\<0b[01_]\+\%([iu]\%(size\|8\|16\|32\|64\|128\)\)\="
+syn match rustDecNumber "\<[0-9][0-9_]*\%([iu]\%(size\|8\|16\|32\|64\|128\)\)\=" display
+syn match rustHexNumber "\<0x[a-fA-F0-9_]\+\%([iu]\%(size\|8\|16\|32\|64\|128\)\)\=" display
+syn match rustOctNumber "\<0o[0-7_]\+\%([iu]\%(size\|8\|16\|32\|64\|128\)\)\=" display
+syn match rustBinNumber "\<0b[01_]\+\%([iu]\%(size\|8\|16\|32\|64\|128\)\)\=" display
 
 " Special case for numbers of the form "1." which are float literals, unless followed by
 " an identifier, which makes them integer literals with a method call or field access,
 " or by another ".", which makes them integer literals followed by the ".." token.
 " (This must go first so the others take precedence.)
-syn match     rustFloat       display "\<[0-9][0-9_]*\.\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\|\.\)\@!"
+syn match     rustFloat "\<[0-9][0-9_]*\.\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\|\.\)\@!" display
 " To mark a number as a normal float, it must have at least one of the three things integral values don't have:
 " a decimal point and more numbers; an exponent; and a type suffix.
-syn match     rustFloat       display "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\%([eE][+-]\=[0-9_]\+\)\=\(f32\|f64\)\="
-syn match     rustFloat       display "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\=\%([eE][+-]\=[0-9_]\+\)\(f32\|f64\)\="
-syn match     rustFloat       display "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\=\%([eE][+-]\=[0-9_]\+\)\=\(f32\|f64\)"
+syn match     rustFloat "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\%([eE][+-]\=[0-9_]\+\)\=\(f32\|f64\)\=" display
+syn match     rustFloat "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\=\%([eE][+-]\=[0-9_]\+\)\(f32\|f64\)\=" display
+syn match     rustFloat "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\=\%([eE][+-]\=[0-9_]\+\)\=\(f32\|f64\)" display
 
 "rustLifetime must appear before rustCharacter, or chars will get the lifetime highlighting
-syn match     rustLifetime    display "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" nextgroup=rustNoise,@rustIdentifiers skipempty skipwhite
-syn match     rustLabel       display "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*:"
-syn match     rustLabel       display "\%(\<\%(break\|continue\)\s*\)\@<=\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*"
-syn match   rustCharacterInvalid   display contained /b\?'\zs[\n\r\t']\ze'/
+syn match     rustLifetime "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display nextgroup=rustNoise,@rustIdentifiers skipempty skipwhite
+syn match     rustLabel "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*:" display
+syn match     rustLabel "\%(\<\%(break\|continue\)\s*\)\@<=\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display
+syn match   rustCharacterInvalid /b\?'\zs[\n\r\t']\ze'/ contained
 " The groups negated here add up to 0-255 but nothing else (they do not seem to go beyond ASCII).
-syn match   rustCharacterInvalidUnicode   display contained /b'\zs[^[:cntrl:][:graph:][:alnum:][:space:]]\ze'/
-syn match   rustCharacter   /b'\([^\\]\|\\\(.\|x\x\{2}\)\)'/ contains=rustEscape,rustEscapeError,rustCharacterInvalid,rustCharacterInvalidUnicode
-syn match   rustCharacter   /'\([^\\]\|\\\(.\|x\x\{2}\|u{\%(\x_*\)\{1,6}}\)\)'/ contains=rustEscape,rustEscapeUnicode,rustEscapeError,rustCharacterInvalid
+syn match   rustCharacterInvalidUnicode /b'\zs[^[:cntrl:][:graph:][:alnum:][:space:]]\ze'/ contained display
+syn match   rustCharacter /b'\([^\\]\|\\\(.\|x\x\{2}\)\)'/ contains=rustEscape,rustEscapeError,rustCharacterInvalid,rustCharacterInvalidUnicode
+syn match   rustCharacter /'\([^\\]\|\\\(.\|x\x\{2}\|u{\%(\x_*\)\{1,6}}\)\)'/ contains=rustEscape,rustEscapeUnicode,rustEscapeError,rustCharacterInvalid
 
-syn match rustShebang /\%^#![^[].*/
+syn match rustShebang /\%^#![^[].*/ display
 syn region rustCommentLine                                                  start="//"                      end="$"   contains=rustTodo,@Spell
 syn region rustCommentLineDoc                                               start="//\%(//\@!\|!\)"         end="$"   contains=rustTodo,@Spell
 syn region rustCommentLineDocError                                          start="//\%(//\@!\|!\)"         end="$"   contains=rustTodo,@Spell contained
