@@ -125,6 +125,7 @@ syn keyword   rustBoolean     true false
 " If foo::bar changes to Foo::bar, change this (first "\w" to "\u").
 syn match     rustModPath     "\w\(\w\)*::\(<\)\@!"he=e-2,me=e-2 nextgroup=rustModPathSep contains=rustSelf
 syn match     rustModPathSep  "::" nextgroup=@rustIdentifiers skipwhite skipempty
+syn region    rustFoldModPath matchgroup=rustNoise start="\(::\s*\n*\)\@<={" end="}" contains=rustCommentBlock,rustCommentBlockDoc,rustCommentLineDoc,rustCommentLine,@rustIdentifiers,rustNoise transparent fold
 
 " This is merely a convention; note also the use of [A-Z], restricting it to
 " latin identifiers rather than the full Unicode uppercase. I have not used
@@ -257,7 +258,7 @@ syn keyword rustAsmOptions pure nomem readonly preserves_flags noreturn nostack 
 " Folding rules {{{2
 " Trivial folding rules to begin with.
 " FIXME: use the AST to make really good folding
-syn region rustFoldBraces matchgroup=rustNoise start="\(struct.*\n\?\)\@<!{" end="}" transparent fold
+syn region rustFoldBraces matchgroup=rustNoise start="\(struct.*\n\?\|::\s*\n*\)\@<!{" end="}" transparent fold
 
 if !exists("b:current_syntax_embed")
     let b:current_syntax_embed = 1
