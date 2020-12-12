@@ -70,8 +70,8 @@ syn match   rustExternCrateString /".*"\_s*as/ contained nextgroup=rustType skip
 syn keyword   rustObsoleteExternMod mod contained nextgroup=rustType skipempty skipwhite
 
 syn match  rustIdentifier "\l\+\(_\l\+\)*\((\)\@!" display contained contains=rustBoolean,rustSelf
-syn match  rustType       "\(\u\l*\)\+\(:\|(\)\@!" display contains=rustTypePrime contained
-syn match  rustConstant   "\u\+\(_\u\+\)*\(:\|(\)\@!" display contained
+syn match  rustType       "\(\u\l*\)\+\((\)\@!" display contains=rustTypePrime contained
+syn match  rustConstant   "\u\+\(_\u\+\)*\((\)\@!" display contained
 syn match  rustFuncName   "\w\+\(::\)\?\(<.*>\)\?\s*\((\)\@=" display contains=rustEnumVariant,rustModPathSep,rustGenericRegion
 syn cluster rustIdentifiers contains=rustModPath,rustBuiltinType,rustEnum,rustTrait,rustEnumVariant,rustLifetime,rustMacro,rustFuncName,rustIdentifier,rustType
 
