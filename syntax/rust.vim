@@ -27,8 +27,6 @@ syn match     rustKeyword /\%(\<impl\>.\+\)\@<=\<for\>/ display nextgroup=@rustI
 syn keyword   rustRepeat in nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustTypedef type nextgroup=rustType skipempty skipwhite
 syn keyword   rustStructure struct enum nextgroup=rustType skipempty skipwhite
-syn match     rustFieldName "\(pub \)\?\w\+" contained contains=rustKeyword display nextgroup=rustNoise skipempty skipwhite
-syn region    rustStructDefinition matchgroup=rustNoise start="\(\<struct\>.*\n\?\)\@<={" end="}" contains=rustCommentBlock,rustCommentBlockDoc,rustCommentLineDoc,rustCommentLine,rustFieldName,rustGenericRegion,rustLifetime,rustModPathSep,rustNoise,rustBounds,rustSigil,rustBuiltinType transparent fold
 syn keyword   rustUnion union nextgroup=rustType skipempty skipwhite contained
 syn match rustUnionContextual /\<union\_s\+\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*/ transparent contains=rustUnion
 syn keyword   rustOperator    as nextgroup=@rustIdentifiers skipempty skipwhite
@@ -47,7 +45,7 @@ syn keyword   rustKeyword     fn nextgroup=rustFuncName skipempty skipwhite
 syn keyword   rustKeyword     impl nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     let nextgroup=rustStorage,@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     macro
-syn keyword   rustKeyword     pub nextgroup=rustPubScope skipempty skipwhite
+syn keyword   rustKeyword     pub nextgroup=rustPubScope,rustKeyword,rustStructure,@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     return nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     yield nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustSuper       super
@@ -259,7 +257,7 @@ syn keyword rustAsmOptions pure nomem readonly preserves_flags noreturn nostack 
 " Folding rules {{{2
 " Trivial folding rules to begin with.
 " FIXME: use the AST to make really good folding
-syn region rustFoldBraces matchgroup=rustNoise start="\(\<struct\>.*\n\?\|::\s*\n*\)\@<!{" end="}" transparent fold
+syn region rustFoldBraces matchgroup=rustNoise start="\(::\s*\n*\)\@<!{" end="}" transparent fold
 
 if !exists("b:current_syntax_embed")
     let b:current_syntax_embed = 1
