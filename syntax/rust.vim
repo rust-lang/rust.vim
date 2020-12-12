@@ -14,12 +14,13 @@ endif
 
 " Syntax definitions {{{1
 " Basic keywords {{{2
-syn match     rustNoise display "[,\.;\[\]()]" nextgroup=rustNoise,rustKeyword,rustStorage,@rustIdentifiers skipempty skipwhite
+syn match     rustNoise display "[,\.\[\]()]" nextgroup=rustNoise,rustKeyword,rustStorage,@rustIdentifiers skipempty skipwhite
+syn match     rustNoise display ";"
 syn match     rustBounds display ":" nextgroup=rustKeyword,rustStorage,@rustIdentifiers skipempty skipwhite
-syn keyword   rustConditional match if else
-syn keyword   rustRepeat loop while
+syn keyword   rustConditional match if else nextgroup=rustConditional,@rustIdentifiers skipempty skipwhite
+syn keyword   rustRepeat loop while nextgroup=@rustIdentifiers skipempty skipwhite
 " `:syn match` must be used to prioritize highlighting `for` keyword.
-syn match     rustRepeat /\<for\>/
+syn match     rustRepeat /\<for\>/ nextgroup=@rustIdentifiers skipempty skipwhite
 " Highlight `for` keyword in `impl ... for ... {}` statement. This line must
 " be put after previous `syn match` line to overwrite it.
 syn match     rustKeyword /\%(\<impl\>.\+\)\@<=\<for\>/ nextgroup=@rustIdentifiers skipempty skipwhite
@@ -44,7 +45,7 @@ syn keyword   rustKeyword     crate
 syn keyword   rustKeyword     extern nextgroup=rustExternCrate,rustObsoleteExternMod skipempty skipwhite
 syn keyword   rustKeyword     fn nextgroup=rustFuncName skipempty skipwhite
 syn keyword   rustKeyword     impl nextgroup=@rustIdentifiers skipempty skipwhite
-syn keyword   rustKeyword     let nextgroup=@rustIdentifiers skipempty skipwhite
+syn keyword   rustKeyword     let nextgroup=rustStorage,@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     macro
 syn keyword   rustKeyword     pub nextgroup=rustPubScope skipempty skipwhite
 syn keyword   rustKeyword     return nextgroup=@rustIdentifiers skipempty skipwhite
