@@ -131,7 +131,7 @@ syn match     rustModPathSep  "::" nextgroup=@rustIdentifiers skipwhite skipempt
 "syn match     rustCapsIdent    display "[A-Z]\w\(\w\)*"
 
 syn match     rustOperator     display "\%(+\|-\|/\|*\|=\|\^\|&\||\|!\| [<>]\|%\)=\?" nextgroup=rustDecNumber,@rustIdentifiers skipempty skipwhite
-syn region    rustGenericRegion display matchgroup=rustNoise start="\(\s\+\|=\)\@<!<" end="\(=\|-\)\@<!>" contains=rustNoise,rustGenericRegion,@rustIdentifiers
+syn region    rustGenericRegion display matchgroup=rustNoise start="\(\s\+\|=\)\@<!<" end="\(=\|-\)\@<!>" contains=rustNoise,rustBounds,rustGenericRegion,@rustIdentifiers
 " This one isn't *quite* right, as we could have binary-& with a reference
 syn match     rustSigil        display /&\s\+[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustStorage,@rustIdentifiers skipempty skipwhite
 syn match     rustSigil        display /[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustStorage,@rustIdentifiers skipempty skipwhite
