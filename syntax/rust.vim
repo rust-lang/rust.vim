@@ -54,7 +54,7 @@ syn keyword   rustUnsafeKeyword unsafe
 syn keyword   rustKeyword     use nextgroup=rustModPath skipempty skipwhite
 " FIXME: Scoped impl's name is also fallen in this category
 syn keyword   rustKeyword     mod trait nextgroup=rustType skipempty skipwhite
-syn keyword   rustStorage     move mut ref static const nextgroup=@rustIdentifiers skipempty skipwhite
+syn keyword   rustStorage     move mut ref static const nextgroup=rustStorage,@rustIdentifiers skipempty skipwhite
 syn match     rustDefault     /\<default\ze\_s\+\(impl\|fn\|type\|const\)\>/ display
 syn keyword   rustAwait       await nextgroup=@rustIdentifiers skipempty skipwhite
 syn match     rustKeyword     /\<try\>!\@!/ display
@@ -71,7 +71,7 @@ syn match  rustIdentifier "\<\l\+\(_\l\+\)*\((\)\@!\>" contained contains=rustBo
 syn match  rustType       "\<\(\u\l*\)\+\((\)\@!\>" contains=rustTypePrime contained display
 syn match  rustConstant   "\<\u\+\(_\u\+\)*\((\)\@!\>" contained display
 syn match  rustFuncName   "\<\w\+\(::\)\?\(<.*>\)\?\s*\((\)\@=\>" contains=rustEnumVariant,rustModPathSep,rustGenericRegion display
-syn cluster rustIdentifiers contains=rustLifetime,rustModPath,rustBuiltinType,rustEnum,rustTrait,rustEnumVariant,rustMacro,rustFuncName,rustConstant,rustIdentifier,rustType
+syn cluster rustIdentifiers contains=@rustLifetimes,rustModPath,rustBuiltinType,rustEnum,rustTrait,rustEnumVariant,rustMacro,rustFuncName,rustConstant,rustIdentifier,rustType
 
 syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end="),\=[*+]" contains=TOP
 syn match rustMacroVariable "\$\w\+" display
@@ -200,8 +200,10 @@ syn match     rustFloat "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\=\%([eE][+-]\=[0-9_]\
 
 "rustLifetime must appear before rustCharacter, or chars will get the lifetime highlighting
 syn match     rustLifetime "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display nextgroup=rustNoise,@rustIdentifiers skipempty skipwhite
-syn match     rustLabel "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*:" display
-syn match     rustLabel "\%(\<\%(break\|continue\)\s*\)\@<=\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display
+syn match     rustStaticLifetime "'static" display contains=rustStorage nextgroup=rustNoise,@rustIdentifiers skipempty skipwhite
+syn cluster   rustLifetimes contains=rustStaticLifetime,rustLifetime
+syn match     rustLabel "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*:" contains=rustBounds display
+syn match     rustLabel "\%(\<\%(break\|continue\)\s*\)\@<=\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*"  display
 syn match   rustCharacterInvalid /b\?'\zs[\n\r\t']\ze'/ contained
 " The groups negated here add up to 0-255 but nothing else (they do not seem to go beyond ASCII).
 syn match   rustCharacterInvalidUnicode /b'\zs[^[:cntrl:][:graph:][:alnum:][:space:]]\ze'/ contained display
@@ -363,7 +365,8 @@ hi def link rustDerive        PreProc
 hi def link rustDefault       StorageClass
 hi def link rustStorage       StorageClass
 hi def link rustObsoleteStorage Error
-hi def link rustLifetime      Special
+hi def link rustLifetime       Special
+hi def link rustStaticLifetime rustStorage
 hi def link rustLabel         Label
 hi def link rustExternCrate   rustKeyword
 hi def link rustObsoleteExternMod Error
