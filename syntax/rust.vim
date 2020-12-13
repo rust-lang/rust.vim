@@ -17,7 +17,7 @@ endif
 syn match     rustNoise "[,\.\[\]()]" display nextgroup=rustRange,rustNoise,rustKeyword,rustStorage,@rustLiterals,@rustIdentifiers skipempty skipwhite
 syn match     rustNoise ";" display
 syn match     rustBounds ":" display nextgroup=rustKeyword,rustStorage,@rustIdentifiers skipempty skipwhite
-syn keyword   rustConditional match if else nextgroup=rustConditional,@rustIdentifiers skipempty skipwhite
+syn keyword   rustConditional match if else nextgroup=rustConditional,rustKeyword,@rustIdentifiers skipempty skipwhite
 syn keyword   rustRepeat loop while nextgroup=@rustIdentifiers skipempty skipwhite
 " `:syn match` must be used to prioritize highlighting `for` keyword.
 syn match     rustRepeat /\<for\>/ display nextgroup=@rustIdentifiers skipempty skipwhite
