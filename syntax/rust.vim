@@ -14,7 +14,7 @@ endif
 
 " Syntax definitions {{{1
 " Basic keywords {{{2
-syn match     rustNoise "[,\.\[\]()]" display nextgroup=rustNoise,rustKeyword,rustStorage,@rustLiterals,@rustIdentifiers skipempty skipwhite
+syn match     rustNoise "[,\.\[\]()]" display nextgroup=rustRange,rustNoise,rustKeyword,rustStorage,@rustLiterals,@rustIdentifiers skipempty skipwhite
 syn match     rustNoise ";" display
 syn match     rustBounds ":" display nextgroup=rustKeyword,rustStorage,@rustIdentifiers skipempty skipwhite
 syn keyword   rustConditional match if else nextgroup=rustConditional,@rustIdentifiers skipempty skipwhite
@@ -131,6 +131,7 @@ syn region    rustFoldModPath matchgroup=rustNoise start="\(::\s*\n*\)\@<={" end
 "syn match     rustCapsIdent    display "[A-Z]\w\(\w\)*"
 
 syn match     rustOperator     "\%(+\|-\|/\|*\|=\|\^\|&\||\|!\| [<>]\|%\)=\?" display nextgroup=@rustLiterals,@rustIdentifiers skipempty skipwhite
+syn match     rustRange "\.\." display nextgroup=rustNoise,@rustLiterals,@rustIdentifiers skipempty skipwhite
 syn region    rustGenericRegion matchgroup=rustNoise start="\(\s\+\|=\)\@<!<" end="\(=\|-\)\@<!>" contains=rustNoise,rustBounds,rustGenericRegion,@rustIdentifiers
 " This one isn't *quite* right, as we could have binary-& with a reference
 syn match     rustSigil /&\s\+[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustStorage,@rustIdentifiers skipempty skipwhite
@@ -324,6 +325,7 @@ hi def link rustSelf          Constant
 hi def link rustFloat         Float
 hi def link rustArrowCharacter rustOperator
 hi def link rustOperator      Operator
+hi def link rustRange         rustOperator
 hi def link rustBounds        rustOperator
 hi def link rustKeyword       Keyword
 hi def link rustDynKeyword    rustKeyword
