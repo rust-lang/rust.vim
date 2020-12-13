@@ -67,11 +67,11 @@ syn keyword   rustExternCrate crate contained nextgroup=rustType,rustExternCrate
 syn match   rustExternCrateString /".*"\_s*as/ contained display nextgroup=rustType skipwhite transparent skipempty contains=rustString,rustOperator
 syn keyword   rustObsoleteExternMod mod contained nextgroup=rustType skipempty skipwhite
 
-syn match  rustIdentifier "\<\l\+\(_\l\+\)*\((\)\@!\>" contained contains=rustBoolean,rustSelf display
-syn match  rustType       "\<\(\u\l*\)\+\((\)\@!\>" contains=rustTypePrime contained display
-syn match  rustConstant   "\<\u\+\(_\u\+\)*\((\)\@!\>" contained display
-syn match  rustFuncName   "\<\w\+\(::\)\?\(<.*>\)\?\s*\((\)\@=\>" contains=rustEnumVariant,rustModPathSep,rustGenericRegion display
-syn cluster rustIdentifiers contains=@rustLifetimes,rustModPath,rustBuiltinType,rustEnum,rustTrait,rustEnumVariant,rustMacro,rustFuncName,rustConstant,rustIdentifier,rustType
+syn match  rustIdentifier "\<\l\+\(_\+\l\+\)*\>" contained contains=rustBoolean,rustSelf display
+syn match  rustConstant   "\<\u\+\(_\+\u\+\)*\>" contained display
+syn match  rustFuncName   "\<\w\+\(::\)\?\(<.*>\)\?\s*\((\)\@=\>" contains=rustModPathSep,rustGenericRegion display
+syn match  rustType       "\<\(\u\l*\)\+\>" contains=rustEnum,rustEnumVariant,rustTrait display
+syn cluster rustIdentifiers contains=@rustLifetimes,rustModPath,rustMacro,rustBuiltinType,rustType,rustFuncName,rustConstant,rustIdentifier
 
 syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end="),\=[*+]" contains=TOP
 syn match rustMacroVariable "\$\w\+" display
