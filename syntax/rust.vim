@@ -51,9 +51,9 @@ syn keyword   rustKeyword     yield nextgroup=@rustIdentifiers skipempty skipwhi
 syn keyword   rustSuper       super
 syn keyword   rustKeyword     where nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustUnsafeKeyword unsafe
-syn keyword   rustKeyword     use nextgroup=rustModPath skipempty skipwhite
+syn keyword   rustKeyword     mod use nextgroup=rustModPath skipempty skipwhite
 " FIXME: Scoped impl's name is also fallen in this category
-syn keyword   rustKeyword     mod trait nextgroup=rustType skipempty skipwhite
+syn keyword   rustKeyword     trait nextgroup=rustType skipempty skipwhite
 syn keyword   rustStorage     move mut ref static const nextgroup=rustStorage,@rustIdentifiers skipempty skipwhite
 syn match     rustDefault     /\<default\ze\_s\+\(impl\|fn\|type\|const\)\>/ display
 syn keyword   rustAwait       await nextgroup=@rustIdentifiers skipempty skipwhite
@@ -121,7 +121,9 @@ syn keyword   rustBoolean     true false
 
 " If foo::bar changes to foo.bar, change this ("::" to "\.").
 " If foo::bar changes to Foo::bar, change this (first "\w" to "\u").
-syn match     rustModPath     "\w\(\w\)*::\(<\)\@!"he=e-2,me=e-2 nextgroup=rustModPathSep contains=rustSelf display
+syn cluster   rustScopes contains=rustSuper,rustSelf,rustPubScopeCrate
+syn match     rustModPath     "\w\(\w\)*::\(<\)\@!"he=e-2,me=e-2 nextgroup=rustModPathSep contains=@rustScopes display
+syn match     rustModPath     "\(use\|mod\)\@<=\(::\| \)\<\w\+\>\(;\)\@=" contains=@rustScopes display
 syn match     rustModPathSep  "::" nextgroup=@rustIdentifiers skipempty skipwhite display
 syn region    rustFoldModPath matchgroup=rustNoise start="\(::\s*\n*\)\@<={" end="}" contains=rustCommentBlock,rustCommentBlockDoc,rustCommentLineDoc,rustCommentLine,@rustIdentifiers,rustNoise transparent fold
 
