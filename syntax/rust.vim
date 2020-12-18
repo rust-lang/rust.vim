@@ -135,7 +135,7 @@ syn region  rustFoldModPath matchgroup=rustNoise start="\(::\s*\n*\)\@<={" end="
 
 syn match     rustOperator     "\%(+\|-\|/\|*\|=\|\^\|&\||\|!\| [<>]\|%\)=\?" display nextgroup=@rustLiterals,@rustIdentifiers skipempty skipwhite
 syn match     rustRange "\.\." display nextgroup=rustNoise,@rustLiterals,@rustIdentifiers skipempty skipwhite
-syn region    rustGenericRegion matchgroup=rustNoise start="\(\s\+\|=\)\@<!<" end="\(=\|-\)\@<!>" contains=rustNoise,rustBounds,rustGenericRegion,@rustIdentifiers
+syn region    rustGenericRegion matchgroup=rustNoise start="\(\s\+\|=\)\@<!<" end="\(=\|-\)\@<!>" contains=rustNoise,rustBounds,rustGenericRegion,@rustIdentifiers,@rustComments
 " This one isn't *quite* right, as we could have binary-& with a reference
 syn match     rustSigil /&\s\+[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustStorage,@rustIdentifiers skipempty skipwhite
 syn match     rustSigil /[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustStorage,@rustIdentifiers skipempty skipwhite
