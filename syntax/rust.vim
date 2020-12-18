@@ -67,11 +67,11 @@ syn keyword   rustExternCrate crate contained nextgroup=rustType,rustExternCrate
 syn match   rustExternCrateString /".*"\_s*as/ contained display nextgroup=rustType skipwhite transparent skipempty contains=rustString,rustOperator
 syn keyword   rustObsoleteExternMod mod contained nextgroup=rustType skipempty skipwhite
 
-syn match  rustIdentifier "\<\l\+\(_\+\l\+\)*\>" contained contains=rustBoolean,rustSelf display
-syn match  rustConstant   "\<\u\+\(_\+\u\+\)*\>" contained display
-syn match  rustFuncName   "\<\w\+\(::\)\?\(<.*>\)\?\s*\((\)\@=\>" contains=rustModPathSep,rustGenericRegion display
-syn match  rustType       "\<\(\u\l*\)\+\>" contains=rustEnum,rustEnumVariant,rustTrait display
-syn cluster rustIdentifiers contains=@rustLifetimes,rustModPath,rustMacro,rustBuiltinType,rustType,rustFuncName,rustConstant,rustIdentifier
+syn match  rustIdentifier "\v<\l+(_+\l+)*>" contained contains=rustBoolean,rustSelf display
+syn match  rustConstant   "\v<\u+(_+\u+)*>" contained display
+syn match  rustFuncName   "\v<\w+(::)?(\<.*\>)?\s*(\()@=>" contains=rustModPathSep,rustGenericRegion display
+syn match  rustType       "\v<\u>|<\u+\l+(\u+\l*)*>" contains=rustEnum,rustEnumVariant,rustTrait display
+syn cluster rustIdentifiers contains=@rustLifetimes,rustModPath,rustMacro,rustBuiltinType,rustConstant,rustType,rustFuncName,rustIdentifier
 
 syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end="),\=[*+]" contains=TOP
 syn match rustMacroVariable "\$\w\+" display
@@ -121,11 +121,12 @@ syn keyword   rustBoolean     true false
 
 " If foo::bar changes to foo.bar, change this ("::" to "\.").
 " If foo::bar changes to Foo::bar, change this (first "\w" to "\u").
-syn cluster   rustScopes contains=rustSuper,rustSelf,rustPubScopeCrate
-syn match     rustModPath     "\w\(\w\)*::\(<\)\@!"he=e-2,me=e-2 nextgroup=rustModPathSep contains=@rustScopes display
-syn match     rustModPath     "\(use\|mod\)\@<=\(::\| \)\<\w\+\>\(;\)\@=" contains=@rustScopes display
-syn match     rustModPathSep  "::" nextgroup=@rustIdentifiers skipempty skipwhite display
-syn region    rustFoldModPath matchgroup=rustNoise start="\(::\s*\n*\)\@<={" end="}" contains=rustCommentBlock,rustCommentBlockDoc,rustCommentLineDoc,rustCommentLine,@rustIdentifiers,rustNoise transparent fold
+syn cluster rustScopes contains=rustSuper,rustSelf,rustPubScopeCrate
+syn match   rustModule      "\v<\l+(_+\l+)*>" contained contains=@rustScopes display
+syn match   rustModPath     "\v<\l+(_+\l+)*>(::)@=" contains=rustModule display nextgroup=rustModPathSep
+syn match   rustModPath     "\v(^\s*(use|(pub\s+)?mod)\s+)@<=<\w+>(::<\w+>)*;@=" contains=rustModPath,rustType display
+syn match   rustModPathSep  "::" nextgroup=rustModPath,@rustIdentifiers display skipempty skipwhite
+syn region  rustFoldModPath matchgroup=rustNoise start="\(::\s*\n*\)\@<={" end="}" contains=rustCommentBlock,rustCommentBlockDoc,rustCommentLineDoc,rustCommentLine,@rustIdentifiers,rustNoise transparent fold
 
 " This is merely a convention; note also the use of [A-Z], restricting it to
 " latin identifiers rather than the full Unicode uppercase. I have not used
@@ -345,6 +346,7 @@ hi def link rustType          Type
 hi def link rustIdentifier    Identifier
 hi def link rustCapsIdent     rustType
 hi def link rustModPath       Include
+hi def link rustModule        rustModPath
 hi def link rustModPathSep    Delimiter
 hi def link rustFunction      Function
 hi def link rustFuncName      Function
