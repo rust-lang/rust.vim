@@ -126,7 +126,7 @@ syn match   rustModule      "\v<\l+(_+\l+)*>" contained contains=@rustScopes dis
 syn match   rustModPath     "\v<\l+(_+\l+)*>(::)@=" contains=rustModule display nextgroup=rustModPathSep
 syn match   rustModPath     "\v(^\s*(use|(pub\s+)?mod)\s+)@<=<\w+>(::<\w+>)*;@=" contains=rustModPath,rustType display
 syn match   rustModPathSep  "::" nextgroup=rustModPath,@rustIdentifiers display skipempty skipwhite
-syn region  rustFoldModPath matchgroup=rustNoise start="\(::\s*\n*\)\@<={" end="}" contains=rustCommentBlock,rustCommentBlockDoc,rustCommentLineDoc,rustCommentLine,@rustIdentifiers,rustNoise transparent fold
+syn region  rustFoldModPath matchgroup=rustNoise start="\(::\s*\n*\)\@<={" end="}" contains=@rustComments,@rustIdentifiers,rustNoise transparent fold
 
 " This is merely a convention; note also the use of [A-Z], restricting it to
 " latin identifiers rather than the full Unicode uppercase. I have not used
@@ -169,7 +169,7 @@ syn region    rustAttributeParenthesizedBrackets matchgroup=rustAttribute start=
 syn region    rustAttributeBalancedParens matchgroup=rustAttribute start="("rs=e end=")"re=s transparent contained contains=rustAttributeBalancedParens,@rustAttributeContents
 syn region    rustAttributeBalancedCurly matchgroup=rustAttribute start="{"rs=e end="}"re=s transparent contained contains=rustAttributeBalancedCurly,@rustAttributeContents
 syn region    rustAttributeBalancedBrackets matchgroup=rustAttribute start="\["rs=e end="\]"re=s transparent contained contains=rustAttributeBalancedBrackets,@rustAttributeContents
-syn cluster   rustAttributeContents contains=rustString,rustCommentLine,rustCommentBlock,rustCommentLineDocError,rustCommentBlockDocError
+syn cluster   rustAttributeContents contains=@rustLiterals,@rustComments
 syn region    rustDerive      start="derive(" end=")" contained contains=rustDeriveTrait
 " This list comes from src/libsyntax/ext/deriving/mod.rs
 " Some are deprecated (Encodable, Decodable) or to be removed after a new snapshot (Show).
@@ -225,6 +225,8 @@ syn region rustCommentBlockNest         matchgroup=rustCommentBlock         star
 syn region rustCommentBlockDocNest      matchgroup=rustCommentBlockDoc      start="/\*"                     end="\*/" contains=rustTodo,rustCommentBlockDocNest,@Spell contained transparent
 syn region rustCommentBlockDocNestError matchgroup=rustCommentBlockDocError start="/\*"                     end="\*/" contains=rustTodo,rustCommentBlockDocNestError,@Spell contained transparent
 
+syn cluster rustComments contains=rustCommentBlock,rustCommentBlockDoc,rustCommentBlockDocError,rustCommentLine,rustCommentLineDoc,rustCommentLineDocError
+
 " FIXME: this is a really ugly and not fully correct implementation. Most
 " importantly, a case like ``/* */*`` should have the final ``*`` not being in
 " a comment, but in practice at present it leaves comments open two levels
@@ -240,7 +242,7 @@ syn region rustCommentBlockDocNestError matchgroup=rustCommentBlockDocError star
 syn keyword rustTodo contained TODO FIXME XXX NB NOTE SAFETY
 
 " asm! macro {{{2
-syn region rustAsmMacro matchgroup=rustMacro start="\<asm!\s*(" end=")" contains=rustAsmDirSpec,rustAsmSym,rustAsmConst,rustAsmOptionsGroup,rustComment.*,rustString.*
+syn region rustAsmMacro matchgroup=rustMacro start="\<asm!\s*(" end=")" contains=rustAsmDirSpec,rustAsmSym,rustAsmConst,rustAsmOptionsGroup,@rustComments,rustString.*
 
 " Clobbered registers
 syn keyword rustAsmDirSpec in out lateout inout inlateout contained nextgroup=rustAsmReg skipempty skipwhite
@@ -248,11 +250,11 @@ syn region  rustAsmReg start="(" end=")" contained contains=rustString
 
 " Symbol operands
 syn keyword rustAsmSym sym contained nextgroup=rustAsmSymPath skipempty skipwhite
-syn region  rustAsmSymPath start="\S" end=",\|)"me=s-1 contained contains=rustComment.*,rustType
+syn region  rustAsmSymPath start="\S" end=",\|)"me=s-1 contained contains=@rustComments,rustType
 
 " Const
 syn region  rustAsmConstBalancedParens start="("ms=s+1 end=")" contained contains=@rustAsmConstExpr
-syn cluster rustAsmConstExpr contains=rustComment.*,@rustLiterals,rustAsmConstBalancedParens
+syn cluster rustAsmConstExpr contains=@rustComments,@rustLiterals,rustAsmConstBalancedParens
 syn region  rustAsmConst start="const" end=",\|)"me=s-1 contained contains=rustStorage,@rustAsmConstExpr
 
 " Options
