@@ -124,7 +124,7 @@ syn keyword   rustBoolean     true false
 syn cluster rustScopes contains=rustSuper,rustSelf,rustPubScopeCrate
 syn match   rustModule      "\v<\l+(_+\l+)*>" contained contains=@rustScopes display
 syn match   rustModPath     "\v<\l+(_+\l+)*>(::)@=" contains=rustModule display nextgroup=rustModPathSep
-syn match   rustModPath     "\v(^\s*(use|(pub\s+)?mod)\s+)@<=<\w+>(::<\w+>)*;@=" contains=rustModPath,rustType display
+syn match   rustModPath     "\v(^\s*(pub\s+)?(use|mod)\s+)@<=<\w+>(::<\w+>)*;@=" contains=rustModPath,rustType display
 syn match   rustModPathSep  "::" nextgroup=rustModPath,@rustIdentifiers display skipempty skipwhite
 syn region  rustFoldModPath matchgroup=rustNoise start="\(::\s*\n*\)\@<={" end="}" contains=@rustComments,rustOperator,@rustIdentifiers,rustNoise transparent fold
 
