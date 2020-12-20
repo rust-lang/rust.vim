@@ -126,7 +126,7 @@ syn match   rustModule      "\v<\l+(_+\l+)*>" contained contains=@rustScopes dis
 syn match   rustModPath     "\v<\l+(_+\l+)*>(::)@=" contains=rustModule display nextgroup=rustModPathSep
 syn match   rustModPath     "\v(^\s*(use|(pub\s+)?mod)\s+)@<=<\w+>(::<\w+>)*;@=" contains=rustModPath,rustType display
 syn match   rustModPathSep  "::" nextgroup=rustModPath,@rustIdentifiers display skipempty skipwhite
-syn region  rustFoldModPath matchgroup=rustNoise start="\(::\s*\n*\)\@<={" end="}" contains=@rustComments,@rustIdentifiers,rustNoise transparent fold
+syn region  rustFoldModPath matchgroup=rustNoise start="\(::\s*\n*\)\@<={" end="}" contains=@rustComments,rustOperator,@rustIdentifiers,rustNoise transparent fold
 
 " This is merely a convention; note also the use of [A-Z], restricting it to
 " latin identifiers rather than the full Unicode uppercase. I have not used
