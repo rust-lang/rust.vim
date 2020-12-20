@@ -69,7 +69,7 @@ syn keyword   rustObsoleteExternMod mod contained nextgroup=rustType skipempty s
 
 syn match  rustIdentifier "\v<\l+(_+\l+)*>" contained contains=rustBoolean,rustSelf display
 syn match  rustConstant   "\v<\u+(_+\u+)*>" contained display
-syn match  rustFuncName   "\v<\w+(::)?(\<.*\>)?\s*(\()@=>" contains=rustModPathSep,rustGenericRegion display
+syn match  rustFuncName   "\v<\w+>(::)?(\<.*\>)?\s*(\()@=" contains=rustModPathSep,rustGenericRegion display
 syn match  rustType       "\v<\u>|<\u+\l+(\u+\l*)*>" contains=rustEnum,rustEnumVariant,rustTrait display
 syn cluster rustIdentifiers contains=@rustLifetimes,rustModPath,rustMacro,rustBuiltinType,rustConstant,rustType,rustFuncName,rustIdentifier
 
