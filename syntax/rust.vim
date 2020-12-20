@@ -137,8 +137,8 @@ syn match     rustOperator     "\%(+\|-\|/\|*\|=\|\^\|&\||\|!\| [<>]\|%\)=\?" di
 syn match     rustRange "\.\." display nextgroup=rustNoise,@rustLiterals,@rustIdentifiers skipempty skipwhite
 syn region    rustGenericRegion matchgroup=rustNoise start="\(\s\+\|=\)\@<!<" end="\(=\|-\)\@<!>" contains=rustNoise,rustSigil,rustBounds,rustGenericRegion,@rustIdentifiers,@rustComments
 " This one isn't *quite* right, as we could have binary-& with a reference
-syn match     rustSigil /&\s\+[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustStorage,@rustIdentifiers skipempty skipwhite
-syn match     rustSigil /[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustStorage,@rustIdentifiers skipempty skipwhite
+syn match     rustSigil /&\s\+[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustStorage,rustDynKeyword,@rustIdentifiers skipempty skipwhite
+syn match     rustSigil /[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustStorage,rustDynKeyword,@rustIdentifiers skipempty skipwhite
 " This isn't actually correct; a closure with no arguments can be `|| { }`.
 " Last, because the & in && isn't a sigil
 syn match     rustOperator  "&&\|||" display nextgroup=rustBoolean,@rustIdentifiers skipempty skipwhite
@@ -183,7 +183,7 @@ syn keyword   rustDeriveTrait contained Clone Hash RustcEncodable RustcDecodable
 " This is so that uses of dyn variable names such as in 'let &dyn = &2'
 " and 'let dyn = 2' will not get highlighted as a keyword.
 syn match     rustKeyword "\<dyn\ze\_s\+\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)" contains=rustDynKeyword display
-syn keyword   rustDynKeyword  dyn contained
+syn keyword   rustDynKeyword  dyn contained nextgroup=@rustIdentifier skipempty skipwhite
 
 " Number literals
 syn match rustDecNumber "\<[0-9][0-9_]*\%([iu]\%(size\|8\|16\|32\|64\|128\)\)\=" display
