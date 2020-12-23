@@ -126,7 +126,6 @@ syn match   rustModule      "\v<\l+(_+\l+)*>" contained contains=@rustScopes dis
 syn match   rustModPath     "\v<\l+(_+\l+)*>(::)@=" contains=rustModule display nextgroup=rustModPathSep
 syn match   rustModPath     "\v(^\s*(pub\s+)?(use|mod)\s+)@<=<\w+>(::<\w+>)*;@=" contains=rustModPath,rustType display
 syn match   rustModPathSep  "::" nextgroup=rustModPath,@rustIdentifiers display skipempty skipwhite
-syn region  rustFoldModPath matchgroup=rustNoise start="\(::\s*\n*\)\@<={" end="}" contains=@rustComments,rustOperator,@rustIdentifiers,rustNoise transparent fold
 
 " This is merely a convention; note also the use of [A-Z], restricting it to
 " latin identifiers rather than the full Unicode uppercase. I have not used
@@ -265,7 +264,7 @@ syn keyword rustAsmOptions pure nomem readonly preserves_flags noreturn nostack 
 " Folding rules {{{2
 " Trivial folding rules to begin with.
 " FIXME: use the AST to make really good folding
-syn region rustFoldBraces matchgroup=rustNoise start="\(::\s*\n*\)\@<!{" end="}" transparent fold
+syn region rustFoldBraces matchgroup=rustNoise start="{" end="}" transparent fold
 
 if !exists("b:current_syntax_embed")
     let b:current_syntax_embed = 1
