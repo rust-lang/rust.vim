@@ -132,7 +132,7 @@ syn match   rustModPathSep  "::" nextgroup=rustModPath,@rustIdentifiers display 
 " [:upper:] as it depends upon 'noignorecase'
 "syn match     rustCapsIdent    display "[A-Z]\w\(\w\)*"
 
-syn match     rustOperator     "\%(+\|-\|/\|*\|=\|\^\|&\||\|!\| [<>]\|%\)=\?" display nextgroup=@rustLiterals,rustConditional,@rustIdentifiers skipempty skipwhite
+syn match     rustOperator     "\%(+\|-\|/\|*\|=\|\^\|&\||\|!\| [<>]\|%\)=\?" display nextgroup=@rustLiterals,rustKeyword,rustConditional,@rustIdentifiers skipempty skipwhite
 syn match     rustRange "\.\." display nextgroup=rustNoise,@rustLiterals,@rustIdentifiers skipempty skipwhite
 syn region    rustGenericRegion matchgroup=rustNoise start="\(\s\+\|=\)\@<!<" end="\(=\|-\)\@<!>" contains=rustNoise,rustSigil,rustBounds,rustGenericRegion,@rustIdentifiers,@rustComments
 " This one isn't *quite* right, as we could have binary-& with a reference
