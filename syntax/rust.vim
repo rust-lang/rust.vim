@@ -23,7 +23,7 @@ syn keyword   rustRepeat loop while nextgroup=@rustIdentifiers skipempty skipwhi
 syn match     rustRepeat /\<for\>/ display nextgroup=@rustIdentifiers skipempty skipwhite
 " Highlight `for` keyword in `impl ... for ... {}` statement. This line must
 " be put after previous `syn match` line to overwrite it.
-syn match     rustKeyword /\%(\<impl\>.\+\)\@<=\<for\>/ display nextgroup=@rustIdentifiers skipempty skipwhite
+syn match     rustKeyword /\%(\<impl\>.\+\n\?\)\@<=\<for\>/ nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustRepeat in nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustTypedef type nextgroup=rustType skipempty skipwhite
 syn keyword   rustStructure struct enum nextgroup=rustType skipempty skipwhite
