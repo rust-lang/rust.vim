@@ -71,18 +71,19 @@ syn match  rustIdentifier "\v<\l+(_+\l+)*>" contained contains=rustBoolean,rustS
 syn match  rustConstant   "\v<\u+(_+\u+)*>" contained display
 syn match  rustFuncName   "\v<\w+>(::)?(\<.*\>)?\s*(\()@=" contains=rustModPathSep,rustGenericRegion display
 syn match  rustType       "\v<\u>|<\u+\l+(\u+\l*)*>" contains=rustEnum,rustEnumVariant,rustTrait display
-syn cluster rustIdentifiers contains=@rustLifetimes,rustModPath,rustMacro,rustBuiltinType,rustConstant,rustType,rustFuncName,rustIdentifier
+syn cluster rustIdentifiers contains=@rustLifetimes,rustMacroVariable,rustMacroRepeat,rustModPath,rustMacro,rustBuiltinType,rustConstant,rustType,rustFuncName,rustIdentifier
 
-syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end="),\=[*+]" contains=TOP
-syn match rustMacroVariable "\$\w\+" display
+syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end="),\=[*+]" contains=rustMacroVariable
+syn match rustMacroVariable "\$\w\+" display nextgroup=rustBounds
 syn match rustRawIdent "\<r#\h\w*" contains=NONE display
 
 " Reserved (but not yet used) keywords {{{2
 syn keyword   rustReservedKeyword become do priv typeof unsized abstract virtual final override
 
 " Built-in types {{{2
-syn keyword   rustBuiltinType        isize usize char bool u8 u16 u32 u64 u128 f32
-syn keyword   rustBuiltinType        f64 i8 i16 i32 i64 i128 str Self
+syn keyword   rustBuiltinType isize usize char bool u8 u16 u32 u64 u128 f32
+syn keyword   rustBuiltinType f64 i8 i16 i32 i64 i128 str Self
+syn keyword   rustBuiltinType block expr ident item lifetime literal meta pat path stmt tt ty vis
 
 " Things from the libstd v1 prelude (src/libstd/prelude/v1.rs) {{{2
 " This section is just straight transformation of the contents of the prelude,
