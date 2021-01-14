@@ -203,8 +203,8 @@ syn match     rustFloat "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\=\%([eE][+-]\=[0-9_]\
 syn match     rustFloat "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\=\%([eE][+-]\=[0-9_]\+\)\=\(f32\|f64\)" display
 
 "rustLifetime must appear before rustCharacter, or chars will get the lifetime highlighting
-syn match     rustLifetime "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display nextgroup=rustNoise,@rustIdentifiers skipempty skipwhite
-syn match     rustStaticLifetime "'static" display contains=rustStorage nextgroup=rustNoise,@rustIdentifiers skipempty skipwhite
+syn match     rustLifetime "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display nextgroup=rustNoise,rustDynKeyword,@rustIdentifiers skipempty skipwhite
+syn match     rustStaticLifetime "'static" display contains=rustStorage nextgroup=rustNoise,rustDynKeyword,@rustIdentifiers skipempty skipwhite
 syn cluster   rustLifetimes contains=rustStaticLifetime,rustLifetime
 syn match     rustLabel "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*:" contains=rustBounds display
 syn match     rustLabel "\%(\<\%(break\|continue\)\s*\)\@<=\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*"  display
