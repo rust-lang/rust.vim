@@ -141,7 +141,7 @@ syn match     rustSigil /&\s\+[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustSto
 syn match     rustSigil /[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustStorage,rustDynKeyword,@rustIdentifiers skipempty skipwhite
 " This isn't actually correct; a closure with no arguments can be `|| { }`.
 " Last, because the & in && isn't a sigil
-syn match     rustOperator  "&&\|||" display nextgroup=rustBoolean,@rustIdentifiers skipempty skipwhite
+syn match     rustOperator  "&&\|||" display nextgroup=rustBoolean,rustConditional,@rustIdentifiers skipempty skipwhite
 " This is rustArrowCharacter rather than rustArrow for the sake of matchparen,
 " so it skips the ->; see http://stackoverflow.com/a/30309949 for details.
 syn match     rustArrowCharacter "->" display nextgroup=@rustIdentifiers skipempty skipwhite
