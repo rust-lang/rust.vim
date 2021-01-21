@@ -16,7 +16,7 @@ endif
 " Basic keywords {{{2
 syn match     rustNoise "[,\.\[\]()]" display nextgroup=rustRange,rustNoise,rustConditional,rustKeyword,rustStorage,@rustLiterals,@rustIdentifiers skipempty skipwhite
 syn match     rustNoise ";" display
-syn match     rustBounds ":" display nextgroup=rustKeyword,rustStorage,@rustIdentifiers skipempty skipwhite
+syn match     rustBounds ":" display nextgroup=rustKeyword,rustStorage,rustConditional,@rustIdentifiers skipempty skipwhite
 syn keyword   rustConditional match if else nextgroup=rustConditional,rustKeyword,@rustIdentifiers skipempty skipwhite
 syn keyword   rustRepeat loop while nextgroup=@rustIdentifiers skipempty skipwhite
 " `:syn match` must be used to prioritize highlighting `for` keyword.
@@ -45,7 +45,7 @@ syn keyword   rustKeyword     fn nextgroup=rustFuncName skipempty skipwhite
 syn keyword   rustKeyword     impl nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     let nextgroup=rustStorage,@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     macro
-syn keyword   rustKeyword     pub nextgroup=rustPubScope,rustKeyword,rustTypedef,rustStructure,@rustIdentifiers skipempty skipwhite
+syn keyword   rustKeyword     pub nextgroup=rustPubScope,rustKeyword,rustTypedef,rustStructure,rustStorage,@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     return nextgroup=rustAwait,rustConditional,rustKeyword,@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     yield nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustSuper       super
@@ -141,7 +141,7 @@ syn match     rustSigil /&\s\+[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustSto
 syn match     rustSigil /[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustStorage,rustDynKeyword,@rustIdentifiers skipempty skipwhite
 " This isn't actually correct; a closure with no arguments can be `|| { }`.
 " Last, because the & in && isn't a sigil
-syn match     rustOperator  "&&\|||" display nextgroup=rustBoolean,@rustIdentifiers skipempty skipwhite
+syn match     rustOperator  "&&\|||" display nextgroup=rustBoolean,rustConditional,@rustIdentifiers skipempty skipwhite
 " This is rustArrowCharacter rather than rustArrow for the sake of matchparen,
 " so it skips the ->; see http://stackoverflow.com/a/30309949 for details.
 syn match     rustArrowCharacter "->" display nextgroup=@rustIdentifiers skipempty skipwhite
@@ -203,8 +203,8 @@ syn match     rustFloat "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\=\%([eE][+-]\=[0-9_]\
 syn match     rustFloat "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\=\%([eE][+-]\=[0-9_]\+\)\=\(f32\|f64\)" display
 
 "rustLifetime must appear before rustCharacter, or chars will get the lifetime highlighting
-syn match     rustLifetime "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display nextgroup=rustNoise,@rustIdentifiers skipempty skipwhite
-syn match     rustStaticLifetime "'static" display contains=rustStorage nextgroup=rustNoise,@rustIdentifiers skipempty skipwhite
+syn match     rustLifetime "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display nextgroup=rustNoise,rustDynKeyword,@rustIdentifiers skipempty skipwhite
+syn match     rustStaticLifetime "'static" display contains=rustStorage nextgroup=rustNoise,rustDynKeyword,@rustIdentifiers skipempty skipwhite
 syn cluster   rustLifetimes contains=rustStaticLifetime,rustLifetime
 syn match     rustLabel "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*:" contains=rustBounds display
 syn match     rustLabel "\%(\<\%(break\|continue\)\s*\)\@<=\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*"  display
