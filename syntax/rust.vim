@@ -133,9 +133,9 @@ syn match   rustModPathSep  "::" nextgroup=rustModPath,@rustIdentifiers display 
 " [:upper:] as it depends upon 'noignorecase'
 "syn match     rustCapsIdent    display "[A-Z]\w\(\w\)*"
 
-syn match     rustOperator     "\%(+\|-\|/\|*\|=\|\^\|&\||\|!\| [<>]\|%\)=\?" display nextgroup=@rustLiterals,rustKeyword,rustConditional,@rustIdentifiers skipempty skipwhite
+syn match     rustOperator     "\%(+\|-\|/\|*\|=\|\^\|&\||\|!\|[<>]\|%\)=\?" display nextgroup=@rustLiterals,rustKeyword,rustConditional,@rustIdentifiers skipempty skipwhite
 syn match     rustRange "\.\." display nextgroup=rustNoise,@rustLiterals,@rustIdentifiers skipempty skipwhite
-syn region    rustGenericRegion matchgroup=rustNoise start="\(\s\+\|=\)\@<!<" end="\(=\|-\)\@<!>" contains=rustNoise,rustSigil,rustDynKeyword,rustBounds,rustGenericRegion,@rustIdentifiers,@rustComments
+syn region    rustGenericRegion matchgroup=rustNoise start="<\(\s\+\|=\)\@!" end="\(=\|-\)\@<!>=\@!" contains=rustNoise,rustSigil,rustDynKeyword,rustBounds,rustGenericRegion,@rustIdentifiers,@rustComments
 " This one isn't *quite* right, as we could have binary-& with a reference
 syn match     rustSigil /&\s\+[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustStorage,rustDynKeyword,@rustIdentifiers skipempty skipwhite
 syn match     rustSigil /[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustStorage,rustDynKeyword,@rustIdentifiers skipempty skipwhite
