@@ -124,7 +124,7 @@ syn keyword   rustBoolean     true false
 " If foo::bar changes to Foo::bar, change this (first "\w" to "\u").
 syn cluster rustScopes contains=rustSuper,rustSelf,rustPubScopeCrate
 syn match   rustModule      "\v<\l+(_+\l+)*>" contained contains=@rustScopes display
-syn match   rustModPath     "\v<\l+(_+\l+)*>(::)@=" contains=rustModule display nextgroup=rustModPathSep
+syn match   rustModPath     "\v<\l+(_+\l+)*>(::(\<)@!)@=" contains=rustModule display nextgroup=rustModPathSep
 syn match   rustModPath     "\v(^\s*(pub\s+)?(use|mod)\s+)@<=<\w+>(::<\w+>)*;@=" contains=rustModPath,rustType display
 syn match   rustModPathSep  "::" nextgroup=rustModPath,@rustIdentifiers display skipempty skipwhite
 
