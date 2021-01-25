@@ -70,7 +70,7 @@ syn keyword   rustObsoleteExternMod mod contained nextgroup=rustType skipempty s
 syn match  rustIdentifier "\v<\l+(_+\l+)*>" contained contains=rustBoolean,rustSelf display
 syn match  rustConstant   "\v<\u+(_+\u+)*>" contained display
 syn match  rustFuncName   "\v<\w+>(::)?(\<.*\>)?\s*(\()@=" contains=rustModPathSep,rustGenericRegion display
-syn match  rustType       "\v<\u>|<\u+\l+(\u+\l*)*>" contains=rustEnum,rustEnumVariant,rustTrait display
+syn match  rustType       "\v<\u>|<\u+\l+(\u+\l*)*>" contains=rustEnum,rustEnumVariant,rustTrait,rustDeriveTrait display
 syn cluster rustIdentifiers contains=@rustLifetimes,rustMacroVariable,rustMacroRepeat,rustModPath,rustMacro,rustBuiltinType,rustConstant,rustType,rustFuncName,rustIdentifier
 
 syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end="),\=[*+]" contains=rustMacroVariable
@@ -170,7 +170,7 @@ syn region    rustAttributeBalancedParens matchgroup=rustAttribute start="("rs=e
 syn region    rustAttributeBalancedCurly matchgroup=rustAttribute start="{"rs=e end="}"re=s transparent contained contains=rustAttributeBalancedCurly,@rustAttributeContents
 syn region    rustAttributeBalancedBrackets matchgroup=rustAttribute start="\["rs=e end="\]"re=s transparent contained contains=rustAttributeBalancedBrackets,@rustAttributeContents
 syn cluster   rustAttributeContents contains=@rustLiterals,@rustComments
-syn region    rustDerive      start="derive(" end=")" contained contains=rustDeriveTrait
+syn region    rustDerive      start="derive(" end=")" contained contains=rustType
 " This list comes from src/libsyntax/ext/deriving/mod.rs
 " Some are deprecated (Encodable, Decodable) or to be removed after a new snapshot (Show).
 syn keyword   rustDeriveTrait contained Clone Hash RustcEncodable RustcDecodable Encodable Decodable PartialEq Eq PartialOrd Ord Rand Show Debug Default FromPrimitive Send Sync Copy
