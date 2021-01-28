@@ -36,9 +36,9 @@ syn match rustExistentialContextual /\<existential\_s\+type/ display transparent
 syn match     rustAssert      "\<assert\(\w\)*!" contained display
 syn match     rustPanic       "\<panic\(\w\)*!" contained display
 syn match     rustAsync       "\<async\%(\s\|\n\)\@="
-syn keyword   rustKeyword     break nextgroup=@rustIdentifiers skipempty skipwhite
+syn keyword   rustKeyword     break nextgroup=rustLabel,@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     box
-syn keyword   rustKeyword     continue nextgroup=@rustIdentifiers skipempty skipwhite
+syn keyword   rustKeyword     continue nextgroup=rustLabel,@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     crate
 syn keyword   rustKeyword     extern nextgroup=rustExternCrate,rustObsoleteExternMod skipempty skipwhite
 syn keyword   rustKeyword     fn nextgroup=rustFuncName skipempty skipwhite
