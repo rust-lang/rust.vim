@@ -36,9 +36,9 @@ syn match rustExistentialContextual /\<existential\_s\+type/ display transparent
 syn match     rustAssert      "\<assert\(\w\)*!" contained display
 syn match     rustPanic       "\<panic\(\w\)*!" contained display
 syn match     rustAsync       "\<async\%(\s\|\n\)\@="
-syn keyword   rustKeyword     break nextgroup=@rustIdentifiers skipempty skipwhite
+syn keyword   rustKeyword     break nextgroup=rustLabel,@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     box
-syn keyword   rustKeyword     continue nextgroup=@rustIdentifiers skipempty skipwhite
+syn keyword   rustKeyword     continue nextgroup=rustLabel,@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     crate
 syn keyword   rustKeyword     extern nextgroup=rustExternCrate,rustObsoleteExternMod skipempty skipwhite
 syn keyword   rustKeyword     fn nextgroup=rustFuncName skipempty skipwhite
@@ -70,7 +70,7 @@ syn keyword   rustObsoleteExternMod mod contained nextgroup=rustType skipempty s
 syn match  rustIdentifier "\v<\l+(_+\l+)*>" contained contains=rustBoolean,rustSelf display
 syn match  rustConstant   "\v<\u+(_+\u+)*>" contained display
 syn match  rustFuncName   "\v<\w+>(::)?(\<.*\>)?\s*(\()@=" contains=rustModPathSep,rustGenericRegion display
-syn match  rustType       "\v<\u>|<\u+\l+(\u+\l*)*>" contains=rustEnum,rustEnumVariant,rustTrait display
+syn match  rustType       "\v<\u>|<\u+\l+(\u+\l*)*>" contains=rustEnum,rustEnumVariant,rustTrait,rustDeriveTrait display
 syn cluster rustIdentifiers contains=@rustLifetimes,rustMacroVariable,rustMacroRepeat,rustModPath,rustMacro,rustBuiltinType,rustConstant,rustType,rustFuncName,rustIdentifier
 
 syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end="),\=[*+]" contains=rustMacroVariable
@@ -135,7 +135,7 @@ syn match   rustModPathSep  "::" nextgroup=rustModPath,@rustIdentifiers display 
 
 syn match     rustOperator     "\%(+\|-\|/\|*\|=\|\^\|&\||\|!\|[<>]\|%\)=\?" display nextgroup=@rustLiterals,rustKeyword,rustConditional,@rustIdentifiers skipempty skipwhite
 syn match     rustRange "\.\." display nextgroup=rustNoise,@rustLiterals,@rustIdentifiers skipempty skipwhite
-syn region    rustGenericRegion matchgroup=rustNoise start="<\(\s\+\|=\)\@!" end="\(=\|-\)\@<!>=\@!" contains=rustNoise,rustSigil,rustDynKeyword,rustBounds,rustGenericRegion,@rustIdentifiers,@rustComments
+syn region    rustGenericRegion matchgroup=rustNoise start="<\(\s\+\|=\)\@!" end="\(=\|-\)\@<!>=\@!" contains=rustNoise,rustOperator,rustSigil,rustDynKeyword,rustBounds,rustGenericRegion,@rustIdentifiers,@rustComments
 " This one isn't *quite* right, as we could have binary-& with a reference
 syn match     rustSigil /&\s\+[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustStorage,rustDynKeyword,@rustIdentifiers skipempty skipwhite
 syn match     rustSigil /[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustStorage,rustDynKeyword,@rustIdentifiers skipempty skipwhite
@@ -162,15 +162,15 @@ syn region    rustString matchgroup=rustStringDelimiter start='b\?r\z(#*\)"' end
 
 " Match attributes with either arbitrary syntax or special highlighting for
 " derives. We still highlight strings and comments inside of the attribute.
-syn region    rustAttribute   start="#!\?\[" end="\]" contains=@rustAttributeContents,rustAttributeParenthesizedParens,rustAttributeParenthesizedCurly,rustAttributeParenthesizedBrackets,rustDerive
-syn region    rustAttributeParenthesizedParens matchgroup=rustAttribute start="\w\%(\w\)*("rs=e end=")"re=s transparent contained contains=rustAttributeBalancedParens,@rustAttributeContents
-syn region    rustAttributeParenthesizedCurly matchgroup=rustAttribute start="\w\%(\w\)*{"rs=e end="}"re=s transparent contained contains=rustAttributeBalancedCurly,@rustAttributeContents
-syn region    rustAttributeParenthesizedBrackets matchgroup=rustAttribute start="\w\%(\w\)*\["rs=e end="\]"re=s transparent contained contains=rustAttributeBalancedBrackets,@rustAttributeContents
-syn region    rustAttributeBalancedParens matchgroup=rustAttribute start="("rs=e end=")"re=s transparent contained contains=rustAttributeBalancedParens,@rustAttributeContents
-syn region    rustAttributeBalancedCurly matchgroup=rustAttribute start="{"rs=e end="}"re=s transparent contained contains=rustAttributeBalancedCurly,@rustAttributeContents
-syn region    rustAttributeBalancedBrackets matchgroup=rustAttribute start="\["rs=e end="\]"re=s transparent contained contains=rustAttributeBalancedBrackets,@rustAttributeContents
-syn cluster   rustAttributeContents contains=@rustLiterals,@rustComments
-syn region    rustDerive      start="derive(" end=")" contained contains=rustDeriveTrait
+syn region    rustAttribute start="#!\?\[" end="\]" contains=@rustAttributeContents,rustAttributeParenthesizedParens,rustAttributeParenthesizedCurly,rustAttributeParenthesizedBrackets,rustDerive
+syn region    rustAttributeParenthesizedParens matchgroup=rustNoise start="\v(\w%(\w)*)@<=\("rs=e end=")"re=s transparent contained contains=rustAttributeBalancedParens,@rustAttributeContents
+syn region    rustAttributeParenthesizedCurly matchgroup=rustNoise start="\v(\w%(\w)*)@<=\{"rs=e end="}"re=s transparent contained contains=rustAttributeBalancedCurly,@rustAttributeContents
+syn region    rustAttributeParenthesizedBrackets matchgroup=rustNoise start="\v(\w%(\w)*)@<=\["rs=e end="\]"re=s transparent contained contains=rustAttributeBalancedBrackets,@rustAttributeContents
+syn region    rustAttributeBalancedParens matchgroup=rustNoise start="("rs=e end=")"re=s transparent contained contains=rustAttributeBalancedParens,@rustAttributeContents
+syn region    rustAttributeBalancedCurly matchgroup=rustNoise start="{"rs=e end="}"re=s transparent contained contains=rustAttributeBalancedCurly,@rustAttributeContents
+syn region    rustAttributeBalancedBrackets matchgroup=rustNoise start="\["rs=e end="\]"re=s transparent contained contains=rustAttributeBalancedBrackets,@rustAttributeContents
+syn cluster   rustAttributeContents contains=rustAttributeParenthesizedParens,rustAttributeParenthesizedCurly,rustAttributeParenthesizedBrackets,,@rustLiterals,@rustComments,rustDerive,rustOperator
+syn region    rustDerive matchgroup=rustNoise start="\v(derive)@<=\(" end=")" contained contains=rustType
 " This list comes from src/libsyntax/ext/deriving/mod.rs
 " Some are deprecated (Encodable, Decodable) or to be removed after a new snapshot (Show).
 syn keyword   rustDeriveTrait contained Clone Hash RustcEncodable RustcDecodable Encodable Decodable PartialEq Eq PartialOrd Ord Rand Show Debug Default FromPrimitive Send Sync Copy
