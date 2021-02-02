@@ -71,7 +71,8 @@ syn match  rustIdentifier "\v<\l+(_+\l+)*>" contained contains=rustBoolean,rustS
 syn match  rustConstant   "\v<\u+(_+\u+)*>" contained display
 syn match  rustFuncName   "\v<\w+>(::)?(\<.*\>)?\s*(\()@=" contains=rustModPathSep,rustGenericRegion display
 syn match  rustType       "\v<\u>|<\u+\l+(\u+\l*)*>" contains=rustEnum,rustEnumVariant,rustTrait,rustDeriveTrait display
-syn cluster rustIdentifiers contains=@rustLifetimes,rustMacroVariable,rustMacroRepeat,rustModPath,rustMacro,rustBuiltinType,rustConstant,rustType,rustFuncName,rustIdentifier
+syn match  rustUnused "\v<_" contained contains=rustIdentifier display
+syn cluster rustIdentifiers contains=@rustLifetimes,rustMacroVariable,rustMacroRepeat,rustModPath,rustMacro,rustBuiltinType,rustConstant,rustType,rustFuncName,rustUnused,rustIdentifier
 
 syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end="),\=[*+]" contains=rustMacroVariable
 syn match rustMacroVariable "\$\w\+" display nextgroup=rustBounds
@@ -205,7 +206,8 @@ syn match     rustFloat "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\=\%([eE][+-]\=[0-9_]\
 "rustLifetime must appear before rustCharacter, or chars will get the lifetime highlighting
 syn match     rustLifetime "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display nextgroup=rustNoise,rustDynKeyword,@rustIdentifiers skipempty skipwhite
 syn match     rustStaticLifetime "'static" display contains=rustStorage nextgroup=rustNoise,rustDynKeyword,@rustIdentifiers skipempty skipwhite
-syn cluster   rustLifetimes contains=rustStaticLifetime,rustLifetime
+syn match     rustAnonymousLifetime "'_" display contains=rustUnused nextgroup=rustNoise,rustDynKeyword,@rustIdentifiers skipempty skipwhite
+syn cluster   rustLifetimes contains=rustAnonymousLifetime,rustStaticLifetime,rustLifetime
 syn match     rustLabel "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*:" contains=rustBounds display
 syn match     rustLabel "\%(\<\%(break\|continue\)\s*\)\@<=\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*"  display
 syn match   rustCharacterInvalid /b\?'\zs[\n\r\t']\ze'/ contained
@@ -373,12 +375,14 @@ hi def link rustDerive        PreProc
 hi def link rustDefault       StorageClass
 hi def link rustStorage       StorageClass
 hi def link rustObsoleteStorage Error
-hi def link rustLifetime       Special
+hi def link rustLifetime       Label
 hi def link rustStaticLifetime rustStorage
+hi def link rustAnonymousLifetime rustUnused
+hi def link rustUnused Special
 hi def link rustLabel         Label
 hi def link rustExternCrate   rustKeyword
 hi def link rustObsoleteExternMod Error
-hi def link rustQuestionMark  Special
+hi def link rustQuestionMark  Exception
 hi def link rustAsync         rustKeyword
 hi def link rustAwait         rustKeyword
 hi def link rustAsmDirSpec    rustKeyword
