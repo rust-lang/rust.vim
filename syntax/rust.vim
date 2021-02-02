@@ -18,7 +18,7 @@ syn match     rustNoise "[,\.\[\]()]" display nextgroup=rustRange,rustNoise,rust
 syn match     rustNoise ";" display
 syn match     rustBounds ":" display nextgroup=rustKeyword,rustStorage,rustConditional,@rustIdentifiers skipempty skipwhite
 syn keyword   rustConditional match if else nextgroup=rustConditional,rustKeyword,@rustIdentifiers skipempty skipwhite
-syn keyword   rustRepeat loop while nextgroup=@rustIdentifiers skipempty skipwhite
+syn keyword   rustRepeat loop while nextgroup=rustKeyword,@rustIdentifiers skipempty skipwhite
 " `:syn match` must be used to prioritize highlighting `for` keyword.
 syn match     rustRepeat /\<for\>/ display nextgroup=@rustIdentifiers skipempty skipwhite
 " Highlight `for` keyword in `impl ... for ... {}` statement. This line must
