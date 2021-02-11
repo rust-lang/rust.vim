@@ -164,13 +164,13 @@ syn region    rustString matchgroup=rustStringDelimiter start='b\?r\z(#*\)"' end
 " Match attributes with either arbitrary syntax or special highlighting for
 " derives. We still highlight strings and comments inside of the attribute.
 syn region    rustAttribute start="#!\?\[" end="\]" contains=@rustAttributeContents,rustAttributeParenthesizedParens,rustAttributeParenthesizedCurly,rustAttributeParenthesizedBrackets,rustDerive,rustCfg
-syn region    rustAttributeParenthesizedParens matchgroup=rustNoise start="\v(\w%(\w)*)@<=\("rs=e end=")"re=s transparent contained contains=rustAttributeBalancedParens,@rustAttributeContents
-syn region    rustAttributeParenthesizedCurly matchgroup=rustNoise start="\v(\w%(\w)*)@<=\{"rs=e end="}"re=s transparent contained contains=rustAttributeBalancedCurly,@rustAttributeContents
-syn region    rustAttributeParenthesizedBrackets matchgroup=rustNoise start="\v(\w%(\w)*)@<=\["rs=e end="\]"re=s transparent contained contains=rustAttributeBalancedBrackets,@rustAttributeContents
-syn region    rustAttributeBalancedParens matchgroup=rustNoise start="("rs=e end=")"re=s transparent contained contains=rustAttributeBalancedParens,@rustAttributeContents
-syn region    rustAttributeBalancedCurly matchgroup=rustNoise start="{"rs=e end="}"re=s transparent contained contains=rustAttributeBalancedCurly,@rustAttributeContents
-syn region    rustAttributeBalancedBrackets matchgroup=rustNoise start="\["rs=e end="\]"re=s transparent contained contains=rustAttributeBalancedBrackets,@rustAttributeContents
-syn cluster   rustAttributeContents contains=rustAttributeParenthesizedParens,rustAttributeParenthesizedCurly,rustAttributeParenthesizedBrackets,@rustLiterals,@rustComments,rustCfg,rustDerive,rustOperator
+syn region    rustAttributeParenthesizedParens matchgroup=rustNoise start="\v(\w%(\w)*)@<=\("rs=e end=")"re=s transparent contained contains=rustAttributeBalancedParens,@rustAttributeContents,rustOperator
+syn region    rustAttributeParenthesizedCurly matchgroup=rustNoise start="\v(\w%(\w)*)@<=\{"rs=e end="}"re=s transparent contained contains=rustAttributeBalancedCurly,@rustAttributeContents,rustOperator
+syn region    rustAttributeParenthesizedBrackets matchgroup=rustNoise start="\v(\w%(\w)*)@<=\["rs=e end="\]"re=s transparent contained contains=rustAttributeBalancedBrackets,@rustAttributeContents,rustOperator
+syn region    rustAttributeBalancedParens matchgroup=rustNoise start="("rs=e end=")"re=s transparent contained contains=rustAttributeBalancedParens,@rustAttributeContents,rustOperator
+syn region    rustAttributeBalancedCurly matchgroup=rustNoise start="{"rs=e end="}"re=s transparent contained contains=rustAttributeBalancedCurly,@rustAttributeContents,rustOperator
+syn region    rustAttributeBalancedBrackets matchgroup=rustNoise start="\["rs=e end="\]"re=s transparent contained contains=rustAttributeBalancedBrackets,@rustAttributeContents,rustOperator
+syn cluster   rustAttributeContents contains=rustAttributeParenthesizedParens,rustAttributeParenthesizedCurly,rustAttributeParenthesizedBrackets,@rustLiterals,@rustComments,rustCfg,rustDerive
 syn match     rustCfg "\vcfg(_attr)?"
 syn region    rustDerive matchgroup=rustNoise start="\v(derive)@<=\(" end=")" contained contains=rustType
 " This list comes from src/libsyntax/ext/deriving/mod.rs
