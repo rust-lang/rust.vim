@@ -60,7 +60,7 @@ syn keyword   rustAwait       await nextgroup=@rustIdentifiers skipempty skipwhi
 syn match     rustKeyword     /\<try\>!\@!/ display
 
 syn keyword rustPubScopeCrate crate contained
-syn region rustPubScope matchgroup=rustNoise start='(' end=')' contained contains=rustNoise,rustRepeat,@rustScopes,rustModPath,rustModPathSep transparent
+syn region rustPubScope matchgroup=rustNoise start='(' end=')' contained contains=rustRepeat,@rustScopes,rustModPath,rustModPathSep transparent
 
 syn keyword   rustExternCrate crate contained nextgroup=rustType,rustExternCrateString skipempty skipwhite
 " This is to get the `bar` part of `extern crate "foo" as bar;` highlighting.
