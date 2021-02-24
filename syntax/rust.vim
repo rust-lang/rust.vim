@@ -18,13 +18,13 @@ syn match     rustNoise "[,\.\[\]()]" display nextgroup=rustRange,rustNoise,rust
 syn match     rustNoise ";" display
 syn match     rustBounds ":" display nextgroup=rustKeyword,rustStorage,rustConditional,@rustIdentifiers skipempty skipwhite
 syn keyword   rustConditional match if else nextgroup=rustConditional,rustKeyword,@rustIdentifiers skipempty skipwhite
-syn keyword   rustRepeat loop while nextgroup=rustKeyword,@rustIdentifiers skipempty skipwhite
+syn keyword   rustRepeat loop while nextgroup=rustStorage,rustKeyword,@rustIdentifiers skipempty skipwhite
 " `:syn match` must be used to prioritize highlighting `for` keyword.
-syn match     rustRepeat /\<for\>/ display nextgroup=@rustIdentifiers skipempty skipwhite
+syn match     rustRepeat /\<for\>/ display nextgroup=rustStorage,@rustIdentifiers skipempty skipwhite
 " Highlight `for` keyword in `impl ... for ... {}` statement. This line must
 " be put after previous `syn match` line to overwrite it.
 syn match     rustKeyword /\%(\<impl\>.\+\n\?\)\@<=\<for\>/ nextgroup=@rustIdentifiers skipempty skipwhite
-syn keyword   rustRepeat in nextgroup=rustConditional,@rustIdentifiers skipempty skipwhite
+syn keyword   rustRepeat in nextgroup=rustConditional,rustAwait,@rustIdentifiers skipempty skipwhite
 syn keyword   rustTypedef type nextgroup=rustType skipempty skipwhite
 syn keyword   rustStructure struct enum nextgroup=rustType skipempty skipwhite
 syn keyword   rustUnion union nextgroup=rustType skipempty skipwhite contained
@@ -60,7 +60,7 @@ syn keyword   rustAwait       await nextgroup=@rustIdentifiers skipempty skipwhi
 syn match     rustKeyword     /\<try\>!\@!/ display
 
 syn keyword rustPubScopeCrate crate contained
-syn match rustPubScope /([^()]*)/ contained contains=rustNoise,rustPubScopeCrate,rustSuper,rustModPath,rustModPathSep,rustSelf display transparent
+syn region rustPubScope matchgroup=rustNoise start='(' end=')' contained contains=rustRepeat,@rustScopes,rustModPath,rustModPathSep transparent
 
 syn keyword   rustExternCrate crate contained nextgroup=rustType,rustExternCrateString skipempty skipwhite
 " This is to get the `bar` part of `extern crate "foo" as bar;` highlighting.
@@ -163,14 +163,15 @@ syn region    rustString matchgroup=rustStringDelimiter start='b\?r\z(#*\)"' end
 
 " Match attributes with either arbitrary syntax or special highlighting for
 " derives. We still highlight strings and comments inside of the attribute.
-syn region    rustAttribute start="#!\?\[" end="\]" contains=@rustAttributeContents,rustAttributeParenthesizedParens,rustAttributeParenthesizedCurly,rustAttributeParenthesizedBrackets,rustDerive
-syn region    rustAttributeParenthesizedParens matchgroup=rustNoise start="\v(\w%(\w)*)@<=\("rs=e end=")"re=s transparent contained contains=rustAttributeBalancedParens,@rustAttributeContents
-syn region    rustAttributeParenthesizedCurly matchgroup=rustNoise start="\v(\w%(\w)*)@<=\{"rs=e end="}"re=s transparent contained contains=rustAttributeBalancedCurly,@rustAttributeContents
-syn region    rustAttributeParenthesizedBrackets matchgroup=rustNoise start="\v(\w%(\w)*)@<=\["rs=e end="\]"re=s transparent contained contains=rustAttributeBalancedBrackets,@rustAttributeContents
-syn region    rustAttributeBalancedParens matchgroup=rustNoise start="("rs=e end=")"re=s transparent contained contains=rustAttributeBalancedParens,@rustAttributeContents
-syn region    rustAttributeBalancedCurly matchgroup=rustNoise start="{"rs=e end="}"re=s transparent contained contains=rustAttributeBalancedCurly,@rustAttributeContents
-syn region    rustAttributeBalancedBrackets matchgroup=rustNoise start="\["rs=e end="\]"re=s transparent contained contains=rustAttributeBalancedBrackets,@rustAttributeContents
-syn cluster   rustAttributeContents contains=rustAttributeParenthesizedParens,rustAttributeParenthesizedCurly,rustAttributeParenthesizedBrackets,,@rustLiterals,@rustComments,rustDerive,rustOperator
+syn region    rustAttribute start="#!\?\[" end="\]" contains=@rustAttributeContents,rustAttributeParenthesizedParens,rustAttributeParenthesizedCurly,rustAttributeParenthesizedBrackets,rustDerive,rustCfg
+syn region    rustAttributeParenthesizedParens matchgroup=rustNoise start="\v(\w%(\w)*)@<=\("rs=e end=")"re=s transparent contained contains=rustAttributeBalancedParens,@rustAttributeContents,rustOperator
+syn region    rustAttributeParenthesizedCurly matchgroup=rustNoise start="\v(\w%(\w)*)@<=\{"rs=e end="}"re=s transparent contained contains=rustAttributeBalancedCurly,@rustAttributeContents,rustOperator
+syn region    rustAttributeParenthesizedBrackets matchgroup=rustNoise start="\v(\w%(\w)*)@<=\["rs=e end="\]"re=s transparent contained contains=rustAttributeBalancedBrackets,@rustAttributeContents,rustOperator
+syn region    rustAttributeBalancedParens matchgroup=rustNoise start="("rs=e end=")"re=s transparent contained contains=rustAttributeBalancedParens,@rustAttributeContents,rustOperator
+syn region    rustAttributeBalancedCurly matchgroup=rustNoise start="{"rs=e end="}"re=s transparent contained contains=rustAttributeBalancedCurly,@rustAttributeContents,rustOperator
+syn region    rustAttributeBalancedBrackets matchgroup=rustNoise start="\["rs=e end="\]"re=s transparent contained contains=rustAttributeBalancedBrackets,@rustAttributeContents,rustOperator
+syn cluster   rustAttributeContents contains=rustAttributeParenthesizedParens,rustAttributeParenthesizedCurly,rustAttributeParenthesizedBrackets,@rustLiterals,@rustComments,rustCfg,rustDerive
+syn match     rustCfg "\vcfg(_attr)?"
 syn region    rustDerive matchgroup=rustNoise start="\v(derive)@<=\(" end=")" contained contains=rustType
 " This list comes from src/libsyntax/ext/deriving/mod.rs
 " Some are deprecated (Encodable, Decodable) or to be removed after a new snapshot (Show).
@@ -372,6 +373,7 @@ hi def link rustBuiltinType   Type
 hi def link rustTodo          Todo
 hi def link rustAttribute     PreProc
 hi def link rustDerive        PreProc
+hi def link rustCfg           PreCondit
 hi def link rustDefault       StorageClass
 hi def link rustStorage       StorageClass
 hi def link rustObsoleteStorage Error
