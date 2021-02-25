@@ -309,93 +309,86 @@ if !exists("b:current_syntax_embed")
 endif
 
 " Default highlighting {{{1
-hi def link rustDecNumber   rustNumber
-hi def link rustHexNumber   rustNumber
-hi def link rustOctNumber   rustNumber
-hi def link rustBinNumber   rustNumber
-hi def link rustTypePrime   rustType
-hi def link rustTrait       rustBuiltinType
-hi def link rustDeriveTrait rustTrait
+hi def link rustAnonymousLifetime Special
+hi def link rustArrowCharacter
+hi def link rustAsmConst
+hi def link rustAsmConstBalancedParens
+hi def link rustAsmDirSpec
+hi def link rustAsmOptions
+hi def link rustAsmOptionsGroup
+hi def link rustAsmOptionsKey
+hi def link rustAsmReg
+hi def link rustAsmSym
+hi def link rustAsmSymPath
+hi def link rustAssert
+hi def link rustAsync
+hi def link rustAttribute
+hi def link rustAwait
+hi def link rustBinNumber
+hi def link rustBoolean
+hi def link rustBounds
+hi def link rustBuiltinType
+hi def link rustCfg
+hi def link rustCharacter
+hi def link rustCharacterInvalid
+hi def link rustCharacterInvalidUnicode
+hi def link rustCommentBlockDocStar
+hi def link rustCommentLine
+hi def link rustCommentLineDoc
+hi def link rustCommentLineDocError
+hi def link rustCommentLineDocLeader
+hi def link rustConditional
+hi def link rustConstant
+hi def link rustDecNumber
+hi def link rustDefault
+hi def link rustDeriveTrait
+hi def link rustDynKeyword
+hi def link rustEnum
+hi def link rustEnumVariant
+hi def link rustEscape
+hi def link rustEscapeError
+hi def link rustEscapeUnicode
+hi def link rustExistential
+hi def link rustExternCrate
+hi def link rustFloat
+hi def link rustFuncName
+hi def link rustHexNumber
+hi def link rustIdentifier
+hi def link rustKeyword
+hi def link rustLabel
+hi def link rustLifetime
+hi def link rustMacro
+hi def link rustMacroVariable
+hi def link rustModPath
+hi def link rustModPathSep
+hi def link rustModule
+hi def link rustNoise
+hi def link rustObsoleteExternMod
+hi def link rustOctNumber
+hi def link rustOperator
+hi def link rustPanic
+hi def link rustPubScopeCrate
+hi def link rustQuestionMark
+hi def link rustRange
+hi def link rustRawIdent
+hi def link rustRepeat
+hi def link rustReservedKeyword
+hi def link rustSelf
+hi def link rustShebang
+hi def link rustSigil
+hi def link rustStaticLifetime
+hi def link rustStorage
+hi def link rustStringContinuation
+hi def link rustStructure
+hi def link rustSuper
+hi def link rustTodo
+hi def link rustTrait
+hi def link rustType
+hi def link rustTypedef
+hi def link rustUnion
+hi def link rustUnsafeKeyword
+hi def link rustUnused
 
-hi def link rustMacroRepeatDelimiters   Macro
-hi def link rustMacroVariable Define
-hi def link rustSigil         StorageClass
-hi def link rustEscape        Special
-hi def link rustEscapeUnicode rustEscape
-hi def link rustEscapeError   Error
-hi def link rustStringContinuation Special
-hi def link rustString        String
-hi def link rustStringDelimiter String
-hi def link rustCharacterInvalid Error
-hi def link rustCharacterInvalidUnicode rustCharacterInvalid
-hi def link rustCharacter     Character
-hi def link rustNumber        Number
-hi def link rustBoolean       Boolean
-hi def link rustEnum          rustBuiltinType
-hi def link rustEnumVariant   rustConstant
-hi def link rustConstant      Constant
-hi def link rustSelf          Constant
-hi def link rustFloat         Float
-hi def link rustArrowCharacter rustOperator
-hi def link rustOperator      Operator
-hi def link rustRange         rustOperator
-hi def link rustBounds        rustOperator
-hi def link rustKeyword       Keyword
-hi def link rustDynKeyword    rustKeyword
-hi def link rustTypedef       Keyword " More precise is Typedef, but it doesn't feel right for Rust
-hi def link rustStructure     Keyword " More precise is Structure
-hi def link rustUnion         rustStructure
-hi def link rustExistential   rustKeyword
-hi def link rustPubScopeCrate rustKeyword
-hi def link rustSuper         rustKeyword
-hi def link rustUnsafeKeyword Exception
-hi def link rustReservedKeyword Error
-hi def link rustRepeat        Conditional
-hi def link rustConditional   Conditional
-hi def link rustType          Type
-hi def link rustIdentifier    Identifier
-hi def link rustCapsIdent     rustType
-hi def link rustModPath       Include
-hi def link rustModule        rustModPath
-hi def link rustModPathSep    Delimiter
-hi def link rustFunction      Function
-hi def link rustFuncName      Function
-hi def link rustFuncCall      Function
-hi def link rustShebang       Comment
-hi def link rustCommentLine   Comment
-hi def link rustCommentLineDoc SpecialComment
-hi def link rustCommentLineDocLeader rustCommentLineDoc
-hi def link rustCommentLineDocError Error
-hi def link rustCommentBlock  rustCommentLine
-hi def link rustCommentBlockDoc rustCommentLineDoc
-hi def link rustCommentBlockDocStar rustCommentBlockDoc
-hi def link rustCommentBlockDocError Error
-hi def link rustCommentDocCodeFence rustCommentLineDoc
-hi def link rustAssert        PreCondit
-hi def link rustPanic         PreCondit
-hi def link rustMacro         Macro
-hi def link rustBuiltinType   Type
-hi def link rustTodo          Todo
-hi def link rustAttribute     PreProc
-hi def link rustDerive        PreProc
-hi def link rustCfg           PreCondit
-hi def link rustDefault       StorageClass
-hi def link rustStorage       StorageClass
-hi def link rustObsoleteStorage Error
-hi def link rustLifetime       Label
-hi def link rustStaticLifetime rustStorage
-hi def link rustAnonymousLifetime rustUnused
-hi def link rustUnused Special
-hi def link rustLabel         Label
-hi def link rustExternCrate   rustKeyword
-hi def link rustObsoleteExternMod Error
-hi def link rustQuestionMark  Exception
-hi def link rustAsync         rustKeyword
-hi def link rustAwait         rustKeyword
-hi def link rustAsmDirSpec    rustKeyword
-hi def link rustAsmSym        rustKeyword
-hi def link rustAsmOptions    rustKeyword
-hi def link rustAsmOptionsKey rustAttribute
 
 " Other Suggestions:
 " hi rustAttribute ctermfg=cyan
