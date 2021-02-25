@@ -71,7 +71,7 @@ syn match  rustIdentifier "\v<\l+(_+\l+)*>" contained contains=rustBoolean,rustS
 syn match  rustConstant   "\v<\u+(_+\u+)*>" contained display
 
 syn match  rustFuncName   "\v<\w+>(::)?(\<.*\>)?\s*(\()@=" contains=rustModPathSep,rustGenericRegion display
-syn region rustAnonymousFunc matchgroup=rustFuncName start="|" end="|" contains=rustNoise,rustStorage,@rustIdentifiers
+syn region rustAnonymousFunc matchgroup=rustFuncName start="|" end="|" contains=rustNoise,rustBounds,rustStorage,@rustIdentifiers
 
 syn match  rustType       "\v<\u>|<\u+\l+(\u+\l*)*>" contains=rustEnum,rustEnumVariant,rustTrait,rustDeriveTrait display
 
