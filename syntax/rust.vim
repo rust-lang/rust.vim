@@ -30,9 +30,6 @@ syn keyword   rustStructure struct enum nextgroup=rustType skipempty skipwhite
 syn keyword   rustUnion union nextgroup=rustType skipempty skipwhite contained
 syn match rustUnionContextual /\<union\_s\+\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*/ transparent contains=rustUnion
 syn keyword   rustOperator    as nextgroup=@rustIdentifiers skipempty skipwhite
-syn keyword   rustExistential existential nextgroup=rustTypedef skipempty skipwhite contained
-syn match rustExistentialContextual /\<existential\_s\+type/ display transparent contains=rustExistential,rustTypedef
-
 syn match     rustAssert      "\<assert\(\w\)*!" contained display
 syn match     rustPanic       "\<panic\(\w\)*!" contained display
 syn match     rustAsync       "\<async\%(\s\|\n\)\@="
@@ -62,12 +59,7 @@ syn match     rustKeyword     /\<try\>!\@!/ display
 syn keyword rustPubScopeCrate crate contained
 syn region rustPubScope matchgroup=rustNoise start='(' end=')' contained contains=rustRepeat,@rustScopes,rustModPath,rustModPathSep transparent
 
-syn keyword   rustExternCrate crate contained nextgroup=rustType,rustExternCrateString skipempty skipwhite
-" This is to get the `bar` part of `extern crate "foo" as bar;` highlighting.
-syn match   rustExternCrateString /".*"\_s*as/ contained display nextgroup=rustType skipwhite transparent skipempty contains=rustString,rustOperator
-syn keyword   rustObsoleteExternMod mod contained nextgroup=rustType skipempty skipwhite
-
-syn match  rustIdentifier "\v<\l+(_+\l+)*>" contained contains=rustBoolean,rustSelf display
+syn match  rustIdentifier "\v<\l+(_+\l+)*>" contained display
 syn match  rustConstant   "\v<\u+(_+\u+)*>" contained display
 
 syn match  rustFuncName   "\v<\w+>(::)?(\<.*\>)?\s*(\()@=" contains=rustModPathSep,rustGenericRegion display
@@ -77,7 +69,7 @@ syn match  rustType       "\v<\u>|<\u+\l+(\u+\l*)*>" contains=rustEnum,rustEnumV
 
 syn match  rustUnused "\v<_" contained contains=rustIdentifier display
 
-syn cluster rustIdentifiers contains=@rustLifetimes,rustMacroVariable,rustMacroRepeat,rustModPath,rustMacro,rustBuiltinType,rustConstant,rustType,rustFuncName,rustAnonymousFunc,rustUnused,rustIdentifier
+syn cluster rustIdentifiers contains=@rustLifetimes,rustMacroVariable,rustMacroRepeat,rustModPath,rustMacro,rustBuiltinType,rustConstant,rustType,rustFuncName,rustAnonymousFunc,rustUnused,rustSelf,rustIdentifier
 
 syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end="),\=[*+]" contains=rustMacroVariable
 syn match rustMacroVariable "\$\w\+" display nextgroup=rustBounds
@@ -88,7 +80,7 @@ syn keyword   rustReservedKeyword become do priv typeof unsized abstract virtual
 
 " Built-in types {{{2
 syn keyword   rustBuiltinType isize usize char bool u8 u16 u32 u64 u128 f32
-syn keyword   rustBuiltinType f64 i8 i16 i32 i64 i128 str Self
+syn keyword   rustBuiltinType f64 i8 i16 i32 i64 i128 str
 syn keyword   rustBuiltinType block expr ident item lifetime literal meta pat path stmt tt ty vis
 
 " Things from the libstd v1 prelude (src/libstd/prelude/v1.rs) {{{2
@@ -98,12 +90,6 @@ syn keyword   rustBuiltinType block expr ident item lifetime literal meta pat pa
 " Reexported core operators {{{3
 syn keyword   rustTrait       Copy Send Sized Sync
 syn keyword   rustTrait       Drop Fn FnMut FnOnce
-
-" Reexported functions {{{3
-" There’s no point in highlighting these; when one writes drop( or drop::< it
-" gets the same highlighting anyway, and if someone writes `let drop = …;` we
-" don’t really want *that* drop to be highlighted.
-"syn keyword rustFunction drop
 
 " Reexported types and traits {{{3
 syn keyword rustTrait Box
@@ -123,21 +109,16 @@ syn keyword rustTrait String ToString
 syn keyword rustTrait Vec
 
 " Other syntax {{{2
-syn keyword   rustSelf        self
-syn keyword   rustBoolean     true false
+syn keyword   rustSelf    self Self
+syn keyword   rustBoolean true false
 
 " If foo::bar changes to foo.bar, change this ("::" to "\.").
 " If foo::bar changes to Foo::bar, change this (first "\w" to "\u").
 syn cluster rustScopes contains=rustSuper,rustSelf,rustPubScopeCrate
 syn match   rustModule      "\v<\l+(_+\l+)*>" contained contains=@rustScopes display
-syn match   rustModPath     "\v<\l+(_+\l+)*>(::(\<)@!)@=" contains=rustModule display nextgroup=rustModPathSep
-syn match   rustModPath     "\v(^\s*(pub\s+)?(use|mod)\s+)@<=<\w+>(::<\w+>)*;@=" contains=rustModPath,rustType display
+syn match   rustModPath     "\v<\l+(_+\l+)*>(\s*::(\<)@!)@=" contains=rustModule display nextgroup=rustModPathSep
+syn match   rustModPath     "\v(^\s*(pub\s+)?(use|mod)\s+)@<=<\w+>(\s*::<\w+>)*;@=" contains=rustModPath,rustType display
 syn match   rustModPathSep  "::" nextgroup=rustModPath,@rustIdentifiers display skipempty skipwhite
-
-" This is merely a convention; note also the use of [A-Z], restricting it to
-" latin identifiers rather than the full Unicode uppercase. I have not used
-" [:upper:] as it depends upon 'noignorecase'
-"syn match     rustCapsIdent    display "[A-Z]\w\(\w\)*"
 
 syn match     rustOperator     "\%(+\|-\|/\|*\|=\|\^\|&\||\|!\|[<>]\|%\)=\?" display nextgroup=@rustLiterals,rustKeyword,rustConditional,@rustIdentifiers skipempty skipwhite
 syn match     rustRange "\.\." display nextgroup=rustNoise,@rustLiterals,@rustIdentifiers skipempty skipwhite
@@ -157,7 +138,7 @@ syn match     rustQuestionMark "?\([a-zA-Z]\+\)\@!" display
 syn match     rustMacro '\w\(\w\)*!' contains=rustAssert,rustPanic
 syn match     rustMacro '#\w\(\w\)*' contains=rustAssert,rustPanic
 
-syn cluster   rustLiterals contains=rustDecNumber,rustHexNumber,rustOctNumber,rustBinNumber,rustCharacter,rustString,rustFloat
+syn cluster   rustLiterals contains=rustBoolean,rustBinNumber,rustCharacter,rustDecNumber,rustFloat,rustHexNumber,rustOctNumber,rustString
 syn match     rustEscapeError   /\\./ contained display
 syn match     rustEscape        /\\\([bnrstw0\\'"]\|x\x\{2}\)/ contained display
 syn match     rustEscapeUnicode /\\u{\%(\x_*\)\{1,6}}/ contained display
@@ -250,11 +231,11 @@ syn cluster rustComments contains=rustCommentBlock,rustCommentBlockDoc,rustComme
 syn keyword rustTodo contained TODO FIXME XXX NB NOTE SAFETY
 
 " asm! macro {{{2
-syn region rustAsmMacro matchgroup=rustMacro start="\<asm!\s*(" end=")" contains=rustAsmDirSpec,rustAsmSym,rustAsmConst,rustAsmOptionsGroup,@rustComments,rustString.*
+syn region rustAsmMacro matchgroup=rustMacro start="\<asm!\s*(" end=")" contains=rustAsmDirSpec,rustAsmSym,rustAsmConst,rustAsmOptionsKey,@rustComments,rustString.*
 
 " Clobbered registers
 syn keyword rustAsmDirSpec in out lateout inout inlateout contained nextgroup=rustAsmReg skipempty skipwhite
-syn region  rustAsmReg start="(" end=")" contained contains=rustString
+syn region  rustAsmReg matchgroup=rustNoise start="(" end=")" contained contains=rustString
 
 " Symbol operands
 syn keyword rustAsmSym sym contained nextgroup=rustAsmSymPath skipempty skipwhite
@@ -266,8 +247,8 @@ syn cluster rustAsmConstExpr contains=@rustComments,@rustLiterals,rustAsmConstBa
 syn region  rustAsmConst start="const" end=",\|)"me=s-1 contained contains=rustStorage,@rustAsmConstExpr
 
 " Options
-syn region  rustAsmOptionsGroup start="options\s*(" end=")" contained contains=rustAsmOptions,rustAsmOptionsKey
-syn keyword rustAsmOptionsKey options contained
+syn region  rustAsmOptionsGroup matchgroup=rustNoise start="\v(options)@<=\s*\(" end=")" contained contains=rustAsmOptionsKey,rustAsmOptions
+syn keyword rustAsmOptionsKey options contained nextgroup=rustAsmOptionsGroup
 syn keyword rustAsmOptions pure nomem readonly preserves_flags noreturn nostack att_syntax contained
 
 " Folding rules {{{2
@@ -309,86 +290,100 @@ if !exists("b:current_syntax_embed")
 endif
 
 " Default highlighting {{{1
-hi def link rustAnonymousLifetime Special
-hi def link rustArrowCharacter
-hi def link rustAsmConst
-hi def link rustAsmConstBalancedParens
-hi def link rustAsmDirSpec
-hi def link rustAsmOptions
-hi def link rustAsmOptionsGroup
-hi def link rustAsmOptionsKey
-hi def link rustAsmReg
-hi def link rustAsmSym
-hi def link rustAsmSymPath
-hi def link rustAssert
-hi def link rustAsync
-hi def link rustAttribute
-hi def link rustAwait
-hi def link rustBinNumber
-hi def link rustBoolean
-hi def link rustBounds
-hi def link rustBuiltinType
-hi def link rustCfg
-hi def link rustCharacter
-hi def link rustCharacterInvalid
-hi def link rustCharacterInvalidUnicode
-hi def link rustCommentBlockDocStar
-hi def link rustCommentLine
-hi def link rustCommentLineDoc
-hi def link rustCommentLineDocError
-hi def link rustCommentLineDocLeader
-hi def link rustConditional
-hi def link rustConstant
-hi def link rustDecNumber
-hi def link rustDefault
-hi def link rustDeriveTrait
-hi def link rustDynKeyword
-hi def link rustEnum
-hi def link rustEnumVariant
-hi def link rustEscape
-hi def link rustEscapeError
-hi def link rustEscapeUnicode
-hi def link rustExistential
-hi def link rustExternCrate
-hi def link rustFloat
-hi def link rustFuncName
-hi def link rustHexNumber
-hi def link rustIdentifier
-hi def link rustKeyword
-hi def link rustLabel
-hi def link rustLifetime
-hi def link rustMacro
-hi def link rustMacroVariable
-hi def link rustModPath
-hi def link rustModPathSep
-hi def link rustModule
-hi def link rustNoise
-hi def link rustObsoleteExternMod
-hi def link rustOctNumber
-hi def link rustOperator
-hi def link rustPanic
-hi def link rustPubScopeCrate
-hi def link rustQuestionMark
-hi def link rustRange
-hi def link rustRawIdent
-hi def link rustRepeat
-hi def link rustReservedKeyword
-hi def link rustSelf
-hi def link rustShebang
-hi def link rustSigil
-hi def link rustStaticLifetime
-hi def link rustStorage
-hi def link rustStringContinuation
-hi def link rustStructure
-hi def link rustSuper
-hi def link rustTodo
-hi def link rustTrait
-hi def link rustType
-hi def link rustTypedef
-hi def link rustUnion
-hi def link rustUnsafeKeyword
-hi def link rustUnused
 
+" Asm {{{2
+hi def link rustAsmDirSpec    rustOperator
+hi def link rustAsmOptions    rustStorage
+hi def link rustAsmOptionsKey rustAttribute
+hi def link rustAsmReg        rustStorage
+hi def link rustAsmSym        rustAsmDirSpec
+
+" Comments {{{2
+hi def link rustCommentBlock         rustCommentLine
+hi def link rustCommentBlockDoc      rustCommentLineDoc
+hi def link rustCommentBlockDocError Error
+hi def link rustCommentBlockDocStar  rustCommentBlockDoc
+hi def link rustCommentDocCodeFence  rustCommentLineDoc
+hi def link rustCommentLine          Comment
+hi def link rustCommentLineDoc       SpecialComment
+hi def link rustCommentLineDocError  Error
+hi def link rustCommentLineDocLeader rustCommentLineDoc
+hi def link rustTodo Todo
+
+" Identifiers {{{2
+hi def link rustAnonymousLifetime rustUnused
+hi def link rustBuiltinType    Type
+hi def link rustConstant       Constant
+hi def link rustDeriveTrait    rustTrait
+hi def link rustEnum           rustBuiltinType
+hi def link rustEnumVariant    Constant
+hi def link rustFuncName       Function
+hi def link rustIdentifier     Identifier
+hi def link rustLabel          Label
+hi def link rustLifetime       rustLabel
+hi def link rustMacro          Macro
+hi def link rustMacroRepeatDelimiters Special
+hi def link rustMacroVariable  Define
+hi def link rustModPathSep     Delimiter
+hi def link rustModule         Include
+hi def link rustSelf           Typedef
+hi def link rustStaticLifetime rustStorage
+hi def link rustTrait          rustBuiltinType
+hi def link rustType           Type
+hi def link rustUnused         Special
+
+" Keywords {{{2
+hi def link rustAssert          Debug
+hi def link rustAsync           rustKeyword
+hi def link rustAwait           rustAsync
+hi def link rustConditional     Conditional
+hi def link rustDefault         rustKeyword
+hi def link rustDynKeyword      rustStorage
+hi def link rustKeyword         Keyword
+hi def link rustPanic           Exception
+hi def link rustPubScopeCrate   rustKeyword
+hi def link rustRepeat          Repeat
+hi def link rustReservedKeyword Error
+hi def link rustStructure       Structure
+hi def link rustSuper           rustKeyword
+hi def link rustTypedef         Keyword
+hi def link rustUnion           rustStructure
+hi def link rustUnsafeKeyword   Exception
+
+" Literals {{{2
+hi def link rustBinNumber     rustNumber
+hi def link rustBoolean       Boolean
+hi def link rustCharacter     Character
+hi def link rustCharacterInvalid Error
+hi def link rustCharacterInvalidUnicode rustCharacterInvalid
+hi def link rustDecNumber     rustNumber
+hi def link rustEscape        SpecialChar
+hi def link rustEscapeError   Error
+hi def link rustEscapeUnicode rustEscape
+hi def link rustFloat         Float
+hi def link rustHexNumber     rustNumber
+hi def link rustNumber        Number
+hi def link rustOctNumber     rustNumber
+hi def link rustString        String
+hi def link rustStringContinuation SpecialChar
+hi def link rustStringDelimiter Delimiter
+
+" Preprocessing {{{2
+hi def link rustAttribute PreProc
+hi def link rustCfg       PreCondit
+hi def link rustDerive    PreProc
+hi def link rustShebang   Comment
+
+" Symbols {{{2
+hi def link rustArrowCharacter rustOperator
+hi def link rustBounds         rustOperator
+hi def link rustGeneric        rustNoise
+hi def link rustNoise          Delimiter
+hi def link rustOperator       Operator
+hi def link rustQuestionMark   Exception
+hi def link rustRange          rustOperator
+hi def link rustSigil          rustStorage
+hi def link rustStorage        StorageClass
 
 " Other Suggestions:
 " hi rustAttribute ctermfg=cyan
