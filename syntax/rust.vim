@@ -70,7 +70,7 @@ syn cluster rustIdentifiers contains=@rustLifetimes,rustMacroVariable,rustMacroR
 
 syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end="),\=[*+]" contains=rustMacroVariable
 syn match rustMacroVariable "\$\w\+" display nextgroup=rustBounds
-syn match rustRawIdent "\<r#\h\w*" contains=NONE display
+syn match rustRawIdent "\v<r#(\h\w*)@=" nextgroup=rustIdentifier display
 
 " Reserved (but not yet used) keywords {{{2
 syn keyword   rustReservedKeyword become do priv typeof unsized abstract virtual final override
