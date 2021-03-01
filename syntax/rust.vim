@@ -378,6 +378,7 @@ hi def link rustShebang   Comment
 hi def link rustArrowCharacter rustOperator
 hi def link rustBounds         rustOperator
 hi def link rustGeneric        rustNoise
+hi def link rustModPath        rustNoise
 hi def link rustNoise          Delimiter
 hi def link rustOperator       Operator
 hi def link rustQuestionMark   Exception
