@@ -45,7 +45,6 @@ syn keyword   rustKeyword     macro
 syn keyword   rustKeyword     pub nextgroup=rustPubScope,rustKeyword,rustTypedef,rustStructure,rustStorage,@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     return nextgroup=rustAwait,rustConditional,rustKeyword,@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     yield nextgroup=@rustIdentifiers skipempty skipwhite
-syn keyword   rustSuper       super
 syn keyword   rustKeyword     where nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustUnsafeKeyword unsafe
 syn keyword   rustKeyword     mod use nextgroup=rustModPath skipempty skipwhite
@@ -56,8 +55,6 @@ syn match     rustDefault     /\<default\ze\_s\+\(impl\|fn\|type\|const\)\>/ dis
 syn keyword   rustAwait       await nextgroup=@rustIdentifiers skipempty skipwhite
 syn match     rustKeyword     /\<try\>!\@!/ display
 
-syn keyword rustPubScopeCrate crate contained
-syn region rustPubScope matchgroup=rustNoise start='(' end=')' contained contains=rustRepeat,@rustScopes,rustModPath,rustModPathSep transparent
 
 syn match  rustIdentifier "\v<\l+(_+\l+)*>" contained display
 syn match  rustConstant   "\v<\u+(_+\u+)*>" contained display
@@ -69,7 +66,7 @@ syn match  rustType       "\v<\u>|<\u+\l+(\u+\l*)*>" contains=rustEnum,rustEnumV
 
 syn match  rustUnused "\v<_" contained contains=rustIdentifier display
 
-syn cluster rustIdentifiers contains=@rustLifetimes,rustMacroVariable,rustMacroRepeat,rustModPath,rustMacro,rustBuiltinType,rustConstant,rustType,rustFuncName,rustAnonymousFunc,rustUnused,rustSelf,rustIdentifier
+syn cluster rustIdentifiers contains=@rustLifetimes,rustMacroVariable,rustMacroRepeat,rustModPath,rustMacro,rustBuiltinType,rustConstant,rustType,rustSelf,rustFuncName,rustAnonymousFunc,rustUnused,rustSelfScope,rustIdentifier
 
 syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end="),\=[*+]" contains=rustMacroVariable
 syn match rustMacroVariable "\$\w\+" display nextgroup=rustBounds
@@ -109,12 +106,16 @@ syn keyword rustTrait String ToString
 syn keyword rustTrait Vec
 
 " Other syntax {{{2
-syn keyword   rustSelf    self Self
+syn keyword   rustSelf    Self
 syn keyword   rustBoolean true false
 
-" If foo::bar changes to foo.bar, change this ("::" to "\.").
-" If foo::bar changes to Foo::bar, change this (first "\w" to "\u").
-syn cluster rustScopes contains=rustSuper,rustSelf,rustPubScopeCrate
+syn keyword rustSelfScope  self
+syn keyword rustSuperScope super contained
+syn keyword rustCrateScope crate contained
+syn cluster rustScopes contains=rustSuperScope,rustSelfScope,rustCrateScope
+
+syn region rustPubScope matchgroup=rustNoise start='(' end=')' contained contains=rustRepeat,@rustScopes,rustModPath,rustModPathSep transparent
+
 syn match   rustModule      "\v<\l+(_+\l+)*>" contained contains=@rustScopes display
 syn match   rustModPath     "\v<\l+(_+\l+)*>(\s*::(\<)@!)@=" contains=rustModule display nextgroup=rustModPathSep
 syn match   rustModPath     "\v(^\s*(pub\s+)?(use|mod)\s+)@<=<\w+>(\s*::<\w+>)*;@=" contains=rustModule,rustType display
@@ -326,7 +327,6 @@ hi def link rustMacroRepeatDelimiters Special
 hi def link rustMacroVariable  Define
 hi def link rustModPathSep     Delimiter
 hi def link rustModule         Include
-hi def link rustSelf           Typedef
 hi def link rustStaticLifetime rustStorage
 hi def link rustTrait          rustBuiltinType
 hi def link rustType           Type
@@ -337,15 +337,17 @@ hi def link rustAssert          Debug
 hi def link rustAsync           rustKeyword
 hi def link rustAwait           rustAsync
 hi def link rustConditional     Conditional
+hi def link rustCrateScope   rustKeyword
 hi def link rustDefault         rustKeyword
 hi def link rustDynKeyword      rustStorage
 hi def link rustKeyword         Keyword
 hi def link rustPanic           Exception
-hi def link rustPubScopeCrate   rustKeyword
 hi def link rustRepeat          Repeat
 hi def link rustReservedKeyword Error
+hi def link rustSelf            Typedef
+hi def link rustSelfScope       rustKeyword
 hi def link rustStructure       Structure
-hi def link rustSuper           rustKeyword
+hi def link rustSuperScope      rustKeyword
 hi def link rustTypedef         Keyword
 hi def link rustUnion           rustStructure
 hi def link rustUnsafeKeyword   Exception
