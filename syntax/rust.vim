@@ -106,7 +106,7 @@ syn keyword rustTrait String ToString
 syn keyword rustTrait Vec
 
 " Other syntax {{{2
-syn keyword   rustSelf    Self
+syn keyword   rustSelf    Self nextgroup=rustModPathSep
 syn keyword   rustBoolean true false
 
 syn keyword rustSelfScope  self
