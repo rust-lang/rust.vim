@@ -55,14 +55,13 @@ syn match     rustDefault     /\<default\ze\_s\+\(impl\|fn\|type\|const\)\>/ dis
 syn keyword   rustAwait       await nextgroup=@rustIdentifiers skipempty skipwhite
 syn match     rustKeyword     /\<try\>!\@!/ display
 
-
-syn match  rustIdentifier "\v<\l+(_+\l+)*>" contained display
-syn match  rustConstant   "\v<\u+(_+\u+)*>" contained display
+syn match  rustIdentifier "\v<\l(\l|\d)+(_+(\l|\d)+)*>" contained display
+syn match  rustConstant   "\v<\u(\u|\d)+(_+(\u|\d)+)*>" contained display
 
 syn match  rustFuncName   "\v<\w+>((::)?\<.*\>)?\s*(\()@=" contains=rustModPathSep,rustGenericRegion display
 syn region rustAnonymousFunc matchgroup=rustFuncName start="|" end="|" contains=rustNoise,rustBounds,rustStorage,@rustIdentifiers
 
-syn match  rustType       "\v<\u>|<\u+\l+(\u+\l*)*>" contains=rustEnum,rustEnumVariant,rustTrait,rustDeriveTrait nextgroup=rustModPathSep display
+syn match  rustType       "\v<\u>|<\u+(\l|\d)+(\u+(\l|\d)*)*>" contains=rustEnum,rustEnumVariant,rustTrait,rustDeriveTrait nextgroup=rustModPathSep display
 
 syn match  rustUnused "\v<_" contained contains=rustIdentifier display
 
@@ -116,8 +115,8 @@ syn cluster rustScopes contains=rustSuperScope,rustSelfScope,rustCrateScope
 
 syn region rustPubScope matchgroup=rustNoise start='(' end=')' contained contains=rustRepeat,@rustScopes,rustModPath,rustModPathSep transparent
 
-syn match   rustModule      "\v<\l+(_+\l+)*>" contained contains=@rustScopes display
-syn match   rustModPath     "\v<\l+(_+\l+)*>(\s*::(\<)@!)@=" contains=rustModule display nextgroup=rustModPathSep
+syn match   rustModule      "\v<\l(\l|\d)+(_+(\l|\d)+)*>" contained contains=@rustScopes display
+syn match   rustModPath     "\v<\l(\l|\d)+(_+(\l|\d)+)*>(\s*::(\<)@!)@=" contains=rustModule display nextgroup=rustModPathSep
 syn match   rustModPath     "\v(^\s*(pub\s+)?(use|mod)\s+)@<=<\w+>(\s*::<\w+>)*;@=" contains=rustModule,rustType display
 syn match   rustModPathSep  "::" nextgroup=rustModPath,@rustIdentifiers display skipempty skipwhite
 
