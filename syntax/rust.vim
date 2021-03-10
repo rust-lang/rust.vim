@@ -55,12 +55,16 @@ syn match     rustDefault     /\<default\ze\_s\+\(impl\|fn\|type\|const\)\>/ dis
 syn keyword   rustAwait       await nextgroup=@rustIdentifiers skipempty skipwhite
 syn match     rustKeyword     /\<try\>!\@!/ display
 
-syn match  rustIdentifier "\v<\l(\l|\d)*(_+(\l|\d)+)*>" contained display
-syn match  rustType       "\v<\u>|<\u(\l|\d)*(\u(\l|\d)*)*>" contains=rustEnum,rustEnumVariant,rustTrait,rustDeriveTrait nextgroup=rustModPathSep display
-syn match  rustConstant   "\v<\u(\u|\d)*(_+(\u|\d)+)*>" contained display
+syn match  rustIdentifier "\v<\l(\l|\d)*(_+(\l|\d)*)*>" contained display
 
 syn match  rustFuncName   "\v<\w+>((::)?\<.*\>)?\s*(\()@=" contains=rustModPathSep,rustGenericRegion display
 syn region rustAnonymousFunc matchgroup=rustFuncName start="|" end="|" contains=rustNoise,rustBounds,rustStorage,@rustIdentifiers
+
+syn match  rustType       "\v<\u(\l|\d)*(\u(\l|\d)*)*>" contains=rustEnum,rustEnumVariant,rustTrait,rustDeriveTrait nextgroup=rustModPathSep display
+
+syn match  rustConstant   "\v<\u+(_+(\u|\d)*)*>" contained display
+
+syn match  rustType       "\v<\u>" contains=rustEnum,rustEnumVariant,rustTrait,rustDeriveTrait nextgroup=rustModPathSep display
 
 syn match  rustUnused "\v<_" contained contains=rustIdentifier display
 
