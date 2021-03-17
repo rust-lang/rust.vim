@@ -66,7 +66,7 @@ syn match  rustConstant   "\v<\u+(_+(\u|\d)*)*>" contained display
 
 syn match  rustType       "\v<\u>" contains=rustEnum,rustEnumVariant,rustTrait,rustDeriveTrait nextgroup=rustModPathSep display
 
-syn match  rustUnused "\v<_" contained contains=rustIdentifier display
+syn match  rustUnused "\v<_" display
 
 syn cluster rustIdentifiers contains=@rustLifetimes,rustMacroVariable,rustMacroRepeat,rustModPath,rustMacro,rustBuiltinType,rustConstant,rustType,rustSelf,rustFuncName,rustAnonymousFunc,rustUnused,rustSelfScope,rustIdentifier
 
