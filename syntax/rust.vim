@@ -63,7 +63,7 @@ syn region rustAnonymousFunc matchgroup=rustFuncName start="|" end="|" contains=
 
 syn match  rustType       "\v<\u(\l|\d)*(\u(\l|\d)*)*>" contains=rustEnum,rustEnumVariant,rustTrait,rustDeriveTrait nextgroup=rustModPathSep display
 
-syn match  rustConstant   "\v<\u+(_+(\u|\d)*)*>" contained display
+syn match  rustConstant   "\v<\u+(_+(\u|\d)*)*>" containedin=rustFoldBraces display
 
 syn match  rustType       "\v<\u>" contains=rustEnum,rustEnumVariant,rustTrait,rustDeriveTrait nextgroup=rustModPathSep display
 
