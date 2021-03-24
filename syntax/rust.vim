@@ -33,7 +33,7 @@ syn match rustUnionContextual /\<union\_s\+\%([^[:cntrl:][:space:][:punct:][:dig
 syn keyword   rustOperator    as nextgroup=@rustIdentifiers skipempty skipwhite
 syn match     rustAssert      "\<assert\(\w\)*!" contained display
 syn match     rustPanic       "\<panic\(\w\)*!" contained display
-syn match     rustAsync       "\<async\%(\s\|\n\)\@="
+syn keyword   rustAsync       async
 syn keyword   rustKeyword     break nextgroup=rustLabel,@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     box
 syn keyword   rustKeyword     continue nextgroup=rustLabel,@rustIdentifiers skipempty skipwhite
@@ -43,7 +43,7 @@ syn keyword   rustKeyword     fn nextgroup=rustFuncName skipempty skipwhite
 syn keyword   rustKeyword     impl nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     let nextgroup=rustStorage,@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     macro
-syn keyword   rustKeyword     pub nextgroup=rustPubScope,rustKeyword,rustTypedef,rustStructure,rustStorage,@rustIdentifiers skipempty skipwhite
+syn keyword   rustKeyword     pub nextgroup=rustPubScope,rustAsync,rustKeyword,rustTypedef,rustStructure,rustStorage,@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     return nextgroup=rustAwait,rustConditional,rustKeyword,@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     yield nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     where nextgroup=@rustIdentifiers skipempty skipwhite
