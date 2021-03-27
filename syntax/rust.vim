@@ -51,7 +51,7 @@ syn keyword   rustUnsafeKeyword unsafe
 syn keyword   rustKeyword     mod use nextgroup=rustModPath skipempty skipwhite
 " FIXME: Scoped impl's name is also fallen in this category
 syn keyword   rustKeyword     trait nextgroup=rustType skipempty skipwhite
-syn keyword   rustStorage     move mut ref static const nextgroup=rustStorage,@rustIdentifiers skipempty skipwhite
+syn keyword   rustStorage     move mut ref static const nextgroup=rustStorage,rustKeyword,@rustIdentifiers skipempty skipwhite
 syn match     rustDefault     /\<default\ze\_s\+\(impl\|fn\|type\|const\)\>/ display
 syn keyword   rustAwait       await nextgroup=@rustIdentifiers skipempty skipwhite
 syn match     rustKeyword     /\<try\>!\@!/ display
