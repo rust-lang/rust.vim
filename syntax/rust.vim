@@ -14,7 +14,7 @@ endif
 
 " Syntax definitions {{{1
 " Basic keywords {{{2
-syn match     rustNoise "[,\.\[\](]" display nextgroup=rustRange,rustNoise,rustConditional,rustKeyword,rustStorage,@rustLiterals,@rustIdentifiers skipempty skipwhite
+syn match     rustNoise "[,\.\[\](]" display nextgroup=rustRange,rustNoise,rustConditional,rustKeyword,rustAwait,rustStorage,@rustLiterals,@rustIdentifiers skipempty skipwhite
 syn match     rustNoise ")" display nextgroup=rustRange,rustNoise,rustConditional,rustKeyword,rustStorage,rustOperator,@rustLiterals,@rustIdentifiers skipempty skipwhite
 syn match     rustNoise ";" display
 syn match     rustBounds ":" display nextgroup=rustKeyword,rustStorage,rustConditional,@rustIdentifiers skipempty skipwhite
