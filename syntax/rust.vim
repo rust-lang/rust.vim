@@ -72,7 +72,7 @@ syn match  rustUnused "\v<_" display
 syn cluster rustIdentifiers contains=@rustLifetimes,rustMacroVariable,rustMacroRepeat,rustModPath,rustMacro,rustBuiltinType,rustConstant,rustType,rustBoolean,rustSelf,rustFuncName,rustAnonymousFunc,rustUnused,rustSelfScope,rustIdentifier
 
 syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end="\v\)\S*[*+?]((, )?)@=" contains=rustMacroVariable
-syn match rustMacroVariable "\$\w\+" display nextgroup=rustBounds
+syn match rustMacroVariable "\$\w\+" display nextgroup=rustModPathSep,rustBounds
 syn match rustRawIdent "\v<r#(\h\w*)@=" nextgroup=rustIdentifier display
 
 " Reserved (but not yet used) keywords {{{2
