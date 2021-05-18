@@ -31,8 +31,8 @@ syn keyword   rustStructure struct enum nextgroup=rustType skipempty skipwhite
 syn keyword   rustUnion union nextgroup=rustType skipempty skipwhite contained
 syn match rustUnionContextual /\<union\_s\+\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*/ transparent contains=rustUnion
 syn keyword   rustOperator    as nextgroup=@rustIdentifiers skipempty skipwhite
-syn match     rustAssert      "\<assert\(\w\)*!" contained display
-syn match     rustPanic       "\<panic\(\w\)*!" contained display
+syn match     rustAssert      "\v<(debug_)?assert(\w*)!" contained display
+syn match     rustPanic       "\v<(panic|todo|unimplemented|unreachable)(\w*)!" contained display
 syn keyword   rustAsync       async
 syn keyword   rustKeyword     break nextgroup=rustLabel,@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     box
