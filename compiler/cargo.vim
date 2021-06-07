@@ -34,6 +34,7 @@ augroup END
 " Ignore general cargo progress messages
 CompilerSet errorformat+=
             \%-G%\\s%#Downloading%.%#,
+            \%-G%\\s%#Checking%.%#,
             \%-G%\\s%#Compiling%.%#,
             \%-G%\\s%#Finished%.%#,
             \%-G%\\s%#error:\ Could\ not\ compile\ %.%#,
