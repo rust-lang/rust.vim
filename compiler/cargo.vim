@@ -39,6 +39,7 @@ CompilerSet errorformat+=
             \%-G%\\s%#Finished%.%#,
             \%-G%\\s%#error:\ Could\ not\ compile\ %.%#,
             \%-G%\\s%#To\ learn\ more\\,%.%#,
+            \%-G%\\s%#For\ more\ information\ about\ this\ error\\,%.%#,
             \%-Gnote:\ Run\ with\ \`RUST_BACKTRACE=%.%#,
             \%.%#panicked\ at\ \\'%m\\'\\,\ %f:%l:%c
 
