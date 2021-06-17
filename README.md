@@ -59,10 +59,10 @@ NeoBundle 'rust-lang/rust.vim'
 ## Features
 
 * `:Cargo`
-* `:Cbuild:` Compile the current package
-* `:Ccheck:` Analyze the current package and report errors, but don't build object files
-* `:Cclean:` Remove the target directory
-* `:Cdoc:` Build this package's and its dependencies' documentation
+* `:Cbuild` Compile the current package
+* `:Ccheck` Analyze the current package and report errors, but don't build object files
+* `:Cclean` Remove the target directory
+* `:Cdoc` Build this package's and its dependencies' documentation
 * `:Cnew` Create a new cargo package
 * `:Cinit` Create a new cargo package in an existing directory
 * `:Crun`  Run a binary or example of the local package
