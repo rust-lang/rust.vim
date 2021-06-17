@@ -58,6 +58,7 @@ NeoBundle 'rust-lang/rust.vim'
 
 ## Features
 
+### Manage packages with [Cargo][cargo]
 * `:Cargo`
 * `:Cbuild` Compile the current package
 * `:Ccheck` Analyze the current package and report errors, but don't build object files
@@ -143,6 +144,7 @@ LICENSE-MIT for details.
 [vp]: https://github.com/junegunn/vim-plug
 [d]: https://github.com/Shougo/dein.vim
 [rfmt]: https://github.com/rust-lang-nursery/rustfmt
+[cargo]: https://doc.rust-lang.org/cargo/commands/cargo.html
 [syn]: https://github.com/scrooloose/syntastic
 [tgbr]: https://github.com/majutsushi/tagbar
 [uctags]: https://ctags.io
