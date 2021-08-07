@@ -49,7 +49,6 @@ syn keyword   rustKeyword     yield nextgroup=@rustIdentifiers skipempty skipwhi
 syn keyword   rustKeyword     where nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustUnsafeKeyword unsafe
 syn keyword   rustKeyword     mod use nextgroup=rustModPath skipempty skipwhite
-" FIXME: Scoped impl's name is also fallen in this category
 syn keyword   rustKeyword     trait nextgroup=rustType skipempty skipwhite
 syn keyword   rustStorage     move mut ref static const nextgroup=rustStorage,rustKeyword,@rustIdentifiers skipempty skipwhite
 syn match     rustDefault     /\<default\ze\_s\+\(impl\|fn\|type\|const\)\>/ display
@@ -58,7 +57,10 @@ syn match     rustKeyword     /\<try\>!\@!/ display
 
 syn match  rustIdentifier "\v<\l(\l|\d)*(_+(\l|\d)*)*>" contained display
 
-syn match  rustFuncName   "\v<\w+>((::)?\<.*\>)?\s*(\()@=" contains=rustRepeat,rustModPathSep,rustGenericRegion display
+" WARN: this might register falsely on `rustType`s (not in my testing) but it also helps detect multiline generic funcs.
+"       if it does, remove the top and change the bottom back to '\v<\w+>((::)?\<.*\>)?\s*(\()@='.
+syn match  rustFuncName   "\v<\w+>(::)?\<" contains=rustRepeat,rustModPathSep,rustGenericRegion display
+syn match  rustFuncName   "\v<\w+>\s*(\()@=" contains=rustRepeat,rustModPathSep,rustGenericRegion display
 syn region rustAnonymousFunc matchgroup=rustFuncName start="|" end="|" contains=rustNoise,rustBounds,rustSigil,rustStorage,@rustIdentifiers
 
 syn match  rustType       "\v<\u(\l|\d)*(\u(\l|\d)*)*>" contains=rustEnum,rustEnumVariant,rustTrait,rustDeriveTrait nextgroup=rustModPathSep display
