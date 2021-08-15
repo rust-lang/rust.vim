@@ -3,7 +3,7 @@
 ## Description
 
 This is a Vim plugin that provides [Rust][r] file detection, syntax highlighting, formatting,
-[Syntastic][syn] integration, and more. It requires Vim 8 or higher for full functionality.
+[Ale][ale] & [Syntastic][syn] integration, and more. It requires Vim 8 or higher for full functionality.
 Some things may not work on earlier versions. 
 
 ## Installation
@@ -58,11 +58,20 @@ NeoBundle 'rust-lang/rust.vim'
 
 ## Features
 
-### Error checking with [Syntastic][syn]
+### Error checking with [Ale][ale] or [Syntastic][syn]
 
 `rust.vim` automatically registers `cargo` as a syntax checker with
 [Syntastic][syn], if nothing else is specified. See `:help rust-syntastic`
 for more details.
+
+To enable syntax checking in [Ale][ale], turn on the features you want in your
+`.vimrc`:
+
+```vim
+let g:ale_rust_cargo_use_check = 1
+let g:ale_rust_cargo_check_tests = 1
+let g:ale_rust_cargo_check_examples = 1
+```
 
 ### Source browsing with [Tagbar][tgbr]
 
@@ -133,3 +142,4 @@ LICENSE-MIT for details.
 [wav]: https://github.com/mattn/webapi-vim
 [pp]: https://play.rust-lang.org/
 [vim8pack]: http://vimhelp.appspot.com/repeat.txt.html#packages
+[ale]: https://github.com/dense-analysis/ale
