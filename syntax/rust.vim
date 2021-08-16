@@ -212,15 +212,12 @@ syn match   rustCharacter /'\([^\\]\|\\\(.\|x\x\{2}\|u{\%(\x_*\)\{1,6}}\)\)'/ co
 syn match rustShebang /\%^#![^[].*/ display
 syn region rustCommentLine                                                  start="//"                      end="$"   contains=rustTodo,@Spell nextgroup=rustKeyword,rustStructure,rustTypedef,rustDynKeyword,rustAsync,rustUnion,rustConditional,rustRepeat,rustStorage,@rustLiterals,rustUnsafeKeyword,@rustIdentifiers,rustNoise skipempty skipwhite
 syn region rustCommentLineDoc                                               start="//\%(//\@!\|!\)"         end="$"   contains=rustTodo,@Spell nextgroup=rustKeyword,rustStructure,rustTypedef,rustDynKeyword,rustAsync,rustUnion,rustConditional,rustRepeat,rustStorage,@rustLiterals,rustUnsafeKeyword,@rustIdentifiers,rustNoise skipempty skipwhite
-syn region rustCommentLineDocError                                          start="//\%(//\@!\|!\)"         end="$"   contains=rustTodo,@Spell contained nextgroup=rustKeyword,rustStructure,rustTypedef,rustDynKeyword,rustAsync,rustUnion,rustConditional,rustRepeat,rustStorage,@rustLiterals,rustUnsafeKeyword,@rustIdentifiers,rustNoise skipempty skipwhite
 syn region rustCommentBlock             matchgroup=rustCommentBlock         start="/\*\%(!\|\*[*/]\@!\)\@!" end="\*/" contains=rustTodo,rustCommentBlockNest,@Spell nextgroup=rustKeyword,rustStructure,rustTypedef,rustDynKeyword,rustAsync,rustUnion,rustConditional,rustRepeat,rustStorage,@rustLiterals,rustUnsafeKeyword,@rustIdentifiers,rustNoise skipempty skipwhite
 syn region rustCommentBlockDoc          matchgroup=rustCommentBlockDoc      start="/\*\%(!\|\*[*/]\@!\)"    end="\*/" contains=rustTodo,rustCommentBlockDocNest,rustCommentBlockDocRustCode,@Spell nextgroup=rustKeyword,rustStructure,rustTypedef,rustDynKeyword,rustAsync,rustUnion,rustConditional,rustRepeat,rustStorage,@rustLiterals,rustUnsafeKeyword,@rustIdentifiers,rustNoise skipempty skipwhite
-syn region rustCommentBlockDocError     matchgroup=rustCommentBlockDocError start="/\*\%(!\|\*[*/]\@!\)"    end="\*/" contains=rustTodo,rustCommentBlockDocNestError,@Spell contained nextgroup=rustKeyword,rustStructure,rustTypedef,rustDynKeyword,rustAsync,rustUnion,rustConditional,rustRepeat,rustStorage,@rustLiterals,rustUnsafeKeyword,@rustIdentifiers,rustNoise skipempty skipwhite
 syn region rustCommentBlockNest         matchgroup=rustCommentBlock         start="/\*"                     end="\*/" contains=rustTodo,rustCommentBlockNest,@Spell contained transparent
 syn region rustCommentBlockDocNest      matchgroup=rustCommentBlockDoc      start="/\*"                     end="\*/" contains=rustTodo,rustCommentBlockDocNest,@Spell contained transparent
-syn region rustCommentBlockDocNestError matchgroup=rustCommentBlockDocError start="/\*"                     end="\*/" contains=rustTodo,rustCommentBlockDocNestError,@Spell contained transparent
 
-syn cluster rustComments contains=rustCommentBlock,rustCommentBlockDoc,rustCommentBlockDocError,rustCommentLine,rustCommentLineDoc,rustCommentLineDocError
+syn cluster rustComments contains=rustCommentBlock,rustCommentBlockDoc,rustCommentLine,rustCommentLineDoc
 
 " FIXME: this is a really ugly and not fully correct implementation. Most
 " importantly, a case like ``/* */*`` should have the final ``*`` not being in
@@ -307,12 +304,10 @@ hi def link rustAsmSym        rustAsmDirSpec
 " Comments {{{2
 hi def link rustCommentBlock         rustCommentLine
 hi def link rustCommentBlockDoc      rustCommentLineDoc
-hi def link rustCommentBlockDocError Error
 hi def link rustCommentBlockDocStar  rustCommentBlockDoc
 hi def link rustCommentDocCodeFence  rustCommentLineDoc
 hi def link rustCommentLine          Comment
 hi def link rustCommentLineDoc       SpecialComment
-hi def link rustCommentLineDocError  Error
 hi def link rustCommentLineDocLeader rustCommentLineDoc
 hi def link rustTodo Todo
 
