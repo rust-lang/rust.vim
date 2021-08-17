@@ -14,8 +14,8 @@ endif
 
 " Syntax definitions {{{1
 " Basic keywords {{{2
-syn match     rustNoise "[,\.\[\]({]" display nextgroup=rustRange,rustNoise,rustConditional,rustKeyword,rustAwait,rustStorage,rustRepeat,@rustLiterals,@rustIdentifiers skipempty skipwhite
-syn match     rustNoise "[)}]" display nextgroup=rustRange,rustNoise,rustConditional,rustKeyword,rustStorage,rustOperator,@rustLiterals,rustRepeat,@rustIdentifiers skipempty skipwhite
+syn match     rustNoise "[,\.\[\]({]" display nextgroup=@rustTokens skipempty skipwhite
+syn match     rustNoise "[)}]" display nextgroup=@rustTokens skipempty skipwhite
 syn match     rustNoise ";" display
 syn match     rustBounds ":" display nextgroup=rustKeyword,rustStorage,rustConditional,@rustIdentifiers skipempty skipwhite
 syn keyword   rustConditional match if else nextgroup=rustConditional,rustKeyword,@rustIdentifiers skipempty skipwhite
@@ -155,7 +155,7 @@ syn region    rustString matchgroup=rustStringDelimiter start='b\?r\z(#*\)"' end
 
 " Match attributes with either arbitrary syntax or special highlighting for
 " derives. We still highlight strings and comments inside of the attribute.
-syn region    rustAttribute start="#!\?\[" end="\]" contains=@rustAttributeContents,rustAttributeParenthesizedParens,rustAttributeParenthesizedCurly,rustAttributeParenthesizedBrackets,rustDerive,rustCfg nextgroup=rustKeyword,rustStructure,rustTypedef,rustDynKeyword,rustAsync,rustUnion,rustConditional,rustRepeat,rustStorage,@rustLiterals,rustUnsafeKeyword,@rustIdentifiers,rustNoise skipempty skipwhite
+syn region    rustAttribute start="#!\?\[" end="\]" contains=@rustAttributeContents,rustAttributeParenthesizedParens,rustAttributeParenthesizedCurly,rustAttributeParenthesizedBrackets,rustDerive,rustCfg nextgroup=@rustTokens skipempty skipwhite
 syn region    rustAttributeParenthesizedParens matchgroup=rustNoise start="\v(\w%(\w)*)@<=\("rs=e end=")"re=s transparent contained contains=rustAttributeBalancedParens,@rustAttributeContents,rustOperator
 syn region    rustAttributeParenthesizedCurly matchgroup=rustNoise start="\v(\w%(\w)*)@<=\{"rs=e end="}"re=s transparent contained contains=rustAttributeBalancedCurly,@rustAttributeContents,rustOperator
 syn region    rustAttributeParenthesizedBrackets matchgroup=rustNoise start="\v(\w%(\w)*)@<=\["rs=e end="\]"re=s transparent contained contains=rustAttributeBalancedBrackets,@rustAttributeContents,rustOperator
@@ -210,10 +210,10 @@ syn match   rustCharacter /b'\([^\\]\|\\\(.\|x\x\{2}\)\)'/ contains=rustEscape,r
 syn match   rustCharacter /'\([^\\]\|\\\(.\|x\x\{2}\|u{\%(\x_*\)\{1,6}}\)\)'/ contains=rustEscape,rustEscapeUnicode,rustEscapeError,rustCharacterInvalid
 
 syn match rustShebang /\%^#![^[].*/ display
-syn region rustCommentLine                                                  start="//"                      end="$"   contains=rustTodo,@Spell nextgroup=rustKeyword,rustStructure,rustTypedef,rustDynKeyword,rustAsync,rustUnion,rustConditional,rustRepeat,rustStorage,@rustLiterals,rustUnsafeKeyword,@rustIdentifiers,rustNoise skipempty skipwhite
-syn region rustCommentLineDoc                                               start="//\%(//\@!\|!\)"         end="$"   contains=rustTodo,@Spell nextgroup=rustKeyword,rustStructure,rustTypedef,rustDynKeyword,rustAsync,rustUnion,rustConditional,rustRepeat,rustStorage,@rustLiterals,rustUnsafeKeyword,@rustIdentifiers,rustNoise skipempty skipwhite
-syn region rustCommentBlock             matchgroup=rustCommentBlock         start="/\*\%(!\|\*[*/]\@!\)\@!" end="\*/" contains=rustTodo,rustCommentBlockNest,@Spell nextgroup=rustKeyword,rustStructure,rustTypedef,rustDynKeyword,rustAsync,rustUnion,rustConditional,rustRepeat,rustStorage,@rustLiterals,rustUnsafeKeyword,@rustIdentifiers,rustNoise skipempty skipwhite
-syn region rustCommentBlockDoc          matchgroup=rustCommentBlockDoc      start="/\*\%(!\|\*[*/]\@!\)"    end="\*/" contains=rustTodo,rustCommentBlockDocNest,rustCommentBlockDocRustCode,@Spell nextgroup=rustKeyword,rustStructure,rustTypedef,rustDynKeyword,rustAsync,rustUnion,rustConditional,rustRepeat,rustStorage,@rustLiterals,rustUnsafeKeyword,@rustIdentifiers,rustNoise skipempty skipwhite
+syn region rustCommentLine                                                  start="//"                      end="$"   contains=rustTodo,@Spell nextgroup=@rustTokens skipempty skipwhite
+syn region rustCommentLineDoc                                               start="//\%(//\@!\|!\)"         end="$"   contains=rustTodo,@Spell nextgroup=@rustTokens skipempty skipwhite
+syn region rustCommentBlock             matchgroup=rustCommentBlock         start="/\*\%(!\|\*[*/]\@!\)\@!" end="\*/" contains=rustTodo,rustCommentBlockNest,@Spell nextgroup=@rustTokens skipempty skipwhite
+syn region rustCommentBlockDoc          matchgroup=rustCommentBlockDoc      start="/\*\%(!\|\*[*/]\@!\)"    end="\*/" contains=rustTodo,rustCommentBlockDocNest,rustCommentBlockDocRustCode,@Spell nextgroup=@rustTokens skipempty skipwhite
 syn region rustCommentBlockNest         matchgroup=rustCommentBlock         start="/\*"                     end="\*/" contains=rustTodo,rustCommentBlockNest,@Spell contained transparent
 syn region rustCommentBlockDocNest      matchgroup=rustCommentBlockDoc      start="/\*"                     end="\*/" contains=rustTodo,rustCommentBlockDocNest,@Spell contained transparent
 
@@ -291,6 +291,8 @@ if !exists("b:current_syntax_embed")
     syn match rustCommentBlockDocStar /^\s*\*\s\?/ contained
     syn match rustCommentLineDocLeader "^\s*//\%(//\@!\|!\)" contained
 endif
+
+syn cluster rustTokens contains=rustKeyword,rustStructure,rustTypedef,rustDynKeyword,rustAsync,rustUnion,rustConditional,rustAwait,rustRepeat,rustStorage,@rustLiterals,rustUnsafeKeyword,@rustIdentifiers,rustRange,rustNoise
 
 " Default highlighting {{{1
 
