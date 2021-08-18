@@ -189,7 +189,24 @@ union UnionWithDocComment {}
 union UnionWithDocBlockComment {}
 
 #[foo]
-union UnionWithMacro {}
+union UnionWithMacro {
+	#[foo] pub block_macro_field: bool,
+	/* foo */ pub macro_block_field: bool,
+	/*! foo */ pub module_field: bool,
+	/** foo */ pub doc_field: bool,
+	pub #[foo] block_macro_field: bool,
+	pub /* foo */ macro_block_field: bool,
+	pub /*! foo */ module_field: bool,
+	pub /** foo */ doc_field: bool,
+	pub block_macro_field: #[foo] bool,
+	pub macro_block_field: /* foo */  bool,
+	pub module_field: /*! foo */ bool,
+	pub doc_field: /** foo */ bool,
+	pub block_macro_field #[foo] : bool,
+	pub macro_block_field /* foo */ : bool,
+	pub module_field /*! foo */ : bool,
+	pub doc_field /** foo */ : bool,
+}
 
 pub union PubUnion {
 	#[foo] /* foo */ macro_block_field: bool,
