@@ -343,8 +343,7 @@ trait TraitWithBlockComment<'a> {
 
 /// Foo
 trait TraitWithDocComment {
-	#[foo]
-	fn macro_fn() -> OtherType,
+	#[foo] fn macro_fn() -> OtherType,
 	fn private_fn() -> isize,
 	async fn async_fn() -> ThisType,
 	/* foo */
@@ -365,7 +364,13 @@ trait TraitWithDocBlockComment {
 trait TraitWithMacro {
 	#[foo]
 	fn macro_fn() -> OtherType,
-	async fn async_fn() -> ThisType,
+
+	async
+	fn
+	async_fn()
+	->
+	ThisType,
+
 	/*! foo */
 	fn comment_fn() -> bool,
 	fn private_fn() -> isize,
