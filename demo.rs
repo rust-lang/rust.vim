@@ -245,7 +245,13 @@ trait Trait {
 	}
 
 	// foo
-	fn comment_fn() -> bool,
+	fn comment_fn(foo: bool) -> bool {
+		match foo {
+			true => true,
+			_ => false,
+		}
+	}
+
 	#[foo]
 	fn macro_fn() -> OtherType,
 }
