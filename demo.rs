@@ -294,25 +294,51 @@ trait TraitWithBlockComment<'a> {
 		foo == 'a'
 	}
 
-	fn private_fn<'b>() -> isize { 3 }
+	fn private_fn<'b>(&mut self,) -> isize { 3 }
 
-	async fn async_fn<A>() -> ThisType where A : Eq {
-		let async_closure = async |foo| -> bool {true};
-		let async_closure_move = async |bar| move {};
-		let closure = |_| {};
-		let closure_async = |_, some: bool| async {};
-		let closure_async_move = || async move {};
-		let closure_move = || move {};
-		let move_closure = move || {};
-		let move_closure_async = move || async {};
+	async fn async_fn<A>(self, param: A) -> ThisType where A : Eq {
+		let async_closure = async |foo| -> bool { true };
+
+		let async_closure_move = async |mut bar| move { futures::future::ok(bar * 17) };
+
+		let async_move_closure = async move |param| asnc_call(param).await;
+
+		let closure = |_| String::from("something");
+
+		let closure_async = |_, some: &mut bool| async {
+		};
+
+		let closure_async_move = |bloop: &Self| async move
+		{
+		};
+
+		let closure_move = |param| move { *param };
+		let move_closure = move |_something: Box<dyn SomeTrait>| {};
+		let move_closure_async = move |foo: &dyn SomeTrait| async {};
+
+		Self::foo();
+		Self::bar::<
+			A,
+		>();
+		Self::bar::<A>();
 
 		return ThisType(2);
 	}
 
 	#[foo]
-	fn macro_fn<A>() -> OtherType
+	fn macro_fn<'a, A, B, C, D>(
+		&self,
+		dyn_param: &dyn A,
+		borrow_param: &B,
+		borrow_mut_param: &mut C,
+		mut mut_param: C,
+		impl_param: impl D,
+		static_param: &'static str,
+		lifetime_param: SomeLifeTimeType<'_>,
+	) -> impl SomeTrait
 	where
 		A : Hash + Eq,
+		D : 'a + A,
 }
 
 /// Foo
