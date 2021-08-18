@@ -45,6 +45,12 @@ pub use local_module as aliased_module;
 pub use local_module::inner as aliased_module;
 // }}}
 
+// type alias {{{
+type Alias = Foo;
+type GenericAlias<T> = T;
+pub type PubAlias = Foo;
+// }}}
+
 // Const {{{
 const PRIVATE_CONST: &str = "Some String";
 pub const PUB_CONST: i8 = 3;
@@ -363,12 +369,6 @@ pub trait PubTraitWithMacro {
 }
 // }}}
 
-// type alias {{{
-type Alias = Foo;
-type GenericAlias<T> = T;
-pub type PubAlias = Foo;
-// }}}
-
 // impl {{{
 #[async_trait::async_trait]
 impl JobAdapter for BincodeJob<'_, '_>
@@ -439,4 +439,3 @@ impl JobAdapter for BincodeJob<'_, '_>
 	}
 }
 // }}}
-
