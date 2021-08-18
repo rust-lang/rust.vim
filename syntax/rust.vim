@@ -43,7 +43,7 @@ syn keyword   rustKeyword     fn nextgroup=rustFuncName skipempty skipwhite
 syn keyword   rustKeyword     impl nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     let nextgroup=rustStorage,@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     macro
-syn keyword   rustKeyword     pub nextgroup=rustPubScope,rustAsync,rustKeyword,rustTypedef,rustStructure,rustStorage,@rustIdentifiers skipempty skipwhite
+syn keyword   rustKeyword     pub nextgroup=rustPubScope,rustAsync,rustKeyword,rustTypedef,rustStructure,rustStorage,rustUnion,@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     return nextgroup=rustAwait,rustConditional,rustKeyword,@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     yield nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     where nextgroup=@rustIdentifiers skipempty skipwhite
