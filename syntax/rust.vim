@@ -54,7 +54,12 @@ syn match     rustDefault     /\<default\ze\_s\+\(impl\|fn\|type\|const\)\>/ dis
 syn keyword   rustAwait       await nextgroup=@rustIdentifiers skipempty skipwhite
 syn match     rustKeyword     /\<try\>!\@!/ display
 
-syn match  rustIdentifier "\v<\l(\l|\d)*(_+(\l|\d)*)*>" contained display
+" FIXME: `for` doesn't play well with `rustFoldBraces`. Removing that group
+"        entirely solves the problem, but also gets rid of folding.
+"        alternatively, changing `for` from a `syn match` to `syn keyword`
+"        would work, but it would make `impl Foo for Bar` highlight as
+"        `rustRepeat`.
+syn match  rustIdentifier "\v<\l(\l|\d)*(_+(\l|\d)*)*>" contains=rustRepeat contained display
 
 " WARN: this might register falsely on `rustType`s (not in my testing) but it also helps detect multiline generic funcs.
 "       if it does, remove the top and change the bottom back to '\v<\w+>((::)?\<.*\>)?\s*(\()@='.
@@ -70,7 +75,7 @@ syn match  rustType       "\v<\u>" contains=rustEnum,rustEnumVariant,rustTrait,r
 
 syn match  rustUnused "\v<_" display
 
-syn cluster rustIdentifiers contains=@rustLifetimes,rustMacroVariable,rustMacroRepeat,rustModPath,rustMacro,rustBuiltinType,rustConstant,rustType,rustBoolean,rustSelf,rustFuncName,rustAnonymousFunc,rustUnused,rustSelfScope,rustIdentifier
+syn cluster rustIdentifiers contains=@rustLifetimes,rustMacroVariable,rustMacroRepeat,rustModPath,rustMacro,rustBuiltinType,rustConstant,rustType,rustBoolean,rustSelf,rustFuncName,rustAnonymousFunc,rustUnused,rustSelfScope,rustRawIdent,rustIdentifier
 
 syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end="\v\)\S*[*+?]((, )?)@=" contains=rustMacroVariable
 syn match rustMacroVariable "\$\w\+" display nextgroup=rustModPathSep,rustBounds
@@ -141,7 +146,7 @@ syn match     rustArrowCharacter "=>" display
 syn match     rustQuestionMark "?\([a-zA-Z]\+\)\@!" display
 
 syn match     rustMacro '\w\(\w\)*!' contains=rustAssert,rustPanic
-syn match     rustMacro '#\w\(\w\)*' contains=rustAssert,rustPanic
+syn match     rustMacro '\v#\w(\w)*' contains=rustAssert,rustPanic
 
 syn cluster   rustLiterals contains=rustBoolean,rustBinNumber,rustCharacter,rustDecNumber,rustFloat,rustHexNumber,rustOctNumber,rustString
 syn match     rustEscapeError   /\\./ contained display
@@ -321,6 +326,7 @@ hi def link rustEnum           rustBuiltinType
 hi def link rustEnumVariant    Constant
 hi def link rustFuncName       Function
 hi def link rustIdentifier     Identifier
+hi def link rustRawIdent     Special
 hi def link rustLabel          Label
 hi def link rustLifetime       rustLabel
 hi def link rustMacro          Macro
