@@ -388,6 +388,7 @@ pub trait PubTrait {
 pub
 trait
 PubTraitWithComment
+
 {
 	fn private_fn() -> isize,
 	async fn async_fn() -> ThisType,
