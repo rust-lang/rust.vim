@@ -33,7 +33,7 @@ syn match rustUnionContextual /\<union\_s\+\%([^[:cntrl:][:space:][:punct:][:dig
 syn keyword   rustOperator    as nextgroup=@rustIdentifiers skipempty skipwhite
 syn match     rustAssert      "\v<(debug_)?assert(\w*)!" contained display
 syn match     rustPanic       "\v<(panic|todo|unimplemented|unreachable)(\w*)!" contained display
-syn keyword   rustAsync       async
+syn keyword   rustAsync       async nextgroup=rustStorage,rustKeyword,@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     break nextgroup=rustLabel,@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     box
 syn keyword   rustKeyword     continue nextgroup=rustLabel,@rustIdentifiers skipempty skipwhite
