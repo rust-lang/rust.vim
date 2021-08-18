@@ -126,7 +126,7 @@ syn match   rustModPath     "\v<\l(\l|\d)*(_+(\l|\d)*)*>(\s*::(\<)@!)@=" contain
 syn match   rustModPath     "\v(^\s*(pub\s+)?(use|mod)\s+)@<=<\w+>(\s*::<\w+>)*;@=" contains=rustModule,rustType display
 syn match   rustModPathSep  "::" nextgroup=rustModPath,@rustIdentifiers display skipempty skipwhite
 
-syn match     rustOperator     "\%(+\|-\|/\([/*]\)\@!\|*\|=\|\^\|&\||\|!\|[<>]\|%\)=\?" display nextgroup=@rustLiterals,rustKeyword,rustConditional,@rustIdentifiers skipempty skipwhite
+syn match     rustOperator     "\%(+\|-\|/\([/*]\)\@!\|*\|=\|\^\|&\||\|!\|[<>]\|%\)=\?" display nextgroup=@rustLiterals,rustKeyword,rustConditional,rustAsync,rustStorage,@rustIdentifiers skipempty skipwhite
 syn match     rustRange "\.\." display nextgroup=rustNoise,@rustLiterals,@rustIdentifiers skipempty skipwhite
 syn region    rustGenericRegion matchgroup=rustNoise start="<\(\s\+\|=\)\@!" end="\(=\|-\)\@<!>=\@!" contains=rustNoise,rustOperator,rustSigil,rustDynKeyword,rustStorage,rustBounds,rustKeyword,rustGenericRegion,@rustIdentifiers,@rustComments nextgroup=rustModPathSep
 " This one isn't *quite* right, as we could have binary-& with a reference
