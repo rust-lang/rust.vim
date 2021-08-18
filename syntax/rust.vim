@@ -256,7 +256,7 @@ syn keyword rustAsmOptions pure nomem readonly preserves_flags noreturn nostack 
 " Folding rules {{{2
 " Trivial folding rules to begin with.
 " FIXME: use the AST to make really good folding
-syn region rustFoldBraces matchgroup=rustNoise start="{" end="}" contains=rustAttribute,@rustComments,@rustTokens,rustBounds transparent fold
+syn region rustFoldBraces matchgroup=rustNoise start="{" end="}" contains=rustAttribute,@rustComments,@rustTokens transparent fold
 
 if !exists("b:current_syntax_embed")
     let b:current_syntax_embed = 1
@@ -291,7 +291,7 @@ if !exists("b:current_syntax_embed")
     syn match rustCommentLineDocLeader "^\s*//\%(//\@!\|!\)" contained
 endif
 
-syn cluster rustTokens contains=rustKeyword,rustStructure,rustTypedef,rustDynKeyword,rustAsync,rustUnion,rustConditional,rustAwait,rustRepeat,rustStorage,@rustLiterals,rustUnsafeKeyword,@rustIdentifiers,rustRange,rustNoise
+syn cluster rustTokens contains=rustKeyword,rustStructure,rustTypedef,rustDynKeyword,rustAsync,rustUnion,rustConditional,rustAwait,rustRepeat,rustStorage,@rustLiterals,rustUnsafeKeyword,@rustIdentifiers,rustRange,rustNoise,rustBounds,rustArrowCharacter,rustOperator
 
 " Default highlighting {{{1
 
