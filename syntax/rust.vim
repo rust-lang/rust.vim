@@ -136,7 +136,7 @@ syn match     rustSigil /[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustStorage,
 syn match     rustOperator  "&&\|||" display nextgroup=rustConditional,@rustIdentifiers skipempty skipwhite
 " This is rustArrowCharacter rather than rustArrow for the sake of matchparen,
 " so it skips the ->; see http://stackoverflow.com/a/30309949 for details.
-syn match     rustArrowCharacter "->" display nextgroup=@rustIdentifiers skipempty skipwhite
+syn match     rustArrowCharacter "->" display skipempty skipwhite
 syn match     rustArrowCharacter "=>" display
 syn match     rustQuestionMark "?\([a-zA-Z]\+\)\@!" display
 
