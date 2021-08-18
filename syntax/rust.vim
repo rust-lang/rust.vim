@@ -14,7 +14,7 @@ endif
 
 " Syntax definitions {{{1
 " Basic keywords {{{2
-syn match     rustNoise "[,\.\[\]({})]" display nextgroup=@rustTokens skipempty skipwhite
+syn match     rustNoise "[,\.\[\]()]" display nextgroup=@rustTokens skipempty skipwhite
 syn match     rustNoise ";" display
 syn match     rustBounds ":" display nextgroup=rustKeyword,rustStorage,rustConditional,@rustIdentifiers skipempty skipwhite
 syn keyword   rustConditional match if else nextgroup=rustConditional,rustKeyword,@rustIdentifiers skipempty skipwhite
@@ -256,7 +256,7 @@ syn keyword rustAsmOptions pure nomem readonly preserves_flags noreturn nostack 
 " Folding rules {{{2
 " Trivial folding rules to begin with.
 " FIXME: use the AST to make really good folding
-syn region rustFoldBraces start="{" end="}" transparent fold
+syn region rustFoldBraces matchgroup=rustNoise start="{" end="}" contains=rustAttribute,@rustComments,@rustTokens transparent fold
 
 if !exists("b:current_syntax_embed")
     let b:current_syntax_embed = 1
