@@ -60,7 +60,7 @@ syn match  rustIdentifier "\v<\l(\l|\d)*(_+(\l|\d)*)*>" contained display
 "       if it does, remove the top and change the bottom back to '\v<\w+>((::)?\<.*\>)?\s*(\()@='.
 syn match  rustFuncName   "\v<\w+>(::)?\<" contains=rustRepeat,rustModPathSep,rustGenericRegion display
 syn match  rustFuncName   "\v<\w+>\s*(\()@=" contains=rustRepeat,rustModPathSep,rustGenericRegion display
-syn region rustAnonymousFunc matchgroup=rustFuncName start="|" end="|" contains=rustNoise,rustBounds,rustSigil,rustStorage,@rustIdentifiers nextgroup=rustNoise,rustConditional,rustKeyword,rustAsync,rustStorage,rustRepeat,@rustLiterals,@rustIdentifiers skipempty skipwhite
+syn region rustAnonymousFunc matchgroup=rustFuncName start="|" end="|" contains=rustNoise,rustBounds,rustSigil,rustStorage,rustGenericRegion,@rustIdentifiers nextgroup=rustNoise,rustConditional,rustKeyword,rustAsync,rustStorage,rustRepeat,@rustLiterals,@rustIdentifiers skipempty skipwhite
 
 syn match  rustType       "\v<\u(\l|\d)*(\u(\l|\d)*)*>" contains=rustEnum,rustEnumVariant,rustTrait,rustDeriveTrait nextgroup=rustModPathSep display
 
@@ -291,7 +291,7 @@ if !exists("b:current_syntax_embed")
     syn match rustCommentLineDocLeader "^\s*//\%(//\@!\|!\)" contained
 endif
 
-syn cluster rustTokens contains=rustKeyword,rustStructure,rustTypedef,rustDynKeyword,rustAsync,rustUnion,rustConditional,rustAwait,rustRepeat,rustStorage,@rustLiterals,rustUnsafeKeyword,@rustIdentifiers,rustRange,rustNoise,rustBounds,rustArrowCharacter,rustOperator
+syn cluster rustTokens contains=rustKeyword,rustStructure,rustTypedef,rustDynKeyword,rustAsync,rustUnion,rustConditional,rustAwait,rustRepeat,rustStorage,@rustLiterals,rustUnsafeKeyword,@rustIdentifiers,rustRange,rustNoise,rustBounds,rustArrowCharacter,rustSigil,rustOperator
 
 " Default highlighting {{{1
 
