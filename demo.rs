@@ -302,7 +302,7 @@ TraitWithComment
 
 /* foo */
 trait TraitWithBlockComment<'a> {
-	//! foo
+	//! TODO: some todo
 	fn comment_fn<
 		A,
 		B,
@@ -412,7 +412,7 @@ trait TraitWithMacro {
 pub trait PubTrait {
 	async fn async_fn() -> ThisType,
 	fn private_fn() -> isize,
-	// foo
+	// SAFETY: foo foo
 	#[foo]
 	fn comment_macro_fn() -> bool,
 }
