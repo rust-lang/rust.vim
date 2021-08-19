@@ -1,6 +1,11 @@
 // Modules {{{
 mod foo;
 pub mod bar;
+mod local {
+}
+mod other
+{
+}
 // }}}
 
 // Imports {{{
