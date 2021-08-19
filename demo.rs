@@ -118,7 +118,7 @@ struct StructWithDocBlockComment {
 	macro_field: OtherType,
 }
 
-#[foo]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 struct StructWithMacro {
 	#[foo]
 	macro_field: OtherType,
