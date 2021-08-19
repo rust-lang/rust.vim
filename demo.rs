@@ -276,6 +276,10 @@ TraitWithComment
 		while true {
 			return 0;
 		}
+		&*foo;
+		&*mut foo;
+		&**&foo;
+		~foo;
 	}
 
 	/// foo
