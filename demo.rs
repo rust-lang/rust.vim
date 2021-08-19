@@ -327,6 +327,17 @@ trait TraitWithBlockComment<'a> {
 		>();
 		Self::bar::<A>();
 
+		for foo in bar
+		{
+			r#loop.do_something();
+		}
+
+		let something = Foo {
+			..Default::default()
+		};
+
+		foo!(1..10);
+
 		return ThisType(2);
 	}
 
