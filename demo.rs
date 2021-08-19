@@ -311,6 +311,10 @@ trait TraitWithBlockComment<'a> {
 	>(parameter: A) -> bool {
 		let foo = 'a';
 
+		if let Some(bar) = None {
+			return false;
+		}
+
 		foo == 'a'
 	}
 
