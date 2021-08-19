@@ -443,4 +443,48 @@ pub trait PubTraitWithMacro {
 // }}}
 
 // impl {{{
+impl Foo {
+}
+impl
+Foo
+{
+}
+impl<'a, K, V> Foo<'a, K, V> {}
+
+impl Eq for Foo {
+}
+impl Eq
+for
+Foo
+{
+}
+impl<'a, K, V> FromStr for Foo<'a, K, V> { }
+// }}}
+
+// macro {{{
+macro_rules! Foo {
+	() => {
+	};
+
+	($static:ident) => {
+	};
+
+	($($repeat:block),* $item:item,) => {
+	};
+}
+
+#[macro_export]
+macro_rules! Bar
+{
+	() =>
+	{
+	};
+}
+
+/// foo
+macro_rules! Foobar {
+	() =>
+	{
+	};
+}
 // }}}
