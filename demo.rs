@@ -327,6 +327,7 @@ trait TraitWithBlockComment<'a> {
 
 		let async_move_closure = async move |param| asnc_call(param).await;
 
+		// NOTE: '\a' is suppoed to be an error, '\b' is supposed to be valid
 		let closure = |_| String::from("something \a \b");
 
 		let closure_async = |_, some: &mut bool| async {
