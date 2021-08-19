@@ -349,14 +349,19 @@ trait TraitWithBlockComment<'a> {
 
 		for foo in bar
 		{
-			r#loop.do_something();
+			r#match.do_something();
 		}
 
 		let something = Foo {
 			..Default::default()
 		};
 
-		foo!(1..10);
+		foo!(1..10 ; another_var);
+
+		let math = 1 + 2.0 - 6 % var / CONST * 9_00;
+		let bit = 1 & &foo ^ 2 | 10;
+		let compare = 1 > 2 && 1 == 1 || 2 >= 2 && 2 <= 2 || (*foo * 2) == 4;
+		let ok = Ok(3)?;
 
 		return ThisType(2);
 	}
