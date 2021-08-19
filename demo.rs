@@ -492,6 +492,8 @@ macro_rules! Foo {
 	};
 
 	($static:ident) => {
+		unsafe {
+		}
 	};
 
 	($($repeat:block),* $item:item,) => {
@@ -508,8 +510,7 @@ macro_rules! Bar
 
 /// foo
 macro_rules! Foobar {
-	() =>
-	{
+	() => {
 	};
 }
 // }}}
