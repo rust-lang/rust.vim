@@ -253,7 +253,12 @@ trait Trait {
 	// foo
 	fn comment_fn(foo: bool) -> bool {
 		match foo {
-			true => true,
+			Some(ref value) => (),
+			_ => (),
+		};
+
+		match foo {
+			foo @ true => foo,
 			_ => false,
 		}
 	}
