@@ -3,6 +3,7 @@ mod foo;
 pub mod bar;
 mod local {
 }
+#[cfg(not(any(unix, other_prop)))]
 mod other
 {
 }
