@@ -378,6 +378,8 @@ trait TraitWithDocBlockComment {
 
 #[foo]
 trait TraitWithMacro {
+	type Error<S> : Error where S : Into<String>;
+
 	#[foo]
 	fn macro_fn() -> OtherType,
 
