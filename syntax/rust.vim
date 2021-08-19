@@ -135,8 +135,8 @@ syn match     rustOperator     "\%(+\|-\|/\([/*]\)\@!\|*\|=\|\^\|&\||\|!\|[<>]\|
 syn match     rustRange "\.\." display nextgroup=rustNoise,@rustLiterals,@rustIdentifiers skipempty skipwhite
 syn region    rustGenericRegion matchgroup=rustNoise start="<\(\s\+\|=\)\@!" end="\(=\|-\)\@<!>=\@!" contains=rustNoise,rustOperator,rustSigil,rustDynKeyword,rustStorage,rustBounds,rustKeyword,rustGenericRegion,@rustIdentifiers,@rustComments nextgroup=rustModPathSep
 " This one isn't *quite* right, as we could have binary-& with a reference
-syn match     rustSigil /&\s\+[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustStorage,rustDynKeyword,rustConditional,@rustIdentifiers skipempty skipwhite
-syn match     rustSigil /[&~@*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustStorage,rustDynKeyword,rustKeyword,rustConditional,@rustIdentifiers skipempty skipwhite
+syn match     rustSigil /[&~*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustStorage,rustDynKeyword,rustKeyword,rustConditional,@rustIdentifiers skipempty skipwhite
+syn match     rustSigil /@/ nextgroup=rustStorage,rustDynKeyword,rustKeyword,rustConditional,@rustIdentifiers skipempty skipwhite
 " This isn't actually correct; a closure with no arguments can be `|| { }`.
 " Last, because the & in && isn't a sigil
 syn match     rustOperator  "&&\|||" display nextgroup=rustConditional,@rustIdentifiers skipempty skipwhite
