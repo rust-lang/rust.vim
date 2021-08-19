@@ -297,7 +297,7 @@ if !exists("b:current_syntax_embed")
     syn match rustCommentLineDocLeader "^\s*//\%(//\@!\|!\)" contained
 endif
 
-syn cluster rustTokens contains=rustKeyword,rustStructure,rustTypedef,rustDynKeyword,rustAsync,rustUnion,rustConditional,rustAwait,rustRepeat,rustStorage,@rustLiterals,rustUnsafeKeyword,@rustIdentifiers,rustRange,rustNoise,rustBounds,rustArrowCharacter,rustSigil,rustGenericRegion,rustOperator
+syn cluster rustTokens contains=rustKeyword,rustStructure,rustTypedef,rustDynKeyword,rustAsync,rustUnion,rustConditional,rustAwait,rustRepeat,rustStorage,@rustLiterals,rustUnsafeKeyword,@rustIdentifiers,rustRange,rustNoise,rustBounds,rustArrowCharacter,rustSigil,rustOperator,rustQuestionMark,rustGenericRegion
 
 " Default highlighting {{{1
 
