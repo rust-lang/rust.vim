@@ -281,13 +281,22 @@ TraitWithComment
 	/// foo
 	fn comment_fn() -> bool
 	{
+		'outer: loop {
+			'inner: while let Ok(thing) = Ok(2) {
+				break 'outer;
+			}
+			break true;
+		}
+
 		return true;
 	}
 
 	#[foo] macro_fn() -> OtherType {
 		loop {
-			return OtherType {};
+			if false { continue; }
+			break;
 		}
+		return OtherType {};
 	}
 }
 
