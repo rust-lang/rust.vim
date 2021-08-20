@@ -420,7 +420,12 @@ trait TraitWithMacro {
 
 	/*! foo */
 	fn comment_fn() -> bool,
-	fn private_fn() -> isize,
+	fn private_fn() -> isize {
+		let foo = if true { Ok(3) } else { Err(SomeError) };
+		let bar = while false { break true; }
+		let something = loop { break "string \\"; }
+		let something = unsafe {/* unsafe code */}
+	}
 }
 
 pub trait PubTrait {
