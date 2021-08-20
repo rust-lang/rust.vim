@@ -327,7 +327,7 @@ hi def link rustDeriveTrait    rustTrait
 hi def link rustEnum           rustBuiltinType
 hi def link rustEnumVariant    Constant
 hi def link rustFuncName       Function
-hi def link rustIdentifier     Identifier
+hi def link rustIdentifier     Normal " NOTE: this should be `Identifier`, but some colorschemes look too busy that way.
 hi def link rustRawIdent     Special
 hi def link rustLabel          Label
 hi def link rustLifetime       rustLabel
