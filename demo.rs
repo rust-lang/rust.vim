@@ -244,6 +244,60 @@ pub union PubUnionWithDocBlockComment {}
 pub union PubUnionWithMacro { }
 // }}}
 
+// enum {{{
+enum Enum {}
+
+// foo
+enum
+EnumWithComment
+{
+	Field,
+	// foo
+	Newtype(isize),
+	#[foo]
+	Struct { field: ThisType },
+}
+
+/* foo */
+enum EnumWithBlockComment<T> {
+	Foo(T),
+	Bar,
+	Stuff
+	{
+		field: T,
+		stuff: isize,
+	},
+}
+
+/// Foo
+enum EnumWithDocComment {}
+
+/** foo */
+enum EnumWithDocBlockComment {}
+
+#[foo]
+enum EnumWithMacro {
+}
+
+pub enum PubEnum {
+}
+
+// foo
+pub enum PubEnumWithComment { }
+
+/* foo */
+pub enum PubEnumWithBlockComment {}
+
+/// Foo
+pub enum PubEnumWithDocComment { }
+
+/** foo */
+pub enum PubEnumWithDocBlockComment {}
+
+#[foo]
+pub enum PubEnumWithMacro { }
+// }}}
+
 // trait {{{
 trait Trait {
 	fn private_fn() -> isize,
