@@ -109,8 +109,10 @@ struct StructWithDocComment {
 }
 
 /** foo */
-struct StructWithDocBlockComment {
-	private_field: isize,
+struct StructWithDocBlockComment<T>
+where T : ?Sized
+{
+	private_field: T,
 	/** foo */
 	comment_field: bool,
 	pub pub_field: ThisType,
@@ -119,12 +121,12 @@ struct StructWithDocBlockComment {
 }
 
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
-struct StructWithMacro {
+struct StructWithMacro<T : ?Sized> {
 	#[foo]
 	macro_field: OtherType,
 	pub pub_field: ThisType,
 	/*! foo */
-	comment_field: bool,
+	comment_field: T,
 	private_field: isize,
 }
 
