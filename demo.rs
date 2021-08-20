@@ -417,6 +417,7 @@ trait TraitWithBlockComment<'a> {
 		for foo in bar
 		{
 			r#match.do_something(|| String::from("foo"));
+			r#loop.foo();
 		}
 
 		let something = Foo {
