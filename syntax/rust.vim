@@ -131,7 +131,7 @@ syn match   rustModPath     "\v(^\s*(pub\s+)?(use|mod)\s+)@<=<\w+>(\s*::<\w+>)*;
 syn match   rustModPath     "\v(^\s*(pub\s+)?mod\s+)@<=<\w+>(\s*\n?\s*\{)@=" contains=rustModule,rustType
 syn match   rustModPathSep  "::" nextgroup=rustModPath,@rustIdentifiers display skipempty skipwhite
 
-syn match     rustOperator     "\%(+\|-\|/\([/*]\)\@!\|*\|=\|\^\|&\||\|!\|[<>]\|%\)=\?" display nextgroup=@rustLiterals,@rustIdentifiers skipempty skipwhite
+syn match     rustOperator     "\%(+\|-\|/\([/*]\)\@!\|*\|=\|\^\|&\||\|!\|[<>]\|%\)=\?" nextgroup=@rustLiterals,@rustIdentifiers skipempty skipwhite
 syn match     rustRange "\.\." display nextgroup=rustNoise,@rustLiterals,@rustIdentifiers skipempty skipwhite
 syn region    rustGenericRegion matchgroup=rustNoise start="<\(\s\+\|=\)\@!" end="\(=\|-\)\@<!>=\@!" contains=rustNoise,rustOperator,rustSigil,rustDynKeyword,rustBounds,rustKeyword,rustGenericRegion,@rustIdentifiers,@rustComments nextgroup=rustModPathSep
 " This one isn't *quite* right, as we could have binary-& with a reference
@@ -139,7 +139,7 @@ syn match     rustSigil /[&~*][^)= \t\r\n]/he=e-1,me=e-1 nextgroup=rustDynKeywor
 syn match     rustSigil /@/ nextgroup=rustDynKeyword,rustKeyword,@rustIdentifiers skipempty skipwhite
 " This isn't actually correct; a closure with no arguments can be `|| { }`.
 " Last, because the & in && isn't a sigil
-syn match     rustOperator  "&&\|||" display nextgroup=@rustIdentifiers skipempty skipwhite
+syn match     rustOperator  "&&\|||" nextgroup=@rustIdentifiers skipempty skipwhite
 " This is rustArrowCharacter rather than rustArrow for the sake of matchparen,
 " so it skips the ->; see http://stackoverflow.com/a/30309949 for details.
 syn match     rustArrowCharacter "->" display skipempty skipwhite
