@@ -16,7 +16,7 @@ endif
 " Basic keywords {{{2
 syn match     rustNoise "[,\.\[\]()]" display nextgroup=@rustIdentifiers skipempty skipwhite
 syn match     rustNoise ";" display
-syn match     rustBounds ":" display nextgroup=@rustIdentifiers skipempty skipwhite
+syn match     rustBounds ":" display nextgroup=rustMacroType,@rustIdentifiers skipempty skipwhite
 syn keyword   rustConditional match if else nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustRepeat loop while nextgroup=@rustIdentifiers skipempty skipwhite
 " `:syn match` must be used to prioritize highlighting `for` keyword.
@@ -87,7 +87,7 @@ syn keyword   rustReservedKeyword become do priv typeof unsized abstract virtual
 " Built-in types {{{2
 syn keyword   rustBuiltinType isize usize char bool u8 u16 u32 u64 u128 f32
 syn keyword   rustBuiltinType f64 i8 i16 i32 i64 i128 str
-syn keyword   rustBuiltinType block expr ident item lifetime literal meta pat path stmt tt ty vis
+syn keyword   rustMacroType block expr ident item lifetime literal meta pat path stmt tt ty vis
 
 " Things from the libstd v1 prelude (src/libstd/prelude/v1.rs) {{{2
 " This section is just straight transformation of the contents of the prelude,
@@ -333,6 +333,7 @@ hi def link rustLabel          Label
 hi def link rustLifetime       rustLabel
 hi def link rustMacro          Macro
 hi def link rustMacroRepeatDelimiters Special
+hi def link rustMacroType      rustBuiltinType
 hi def link rustMacroVariable  Define
 hi def link rustModPathSep     Delimiter
 hi def link rustModule         Include
