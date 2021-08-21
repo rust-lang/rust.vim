@@ -328,7 +328,6 @@ hi def link rustEnum           rustBuiltinType
 hi def link rustEnumVariant    Constant
 hi def link rustFuncName       Function
 hi def link rustIdentifier     Normal " NOTE: this should be `Identifier`, but some colorschemes look too busy that way.
-hi def link rustRawIdent     Special
 hi def link rustLabel          Label
 hi def link rustLifetime       rustLabel
 hi def link rustMacro          Macro
@@ -337,6 +336,7 @@ hi def link rustMacroType      rustBuiltinType
 hi def link rustMacroVariable  Define
 hi def link rustModPathSep     Delimiter
 hi def link rustModule         Include
+hi def link rustRawIdent       Special
 hi def link rustStaticLifetime rustStorage
 hi def link rustTrait          rustBuiltinType
 hi def link rustType           Type
