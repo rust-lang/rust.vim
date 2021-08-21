@@ -47,6 +47,8 @@ use inline_import::{
 	MacroType,
 };
 
+use std::path::Path;
+
 pub use local_module as aliased_module;
 pub use local_module::inner as aliased_module;
 // }}}
@@ -307,14 +309,14 @@ trait Trait {
 	}
 
 	// foo
-	fn comment_fn(foo: bool) -> bool {
-		match foo {
+	fn comment_fn(path: bool) -> bool {
+		match None {
 			Some(ref value) => (),
 			_ => (),
 		};
 
-		match foo {
-			foo @ true => foo,
+		match path {
+			path @ true => path,
 			_ => false,
 		}
 	}
