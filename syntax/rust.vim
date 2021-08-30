@@ -78,6 +78,10 @@ syn keyword   rustReservedKeyword become do priv typeof unsized abstract virtual
 syn keyword   rustType        isize usize char bool u8 u16 u32 u64 u128 f32
 syn keyword   rustType        f64 i8 i16 i32 i64 i128 str Self
 
+" C types from std::os::raw (and libc) {{{2
+syn keyword   rustType        c_void c_char c_double c_float c_int c_long c_longlong
+syn keyword   rustType        c_schar c_short c_uchar c_uint c_ulong c_ulonglong c_ushort
+
 " Things from the libstd v1 prelude (src/libstd/prelude/v1.rs) {{{2
 " This section is just straight transformation of the contents of the prelude,
 " to make it easy to update.
