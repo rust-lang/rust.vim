@@ -428,7 +428,7 @@ trait TraitWithBlockComment<'a> {
 
 		foo!(1..10 ; another_var);
 
-		let math = 1 + 2.0 - 6 % var / CONST * 9_00;
+		let math = 1+2.0 - 6%var / CONST * 9_00;
 		let bit = 1 & &foo ^ 2 | 10;
 		let compare = 1 > 2 && 1 == 1 ||
 			2 >= 2 &&
@@ -441,6 +441,7 @@ trait TraitWithBlockComment<'a> {
 			||
 			true
 			== false;
+
 		let ok = Ok(3)?;
 
 		return ThisType(2);
