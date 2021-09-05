@@ -438,7 +438,7 @@ trait TraitWithBlockComment<'a> {
 			2 &&
 			2
 			<= 2
-			||
+			|| (true && (false || true) || false)
 			true
 			== false;
 
