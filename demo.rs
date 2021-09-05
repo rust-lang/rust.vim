@@ -335,6 +335,8 @@ TraitWithComment
 			return 0;
 		}
 
+		let slice = &[1, 2, 3];
+
 		&&foo;
 		&**&foo;
 		&*foo;
