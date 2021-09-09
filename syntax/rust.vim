@@ -62,8 +62,6 @@ syn match     rustKeyword     /\<try\>!\@!/ display
 "        `rustRepeat`.
 syn match  rustIdentifier "\v<\l(\l|\d)*(_+(\l|\d)*)*>" contains=rustRepeat contained display
 
-" WARN: this might register falsely on `rustType`s (not in my testing) but it also helps detect multiline generic funcs.
-"       if it does, remove the top and change the bottom back to '\v<\w+>((::)?\<.*\>)?\s*(\()@='.
 syn match  rustFuncName   "\v<\w+>(::)?\<" contains=rustRepeat,rustModPathSep,rustGenericRegion display
 syn match  rustFuncName   "\v<\w+>\s*(\()@=" contains=rustRepeat,rustModPathSep,rustGenericRegion display
 syn region rustAnonymousFunc matchgroup=rustFuncName start="|" end="|" contains=rustNoise,rustBounds,rustSigil,rustGenericRegion,@rustIdentifiers nextgroup=rustNoise,@rustLiterals,@rustIdentifiers skipempty skipwhite
@@ -135,11 +133,9 @@ syn match   rustModPathSep  "::" nextgroup=rustModPath,@rustIdentifiers display 
 syn match     rustOperator "\v(\+|-|/([/*])@!|\*|\=|\^|\&\&?|\|\|?|!|[<>]|\%)" nextgroup=@rustLiterals,@rustIdentifiers skipempty skipwhite
 syn match     rustRange "\.\." display nextgroup=rustNoise,@rustLiterals,@rustIdentifiers skipempty skipwhite
 syn region    rustGenericRegion matchgroup=rustNoise start="<\(\s\+\|=\)\@!" end="\(=\|-\)\@<!>=\@!" contains=rustNoise,rustOperator,rustSigil,rustDynKeyword,rustBounds,rustGenericRegion,@rustIdentifiers,@rustComments nextgroup=rustModPathSep
-" This one isn't *quite* right, as we could have binary-& with a reference
+
 syn match     rustSigil /\v[&~*]+((\w|\[|')+)@=/ nextgroup=rustDynKeyword,@rustLiterals,@rustIdentifiers skipempty skipwhite
 syn match     rustSigil /@/ nextgroup=@rustIdentifiers skipempty skipwhite
-" This isn't actually correct; a closure with no arguments can be `|| { }`.
-" Last, because the & in && isn't a sigil
 " This is rustArrowCharacter rather than rustArrow for the sake of matchparen,
 " so it skips the ->; see http://stackoverflow.com/a/30309949 for details.
 syn match     rustArrowCharacter "->" display skipempty skipwhite
