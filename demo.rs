@@ -593,7 +593,11 @@ macro_rules! Foo {
 #[macro_export]
 macro_rules! Bar
 {
-	() =>
+	($($repeat:block)*, $item:item) =>
+	{
+	};
+
+	($($repeat:block)<=* $item:item,) =>
 	{
 	};
 }
