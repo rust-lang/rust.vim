@@ -140,7 +140,7 @@ syn match     rustSigil /@/ nextgroup=@rustIdentifiers skipempty skipwhite
 " so it skips the ->; see http://stackoverflow.com/a/30309949 for details.
 syn match     rustArrowCharacter "->" display skipempty skipwhite
 syn match     rustArrowCharacter "=>" display
-syn match     rustQuestionMark "?\([a-zA-Z]\+\)\@!" display
+syn match     rustQuestionMark "\v\?(\a+)@!" display
 
 syn match     rustMacro '\w\(\w\)*!' contains=rustAssert,rustPanic
 syn match     rustMacro '\v#\w(\w)*' contains=rustAssert,rustPanic
@@ -182,7 +182,7 @@ syn match     rustKeyword "\<dyn\ze\_s\+\%([^[:cntrl:][:space:][:punct:][:digit:
 syn keyword   rustDynKeyword  dyn contained nextgroup=@rustIdentifier skipempty skipwhite
 
 " Number literals
-syn match rustDecNumber "\<[0-9][0-9_]*\%([iu]\%(size\|8\|16\|32\|64\|128\)\)\=" display
+syn match rustDecNumber "\<\d[0-9_]*\%([iu]\%(size\|8\|16\|32\|64\|128\)\)\=" display
 syn match rustHexNumber "\<0x[a-fA-F0-9_]\+\%([iu]\%(size\|8\|16\|32\|64\|128\)\)\=" display
 syn match rustOctNumber "\<0o[0-7_]\+\%([iu]\%(size\|8\|16\|32\|64\|128\)\)\=" display
 syn match rustBinNumber "\<0b[01_]\+\%([iu]\%(size\|8\|16\|32\|64\|128\)\)\=" display
@@ -191,12 +191,12 @@ syn match rustBinNumber "\<0b[01_]\+\%([iu]\%(size\|8\|16\|32\|64\|128\)\)\=" di
 " an identifier, which makes them integer literals with a method call or field access,
 " or by another ".", which makes them integer literals followed by the ".." token.
 " (This must go first so the others take precedence.)
-syn match     rustFloat "\<[0-9][0-9_]*\.\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\|\.\)\@!" display
+syn match     rustFloat "\<\d[0-9_]*\.\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\|\.\)\@!" display
 " To mark a number as a normal float, it must have at least one of the three things integral values don't have:
 " a decimal point and more numbers; an exponent; and a type suffix.
-syn match     rustFloat "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\%([eE][+-]\=[0-9_]\+\)\=\(f32\|f64\)\=" display
-syn match     rustFloat "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\=\%([eE][+-]\=[0-9_]\+\)\(f32\|f64\)\=" display
-syn match     rustFloat "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\=\%([eE][+-]\=[0-9_]\+\)\=\(f32\|f64\)" display
+syn match     rustFloat "\<\d[0-9_]*\%(\.\d[0-9_]*\)\%([eE][+-]\=[0-9_]\+\)\=\(f32\|f64\)\=" display
+syn match     rustFloat "\<\d[0-9_]*\%(\.\d[0-9_]*\)\=\%([eE][+-]\=[0-9_]\+\)\(f32\|f64\)\=" display
+syn match     rustFloat "\<\d[0-9_]*\%(\.\d[0-9_]*\)\=\%([eE][+-]\=[0-9_]\+\)\=\(f32\|f64\)" display
 
 "rustLifetime must appear before rustCharacter, or chars will get the lifetime highlighting
 syn match     rustLifetime "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display nextgroup=rustNoise,rustDynKeyword,@rustIdentifiers skipempty skipwhite
