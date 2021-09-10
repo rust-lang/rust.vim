@@ -86,7 +86,7 @@ syn keyword   rustReservedKeyword become do priv typeof unsized abstract virtual
 " Built-in types {{{2
 syn keyword   rustBuiltinType isize usize char bool u8 u16 u32 u64 u128 f32
 syn keyword   rustBuiltinType f64 i8 i16 i32 i64 i128 str
-syn keyword   rustMacroType block expr ident item lifetime literal meta pat path stmt tt ty vis
+syn keyword   rustMacroType block expr ident item lifetime literal meta pat path stmt tt ty vis contained
 
 " Things from the libstd v1 prelude (src/libstd/prelude/v1.rs) {{{2
 " This section is just straight transformation of the contents of the prelude,
