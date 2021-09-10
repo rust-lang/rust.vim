@@ -126,8 +126,7 @@ syn region rustPubScope matchgroup=rustNoise start='(' end=')' contained contain
 
 syn match   rustModule      "\v<\l(\l|\d)*(_+(\l|\d)*)*>" contained contains=@rustScopes display
 syn match   rustModPath     "\v<\l(\l|\d)*(_+(\l|\d)*)*>(\s*::(\<)@!)@=" contains=rustModule display nextgroup=rustModPathSep
-syn match   rustModPath     "\v(^\s*(pub\s+)?(use|mod)\s+)@<=<\w+>(\s*::<\w+>)*;@=" contains=rustModule,rustType display
-syn match   rustModPath     "\v(^\s*(pub\s+)?mod\s+)@<=<\w+>(\s*\n?\s*\{)@=" contains=rustModule,rustType
+syn match   rustModPath     "\v((pub\s+)?(use|mod|as)\s+)@<=<\w+>(\s*::\s*<\w+>)*" contains=rustModule,rustType display
 syn match   rustModPathSep  "::" nextgroup=rustModPath,@rustIdentifiers display skipempty skipwhite
 
 syn match     rustOperator "\v(\+|-|/([/*])@!|\*|\=|\^|\&\&?|\|\|?|!|[<>]|\%)" nextgroup=@rustLiterals,@rustIdentifiers skipempty skipwhite
