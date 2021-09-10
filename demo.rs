@@ -7,6 +7,7 @@ mod local {
 mod other
 {
 }
+
 // }}}
 
 // Imports {{{
@@ -30,7 +31,8 @@ use
 	},
 };
 
-use inline_import::{
+use inline_import::
+{
 	module::{Error as ModuleError, ThisType},
 	// comment
 	other_module::{Error as OtherModuleError, OtherType},
@@ -48,6 +50,9 @@ use inline_import::{
 };
 
 use std::path::Path;
+use super::path::Path;
+use self::path::Path;
+/* comment */ use foo;
 
 pub use local_module as aliased_module;
 pub use local_module::inner as aliased_module;
@@ -604,7 +609,7 @@ macro_rules! Bar
 }
 
 /// foo
-macro_rules! Foobar {
+macro_rules! foobar {
 	() => {
 	};
 }
