@@ -341,6 +341,7 @@ TraitWithComment
 		}
 
 		let slice = &[1, 2, 3];
+		let tuple = &(1, 2, 3);
 
 		&&foo;
 		&**&foo;
@@ -438,7 +439,7 @@ trait TraitWithBlockComment<'a> {
 		let refchar = &'c';
 
 		let math = 1+2.0 - 6%var / CONST * 9_00;
-		let bit = 1 & &foo ^ 2 | 10;
+		let bit = 1 & &foo ^ 2 | 10 & (1 + 2 / 3);
 		let compare = 1 > 2 && 1 == 1 ||
 			2 >= 2 &&
 			2 <= 2
