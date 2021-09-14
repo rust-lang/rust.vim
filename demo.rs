@@ -603,9 +603,7 @@ macro_rules! Bar
 	{
 	};
 
-	($($repeat:block)<=* $item:item,) =>
-	{
-	};
+	($($repeat:block)<=* $life:lifetime,) => { &$life Foo };
 }
 
 /// foo
