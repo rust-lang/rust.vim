@@ -133,7 +133,7 @@ syn match     rustOperator "\v(\+|-|/([/*])@!|\*|\=|\^|\&\&?|\|\|?|!|[<>]|\%)" n
 syn match     rustRange "\.\." display nextgroup=rustNoise,@rustLiterals,@rustIdentifiers skipempty skipwhite
 syn region    rustGenericRegion matchgroup=rustNoise start="<\(\s\+\|=\)\@!" end="\(=\|-\)\@<!>=\@!" contains=rustNoise,rustOperator,rustSigil,rustDynKeyword,rustBounds,rustGenericRegion,@rustIdentifiers,@rustComments nextgroup=rustModPathSep
 
-syn match     rustSigil /\v[&~*]+((\w|\[|'|\$|\#)+)@=/ nextgroup=rustDynKeyword,@rustLiterals,@rustIdentifiers skipempty skipwhite
+syn match     rustSigil /\v[&~*]+[^ &]@=/ nextgroup=rustDynKeyword,@rustLiterals,@rustIdentifiers skipempty skipwhite
 syn match     rustSigil /@/ nextgroup=@rustIdentifiers skipempty skipwhite
 " This is rustArrowCharacter rather than rustArrow for the sake of matchparen,
 " so it skips the ->; see http://stackoverflow.com/a/30309949 for details.
