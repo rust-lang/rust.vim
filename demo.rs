@@ -35,7 +35,7 @@ use
 
 use inline_import::
 {
-	module::{Error as ModuleError, ThisType},
+	r#let::{Error as ModuleError, ThisType},
 	// comment
 	other_module::{Error as OtherModuleError, OtherType},
 	/* comment */
@@ -55,7 +55,7 @@ use std::path::Path;
 pub(in crate::foo) use super::path::Path;
 use self::path::Path;
 use crate::path::Path;
-/* comment */ use foo;
+/* comment */ use r#dyn;
 
 pub(crate::foo) use local_module as aliased_module;
 pub use local_module as aliased_module;
