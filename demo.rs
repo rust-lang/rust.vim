@@ -17,6 +17,8 @@ use
 		module::{Error as ModuleError, ThisType},
 		// comment
 		other_module::{Error as OtherModuleError, OtherType},
+		crate,
+		highlight::as_module,
 		/* comment */
 		another_module::{Error as OtherModuleError, OtherType},
 		#[foo]
@@ -50,16 +52,18 @@ use inline_import::
 };
 
 use std::path::Path;
-use super::path::Path;
+pub(in crate::foo) use super::path::Path;
 use self::path::Path;
+use crate::path::Path;
 /* comment */ use foo;
 
+pub(crate::foo) use local_module as aliased_module;
 pub use local_module as aliased_module;
 pub use local_module::inner as aliased_module;
 // }}}
 
 // type alias {{{
-type Alias = Foo;
+type Alias = HashMap<crate::foo::Foo, bar::Bar>;
 type GenericAlias<T> = T;
 pub type PubAlias = Foo;
 // }}}
