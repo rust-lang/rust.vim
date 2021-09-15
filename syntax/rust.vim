@@ -15,7 +15,7 @@ endif
 " Syntax definitions {{{1
 " Basic keywords {{{2
 syn match     rustNoise "[,\.\[\](]" display nextgroup=@rustIdentifiers skipempty skipwhite
-syn match     rustNoise ")" display nextgroup=@rustLifetimes,rustMacroVariable,rustMacroRepeat,rustModPath,rustMacro,rustBuiltinType,rustConstant,rustType,rustBoolean,rustSelf,rustFuncName,rustUnused,rustSelfScope,rustRawIdent,rustAwait,rustConditional,rustKeyword,rustRepeat,rustStorage,rustUnsafeKeyword,rustIdentifier skipempty skipwhite
+syn match     rustNoise ")" display nextgroup=@rustLifetimes,rustMacroVariable,rustMacroRepeat,rustModPath,rustMacro,rustBuiltinType,rustConstant,rustType,rustBoolean,rustSelf,rustFuncName,rustUnused,@rustScopes,rustRawIdent,rustAwait,rustConditional,rustKeyword,rustRepeat,rustStorage,rustUnsafeKeyword,rustIdentifier skipempty skipwhite
 syn match     rustNoise ";" display
 syn match     rustBounds ":" display nextgroup=rustMacroType,@rustIdentifiers skipempty skipwhite
 syn keyword   rustConditional match if else nextgroup=@rustIdentifiers skipempty skipwhite
@@ -63,7 +63,7 @@ syn match     rustKeyword     /\<try\>!\@!/ display
 syn match  rustIdentifier "\v<\l(\l|\d)*(_+(\l|\d)*)*>" contains=rustRepeat contained display
 
 syn match  rustFuncName   "\v<\w+>(::)?\<" contains=rustRepeat,rustModPathSep,rustGenericRegion display
-syn match  rustFuncName   "\v<\w+>\s*(\()@=" contains=rustRepeat,rustModPathSep,rustGenericRegion display
+syn match  rustFuncName   "\v<\w+>\s*(\()@=" contains=rustRepeat,rustGenericRegion display
 syn region rustAnonymousFunc matchgroup=rustFuncName start="|" end="|" contains=rustNoise,rustBounds,rustSigil,rustGenericRegion,@rustIdentifiers nextgroup=rustNoise,@rustLiterals,@rustIdentifiers skipempty skipwhite
 
 syn match  rustType       "\v<\u(\l|\d)*(\u(\l|\d)*)*>" contains=rustEnum,rustEnumVariant,rustTrait,rustDeriveTrait nextgroup=rustModPathSep display
@@ -74,7 +74,7 @@ syn match  rustType       "\v<\u>" contains=rustEnum,rustEnumVariant,rustTrait,r
 
 syn match  rustUnused "\v<_" display
 
-syn cluster rustIdentifiers contains=@rustLifetimes,rustMacroVariable,rustMacroRepeat,rustModPath,rustMacro,rustBuiltinType,rustConstant,rustType,rustBoolean,rustSelf,rustFuncName,rustAnonymousFunc,rustUnused,rustSelfScope,rustRawIdent,rustAsync,rustAwait,rustConditional,rustKeyword,rustRepeat,rustStorage,rustUnsafeKeyword,rustIdentifier
+syn cluster rustIdentifiers contains=@rustLifetimes,rustMacroVariable,rustMacroRepeat,rustModPath,rustMacro,rustBuiltinType,rustConstant,rustType,rustBoolean,rustSelf,rustFuncName,rustAnonymousFunc,rustUnused,@rustScopes,rustRawIdent,rustAsync,rustAwait,rustConditional,rustKeyword,rustRepeat,rustStorage,rustUnsafeKeyword,rustIdentifier
 
 syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end="\v\)\S{,2}[*+?]" contains=rustMacroVariable
 syn match rustMacroVariable "\$\w\+" display nextgroup=rustModPathSep,rustBounds
@@ -117,12 +117,12 @@ syn keyword rustTrait Vec
 syn keyword   rustSelf    Self nextgroup=rustModPathSep
 syn keyword   rustBoolean true false
 
-syn keyword rustSelfScope  self
-syn keyword rustSuperScope super contained
-syn keyword rustCrateScope crate contained
+syn keyword rustSelfScope  self nextgroup=rustModPathSep
+syn keyword rustSuperScope super nextgroup=rustModPathSep
+syn keyword rustCrateScope crate nextgroup=rustModPathSep
 syn cluster rustScopes contains=rustSuperScope,rustSelfScope,rustCrateScope
 
-syn region rustPubScope matchgroup=rustNoise start='(' end=')' contained contains=rustRepeat,@rustScopes,rustModPath,rustModPathSep transparent
+syn region rustPubScope matchgroup=rustNoise start='(' end=')' contained contains=rustRepeat,@rustScopes,rustModPath transparent
 
 syn match   rustModule      "\v<\l(\l|\d)*(_+(\l|\d)*)*>" contained contains=@rustScopes display
 syn match   rustModPath     "\v<\l(\l|\d)*(_+(\l|\d)*)*>(\s*::(\<)@!)@=" contains=rustModule display nextgroup=rustModPathSep
@@ -258,7 +258,7 @@ syn keyword rustAsmOptions pure nomem readonly preserves_flags noreturn nostack 
 " Folding rules {{{2
 " Trivial folding rules to begin with.
 " FIXME: use the AST to make really good folding
-syn region rustFoldBraces matchgroup=rustNoise start="{" end="}" contains=rustFoldBraces,rustAttribute,@rustComments,rustModPathSep,@rustTokens transparent fold
+syn region rustFoldBraces matchgroup=rustNoise start="{" end="}" contains=rustFoldBraces,rustAttribute,@rustComments,@rustTokens transparent fold
 
 if !exists("b:current_syntax_embed")
     let b:current_syntax_embed = 1
