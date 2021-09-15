@@ -37,7 +37,6 @@ syn keyword   rustAsync       async nextgroup=@rustIdentifiers skipempty skipwhi
 syn keyword   rustKeyword     break nextgroup=rustLabel,@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     box
 syn keyword   rustKeyword     continue nextgroup=rustLabel,@rustIdentifiers skipempty skipwhite
-syn keyword   rustKeyword     crate
 syn keyword   rustKeyword     extern nextgroup=rustExternCrate,rustObsoleteExternMod skipempty skipwhite
 syn keyword   rustKeyword     fn nextgroup=rustFuncName skipempty skipwhite
 syn keyword   rustKeyword     impl nextgroup=@rustIdentifiers skipempty skipwhite
@@ -127,7 +126,7 @@ syn region rustPubScope matchgroup=rustNoise start='(' end=')' contained contain
 syn match   rustModule      "\v<\l(\l|\d)*(_+(\l|\d)*)*>" contained contains=@rustScopes display
 syn match   rustModPath     "\v<\l(\l|\d)*(_+(\l|\d)*)*>(\s*::(\<)@!)@=" contains=rustModule display nextgroup=rustModPathSep
 syn match   rustModPath     "\v((pub\s+)?(use|mod|as)\s+)@<=<\w+>(\s*::\s*<\w+>)*" contains=rustModule,rustType display
-syn match   rustModPathSep  "::" nextgroup=rustModPath,@rustIdentifiers display skipempty skipwhite
+syn match   rustModPathSep  "::" nextgroup=rustModPath,rustModule,@rustIdentifiers display skipempty skipwhite
 
 syn match     rustOperator "\v(\+|-|/([/*])@!|\*|\=|\^|\&\&?|\|\|?|!|[<>]|\%)" nextgroup=@rustLiterals,@rustIdentifiers skipempty skipwhite
 syn match     rustRange "\.\." display nextgroup=rustNoise,@rustLiterals,@rustIdentifiers skipempty skipwhite
