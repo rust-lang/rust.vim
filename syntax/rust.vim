@@ -123,7 +123,7 @@ syn cluster rustScopes contains=rustSuperScope,rustSelfScope,rustCrateScope
 
 syn region rustPubScope matchgroup=rustNoise start='(' end=')' contained contains=rustRepeat,@rustScopes,rustModPath transparent
 
-syn match   rustModule      "\v<\l(\l|\d)*(_+(\l|\d)*)*>" contained contains=@rustScopes display
+syn match   rustModule      "\v<\l(\l|\d)*(_+(\l|\d)*)*>(\()@!" contained contains=@rustScopes display
 syn match   rustModPath     "\v<\l(\l|\d)*(_+(\l|\d)*)*>(\s*::(\<)@!)@=" contains=rustModule display nextgroup=rustModPathSep
 syn match   rustModPath     "\v((pub\s+)?(use|mod|as)\s+)@<=<\w+>(\s*::\s*<\w+>)*" contains=rustModule,rustType display
 syn match   rustModPathSep  "::" nextgroup=rustModPath,rustModule,@rustIdentifiers display skipempty skipwhite
