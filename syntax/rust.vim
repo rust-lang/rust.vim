@@ -119,13 +119,13 @@ syn keyword rustSuperScope super nextgroup=rustModPathSep
 syn keyword rustCrateScope crate nextgroup=rustModPathSep
 syn cluster rustScopes contains=rustSuperScope,rustSelfScope,rustCrateScope
 
-syn region rustPubScope matchgroup=rustNoise start='(' end=')' contained contains=rustRepeat,@rustScopes,rustModPath transparent
+syn region rustPubScope matchgroup=rustNoise start='(' end=')' contained contains=rustRepeat,@rustScopes,rustModule transparent
 
-syn match   rustModule      "\v(r#)?<\l(\l|\d)*(_+(\l|\d)*)*>" contained contains=rustRawModule,@rustScopes display
-syn match   rustModPath     "\v(r#)?<\l(\l|\d)*(_+(\l|\d)*)*>(\s*::(\<)@!)@=" contains=rustModule display nextgroup=rustModPathSep
-syn match   rustModPath     "\v((pub\s+)?(use|mod|as)\s+)@<=(r#)?<\w+>(\s*::\s*(r#)?<\w+>)*" contains=rustRawModule,rustModule,rustType display
-syn match   rustModPathSep  "::" nextgroup=rustModPath,@rustIdentifiers display skipempty skipwhite
-syn match   rustRawModule   "\v<r#" contained display
+syn match   rustModule     "\v(r#)?<\l(\l|\d)*(_+(\l|\d)*)*>" contained contains=rustRawModule,@rustScopes display
+syn match   rustModPath    "\v(r#)?<\l(\l|\d)*(_+(\l|\d)*)*>(\s*::(\<)@!)@=" contains=rustModule display nextgroup=rustModPathSep
+syn match   rustModPath    "\v((pub\s+)?(use|mod)\s+)@<=(r#)?<\w+>" contains=rustRawModule,rustModule,@rustIdentifiers display
+syn match   rustModPathSep "::" nextgroup=rustModPath,@rustIdentifiers display skipempty skipwhite
+syn match   rustRawModule  "\v<r#" contained display
 
 syn match     rustOperator "\v(\+|-|/([/*])@!|\*|\=|\^|\&\&?|\|\|?|!|[<>]|\%)" nextgroup=@rustLiterals,@rustIdentifiers skipempty skipwhite
 syn match     rustRange "\.\." display nextgroup=rustNoise,@rustLiterals,@rustIdentifiers skipempty skipwhite
