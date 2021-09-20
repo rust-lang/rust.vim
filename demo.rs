@@ -571,19 +571,24 @@ pub trait PubTraitWithMacro {
 // impl {{{
 impl Foo {
 }
+
 impl
 Foo
 {
 }
+
 impl<'a, K, V> Foo<'a, K, V> {}
 
 impl Eq for Foo {
 }
+
 impl Eq
-for
-Foo
+	for Foo
+where
+	for<'c> Foo: Trait<'c>,
 {
 }
+
 impl<'a, K, V> FromStr for Foo<'a, K, V> { }
 // }}}
 
