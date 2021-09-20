@@ -20,11 +20,6 @@ syn match     rustNoise ";" display
 syn match     rustBounds ":" display nextgroup=rustMacroType,@rustIdentifiers skipempty skipwhite
 syn keyword   rustConditional match if else nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustRepeat loop while nextgroup=@rustIdentifiers skipempty skipwhite
-" `:syn match` must be used to prioritize highlighting `for` keyword.
-syn match     rustRepeat /\<for\>/ display nextgroup=@rustIdentifiers skipempty skipwhite
-" Highlight `for` keyword in `impl ... for ... {}` statement. This line must
-" be put after previous `syn match` line to overwrite it.
-syn match     rustKeyword /\%(\<impl\>.\+\n\?\)\@<=\<for\>/ nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustRepeat in nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustTypedef type nextgroup=rustType skipempty skipwhite
 syn keyword   rustStructure struct enum nextgroup=rustType skipempty skipwhite
@@ -54,16 +49,19 @@ syn match     rustDefault     /\<default\ze\_s\+\(impl\|fn\|type\|const\)\>/ dis
 syn keyword   rustAwait       await nextgroup=@rustIdentifiers skipempty skipwhite
 syn match     rustKeyword     /\<try\>!\@!/ display
 
-" FIXME: `for` doesn't play well with `rustFoldBraces`. Removing that group
-"        entirely solves the problem, but also gets rid of folding.
-"        alternatively, changing `for` from a `syn match` to `syn keyword`
-"        would work, but it would make `impl Foo for Bar` highlight as
-"        `rustRepeat`.
-syn match  rustIdentifier "\v<\l(\l|\d)*(_+(\l|\d)*)*>" contains=rustRepeat contained display
+syn match  rustIdentifier "\v<\l(\l|\d)*(_+(\l|\d)*)*>" contained display
 
-syn match  rustFuncName   "\v<\w+>(::)?\<" contains=rustRepeat,rustModPathSep,rustGenericRegion display
-syn match  rustFuncName   "\v<\w+>\s*(\()@=" contains=rustRepeat,rustGenericRegion display
+syn match  rustFuncName   "\v<\w+>(::)?\<" contains=rustModPathSep,rustGenericRegion display
+syn match  rustFuncName   "\v<\w+>\s*(\()@=" contains=rustGenericRegion display
 syn region rustAnonymousFunc matchgroup=rustFuncName start="|" end="|" contains=rustNoise,rustBounds,rustSigil,rustGenericRegion,@rustIdentifiers nextgroup=rustNoise,@rustLiterals,@rustIdentifiers skipempty skipwhite
+
+" WARN: since `:syn match` must be used to allow `impl … for` to be
+"       highlighted as a `keyword`, it collides with `rustIdentifier`'s
+"       definition. Thus is must be placed below it, here, rather than
+"       with the other `rustRepeat`s.
+syn match     rustRepeat /\<for\>/ display nextgroup=@rustIdentifiers skipempty skipwhite
+" WARN: must go after `:syn match rustRepeat` for 'for'
+syn match     rustKeyword /\v(<impl>.*\n?\s*)@<=<for>/ nextgroup=@rustIdentifiers skipempty skipwhite
 
 syn match  rustType       "\v<\u(\l|\d)*(\u(\l|\d)*)*>" contains=rustEnum,rustEnumVariant,rustTrait,rustDeriveTrait nextgroup=rustModPathSep display
 
