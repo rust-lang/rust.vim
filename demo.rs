@@ -6,6 +6,7 @@ mod local {
 #[cfg(not(any(unix, other_prop)))]
 mod other
 {
+	use foo::bar;
 }
 
 // }}}
