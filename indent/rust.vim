@@ -24,6 +24,8 @@ setlocal indentkeys=0{,0},!^F,o,O,0[,0],0(,0)
 
 setlocal indentexpr=GetRustIndent(v:lnum)
 
+let b:undo_indent = "setl ai< cin< cino< cink< cinw< inde< indk< <lisp"
+
 " Only define the function once.
 if exists("*GetRustIndent")
     finish
