@@ -75,7 +75,7 @@ pub const PUB_CONST: i8 = 3;
 // }}}
 
 // Static {{{
-static PRIVATE_CONST: &str = "Some String";
+static PRIVATE_CONST: &str = r#"Some String"#;
 pub static PUB_CONST: i8 = 3;
 // }}}
 
