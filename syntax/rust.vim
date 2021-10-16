@@ -49,7 +49,7 @@ syn match     rustDefault     /\<default\ze\_s\+\(impl\|fn\|type\|const\)\>/ dis
 syn keyword   rustAwait       await nextgroup=@rustIdentifiers skipempty skipwhite
 syn match     rustKeyword     /\<try\>!\@!/ display
 
-syn match  rustIdentifier "\v<\l(\l|\d)*(_+(\l|\d)*)*>" contained display
+syn match  rustIdentifier "\v<\l(\l|\d)*(_+(\l|\d)*)*>(#)@!" contained display
 
 syn match  rustFuncName   "\v<\w+>(::)?\<" contains=rustModPathSep,rustGenericRegion display
 syn match  rustFuncName   "\v<\w+>\s*(\()@=" contains=rustGenericRegion display
@@ -233,7 +233,7 @@ syn cluster rustComments contains=rustCommentBlock,rustCommentBlockDoc,rustComme
 syn keyword rustTodo contained TODO FIXME XXX NB NOTE SAFETY
 
 " asm! macro {{{2
-syn region rustAsmMacro matchgroup=rustMacro start="\<asm!\s*(" end=")" contains=rustAsmDirSpec,rustAsmSym,rustAsmConst,rustAsmOptionsKey,@rustComments,rustString.*
+syn region rustAsmMacro matchgroup=rustMacro start="\<asm!\s*(" end=")" contains=rustAsmDirSpec,rustAsmSym,rustAsmConst,rustAsmOptionsKey,@rustComments,rustString
 
 " Clobbered registers
 syn keyword rustAsmDirSpec in out lateout inout inlateout contained nextgroup=rustAsmReg skipempty skipwhite
@@ -330,7 +330,8 @@ hi def link rustMacroVariable  Define
 hi def link rustModPathSep     Delimiter
 hi def link rustModule         Include
 hi def link rustRawIdent       Special
-hi def link rustRawModule      Special
+hi def link rustRawModule      rustRawIdent
+hi def link rustRawString      rustRawIdent
 hi def link rustStaticLifetime rustStorage
 hi def link rustTrait          rustBuiltinType
 hi def link rustType           Type
