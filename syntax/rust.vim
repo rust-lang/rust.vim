@@ -63,11 +63,11 @@ syn match     rustRepeat /\<for\>/ display nextgroup=@rustIdentifiers skipempty 
 " WARN: must go after `:syn match rustRepeat` for 'for'
 syn match     rustKeyword /\v(<impl>.*\n?\s*)@<=<for>/ nextgroup=@rustIdentifiers skipempty skipwhite
 
-syn match  rustType       "\v<\u(\l|\d)*(\u(\l|\d)*)*>" contains=rustEnum,rustEnumVariant,rustTrait,rustDeriveTrait nextgroup=rustModPathSep display
+syn match  rustType       "\v<\u(\l|\d)*(\u(\l|\d)*)*>" contains=rustEnum,rustEnumVariant,rustTrait nextgroup=rustModPathSep display
 
 syn match  rustConstant   "\v<\u+(_+(\u|\d)*)*>" contained display
 
-syn match  rustType       "\v<\u>" contains=rustEnum,rustEnumVariant,rustTrait,rustDeriveTrait nextgroup=rustModPathSep display
+syn match  rustType       "\v<\u>" nextgroup=rustModPathSep display
 
 syn match  rustUnused "\v<_" display
 
