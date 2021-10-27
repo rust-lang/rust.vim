@@ -132,7 +132,7 @@ where T : ?Sized
 	macro_field: OtherType,
 }
 
-#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
+#[cfg_attr(feature = "serde", derive(Copy, Deserialize, Serialize))]
 struct StructWithMacro<T : ?Sized> {
 	#[foo]
 	macro_field: OtherType,
@@ -458,6 +458,8 @@ trait TraitWithBlockComment<'a> {
 			== false;
 
 		let ok = Ok(3)?;
+
+		println!("{}", u8::MAX);
 
 		return ThisType(2);
 	}
