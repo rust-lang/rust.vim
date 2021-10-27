@@ -90,25 +90,18 @@ syn keyword   rustMacroType block expr ident item lifetime literal meta pat path
 " to make it easy to update.
 
 " Reexported core operators {{{3
-syn keyword   rustTrait       Copy Send Sized Sync
-syn keyword   rustTrait       Drop Fn FnMut FnOnce
+syn keyword   rustTrait Copy Drop Fn FnMut FnOnce Send Sized Sync contained
 
 " Reexported types and traits {{{3
-syn keyword rustTrait Box
-syn keyword rustTrait ToOwned
-syn keyword rustTrait Clone
-syn keyword rustTrait PartialEq PartialOrd Eq Ord
-syn keyword rustTrait AsRef AsMut Into From
-syn keyword rustTrait Default
-syn keyword rustTrait Iterator Extend IntoIterator
-syn keyword rustTrait DoubleEndedIterator ExactSizeIterator
-syn keyword rustEnum Option
-syn keyword rustEnumVariant Some None
-syn keyword rustEnum Result
-syn keyword rustEnumVariant Ok Err
-syn keyword rustTrait SliceConcatExt
-syn keyword rustTrait String ToString
-syn keyword rustTrait Vec
+syn keyword rustEnum Option Result
+syn keyword rustEnumVariant Ok Err Some None contained
+syn keyword rustTrait AsRef AsMut From Into ToOwned
+                    \ Clone
+                    \ Default
+                    \ DoubleEndedIterator ExactSizeIterator Extend Iterator IntoIterator SliceConcatExt
+                    \ PartialEq PartialOrd Eq Ord
+                    \ ToString
+                    \ contained
 
 " Other syntax {{{2
 syn keyword   rustSelf    Self nextgroup=rustModPathSep
@@ -166,7 +159,7 @@ syn match     rustCfg "\vcfg(_attr)?"
 syn region    rustDerive matchgroup=rustNoise start="\v(derive)@<=\(" end=")" contained contains=rustType
 " This list comes from src/libsyntax/ext/deriving/mod.rs
 " Some are deprecated (Encodable, Decodable) or to be removed after a new snapshot (Show).
-syn keyword   rustDeriveTrait contained Clone Hash RustcEncodable RustcDecodable Encodable Decodable PartialEq Eq PartialOrd Ord Rand Show Debug Default FromPrimitive Send Sync Copy
+syn keyword   rustDeriveTrait Clone Hash RustcEncodable RustcDecodable Encodable Decodable PartialEq Eq PartialOrd Ord Rand Show Debug Default FromPrimitive Send Sync Copy contained
 
 " dyn keyword: It's only a keyword when used inside a type expression, so
 " we make effort here to highlight it only when Rust identifiers follow it
