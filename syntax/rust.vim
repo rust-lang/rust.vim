@@ -81,8 +81,7 @@ syn match rustRawIdent "\v<r#(\h\w*)@=" nextgroup=rustFuncName,rustIdentifier di
 syn keyword   rustReservedKeyword become do priv typeof unsized abstract virtual final override
 
 " Built-in types {{{2
-syn keyword   rustBuiltinType isize usize char bool u8 u16 u32 u64 u128 f32
-syn keyword   rustBuiltinType f64 i8 i16 i32 i64 i128 str
+syn keyword   rustBuiltinType isize usize char bool u8 u16 u32 u64 u128 f32 f64 i8 i16 i32 i64 i128 str nextgroup=rustModPathSep
 syn keyword   rustMacroType block expr ident item lifetime literal meta pat path stmt tt ty vis contained
 
 " Things from the libstd v1 prelude (src/libstd/prelude/v1.rs) {{{2
