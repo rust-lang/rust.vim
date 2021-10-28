@@ -15,7 +15,7 @@ endif
 " Syntax definitions {{{1
 " Basic keywords {{{2
 syn match     rustNoise "[,\.\[\](]" display nextgroup=@rustIdentifiers skipempty skipwhite
-syn match     rustNoise ")" display nextgroup=@rustLifetimes,rustMacroVariable,rustMacroRepeat,rustModPath,rustMacro,rustBuiltinType,rustConstant,rustType,rustBoolean,rustSelf,rustFuncName,rustUnused,@rustScopes,rustRawIdent,rustAwait,rustConditional,rustKeyword,rustRepeat,rustStorage,rustUnsafeKeyword,rustOperator,rustIdentifier skipempty skipwhite
+syn match     rustNoise ")" display nextgroup=rustModPath,rustMacro,rustBuiltinType,rustConstant,rustType,rustBoolean,rustSelf,rustFuncName,rustUnused,@rustScopes,rustRawIdent,rustAwait,rustConditional,rustKeyword,rustRepeat,rustStorage,rustUnsafeKeyword,rustOperator,rustIdentifier skipempty skipwhite
 syn match     rustNoise ";" display
 syn match     rustBounds ":" display nextgroup=rustMacroType,@rustIdentifiers skipempty skipwhite
 syn keyword   rustConditional match if else nextgroup=@rustIdentifiers skipempty skipwhite
