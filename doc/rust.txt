@@ -358,7 +358,7 @@ Playpen integration
 		|g:rust_playpen_url| is the base URL to the playpen, by default
 		"https://play.rust-lang.org/".
 
-		|g:rust_shortener_url| is the base url for the shorterner, by
+		|g:rust_shortener_url| is the base url for the shortener, by
 		default "https://is.gd/"
 
 		|g:rust_clip_command| is the command to run to copy the
@@ -370,8 +370,8 @@ Evaluation of a single Rust file
 
 NOTE: These commands are useful only when working with standalone Rust files,
 which is usually not the case for common Rust development. If you wish to
-building Rust crates from with Vim can should use Vim's make, Syntastic, or
-functionality from other plugins.
+build Rust crates with something other than Cargo, you should use Vim's make,
+Syntastic, or functionality from other plugins.
 
 
 :RustRun  [args]                                                    *:RustRun*
@@ -475,7 +475,7 @@ rust.vim Debugging
 
 :RustInfoToFile [filename]                                   *:RustInfoToFile*
 		Saves debugging info of the Vim Rust plugin to the the given
-		file, overwritting it.
+		file, overwriting it.
 
 ==============================================================================
 MAPPINGS                                                       *rust-mappings*
