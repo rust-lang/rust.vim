@@ -407,7 +407,7 @@ trait TraitWithBlockComment<'a> {
 
 		let async_closure_move = async |mut bar| move { futures::future::ok(bar * 17) };
 
-		let async_move_closure = async move |param| asnc_call(param).await;
+		let async_move_closure = async move |param| async_call(param, 'c').await;
 
 		// NOTE: '\a' is suppoed to be an error, '\b' is supposed to be valid
 		let closure = || String::from("something \a \b");
@@ -461,7 +461,10 @@ trait TraitWithBlockComment<'a> {
 
 		println!("{}", u8::MAX);
 
-		return ThisType(2);
+		return ThisType{
+			this_field: 2,
+			another_field: 'a',
+		};
 	}
 
 	#[foo]
