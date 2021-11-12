@@ -191,7 +191,7 @@ syn match     rustFloat "\<\d[0-9_]*\%(\.\d[0-9_]*\)\=\%([eE][+-]\=[0-9_]\+\)\=\
 syn match     rustLifetime "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display nextgroup=rustNoise,rustDynKeyword,@rustIdentifiers skipempty skipwhite
 syn match     rustStaticLifetime "'static" display contains=rustStorage nextgroup=rustNoise,rustDynKeyword,@rustIdentifiers skipempty skipwhite
 syn match     rustAnonymousLifetime "'_" display contains=rustUnused nextgroup=rustNoise,rustDynKeyword,@rustIdentifiers skipempty skipwhite
-syn cluster   rustLifetimes contains=rustAnonymousLifetime,rustStaticLifetime,rustLifetime
+syn cluster   rustLifetimes contains=rustCharacter,rustAnonymousLifetime,rustStaticLifetime,rustLifetime
 syn match     rustLabel "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*:" contains=rustBounds display
 syn match     rustLabel "\%(\<\%(break\|continue\)\s*\)\@<=\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*"  display
 syn match   rustCharacterInvalid /b\?'\zs[\n\r\t']\ze'/ contained
