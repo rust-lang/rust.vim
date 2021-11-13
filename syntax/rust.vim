@@ -117,7 +117,7 @@ syn match   rustModule     "\v(r#)?<\l(\l|\d)*(_+(\l|\d)*)*>" contained contains
 syn match   rustModPath    "\v(r#)?<\l(\l|\d)*(_+(\l|\d)*)*>(\s*::(\<)@!)@=" contains=rustModule display nextgroup=rustModPathSep
 syn match   rustModPath    "\v((pub\s+)?(use|mod)\s+)@<=(r#)?<\w+>" contains=rustRawModule,rustModule,@rustIdentifiers display nextgroup=rustModPathSep
 syn match   rustModPathSep "::" nextgroup=rustModPath,@rustIdentifiers display skipempty skipwhite
-syn match   rustRawModule  "\v<r#" contained display
+syn match   rustRawModule  "\v<r#" contained display nextgroup=rustModule
 
 syn match     rustOperator "\v(\+|-|/([/*])@!|\*|\=|\^|\&\&?|\|\|?|!|[<>]|\%)" nextgroup=@rustLiterals,@rustIdentifiers skipempty skipwhite
 syn match     rustRange "\.\." display nextgroup=rustNoise,@rustLiterals,@rustIdentifiers skipempty skipwhite
