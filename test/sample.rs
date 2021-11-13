@@ -1,5 +1,6 @@
 // Modules {{{
 mod foo;
+mod r#match;
 pub mod bar;
 mod local {
 }
