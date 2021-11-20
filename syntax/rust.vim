@@ -58,7 +58,7 @@ syn match     rustKeyword /\v(<impl>.*\n?\s*)@<=<for>/ nextgroup=@rustIdentifier
 
 syn match  rustType       "\v<\u(\l|\d)*(\u(\l|\d)*)*>" contains=rustEnum,rustEnumVariant,rustTrait nextgroup=rustModPathSep display
 
-syn match  rustConstant   "\v<\u+(_+(\u|\d)*)*>" contained display
+syn match  rustConstant   "\v<\u+(_+(\u|\d)*)*>" display
 
 syn match  rustType       "\v<\u>" nextgroup=rustModPathSep display
 
