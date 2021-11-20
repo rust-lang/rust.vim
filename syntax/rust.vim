@@ -18,7 +18,7 @@ syn match     rustNoise "[,\.\[\](]" display nextgroup=@rustIdentifiers skipempt
 syn match     rustNoise ")" display nextgroup=rustModPath,rustMacro,rustBuiltinType,rustConstant,rustType,rustBoolean,rustSelf,rustFuncName,rustUnused,@rustScopes,rustRawIdent,rustAwait,rustConditional,rustKeyword,rustRepeat,rustStorage,rustUnsafeKeyword,rustOperator,rustIdentifier skipempty skipwhite
 syn match     rustNoise ";" display
 syn match     rustBounds ":" display nextgroup=rustMacroType,@rustIdentifiers skipempty skipwhite
-syn keyword   rustConditional match if else nextgroup=@rustIdentifiers skipempty skipwhite
+syn keyword   rustConditional match if else where nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustRepeat continue nextgroup=rustLabel,@rustIdentifiers skipempty skipwhite
 syn keyword   rustRepeat in loop while nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustTypedef type nextgroup=rustType skipempty skipwhite
@@ -33,7 +33,7 @@ syn keyword   rustKeyword     break nextgroup=rustLabel,@rustIdentifiers skipemp
 syn keyword   rustKeyword     box macro
 syn keyword   rustKeyword     extern nextgroup=rustExternCrate,rustObsoleteExternMod skipempty skipwhite
 syn keyword   rustKeyword     fn nextgroup=rustFuncName skipempty skipwhite
-syn keyword   rustKeyword     impl let return yield where nextgroup=@rustIdentifiers skipempty skipwhite
+syn keyword   rustKeyword     impl let return yield nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     pub nextgroup=rustPubScope,rustTypedef,rustStructure,rustUnion,@rustIdentifiers skipempty skipwhite
 syn keyword   rustUnsafeKeyword unsafe
 syn keyword   rustKeyword     mod use nextgroup=rustModPath skipempty skipwhite
