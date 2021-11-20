@@ -343,7 +343,7 @@ hi def link rustRepeat          Repeat
 hi def link rustReservedKeyword Error
 hi def link rustSelf            Typedef
 hi def link rustSelfScope       rustKeyword
-hi def link rustStructure       Structure
+hi def link rustStructure       Keyword
 hi def link rustSuperScope      rustKeyword
 hi def link rustTypedef         Keyword
 hi def link rustUnion           rustStructure
