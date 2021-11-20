@@ -20,8 +20,7 @@ syn match     rustNoise ";" display
 syn match     rustBounds ":" display nextgroup=rustMacroType,@rustIdentifiers skipempty skipwhite
 syn keyword   rustConditional match if else nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustRepeat continue nextgroup=rustLabel,@rustIdentifiers skipempty skipwhite
-syn keyword   rustRepeat loop while nextgroup=@rustIdentifiers skipempty skipwhite
-syn keyword   rustRepeat in nextgroup=@rustIdentifiers skipempty skipwhite
+syn keyword   rustRepeat in loop while nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustTypedef type nextgroup=rustType skipempty skipwhite
 syn keyword   rustStructure struct enum nextgroup=rustType skipempty skipwhite
 syn keyword   rustUnion union nextgroup=rustType skipempty skipwhite contained
@@ -29,23 +28,18 @@ syn keyword   rustOperator    as nextgroup=@rustIdentifiers skipempty skipwhite
 syn match     rustAssert      "\v<(debug_)?assert(\w*)!" contained display
 syn match     rustPanic       "\v<(panic|todo|unimplemented|unreachable)(\w*)!" contained display
 syn keyword   rustAsync       async nextgroup=@rustIdentifiers skipempty skipwhite
+syn keyword   rustAwait       await nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     break nextgroup=rustLabel,@rustIdentifiers skipempty skipwhite
-syn keyword   rustKeyword     box
+syn keyword   rustKeyword     box macro
 syn keyword   rustKeyword     extern nextgroup=rustExternCrate,rustObsoleteExternMod skipempty skipwhite
 syn keyword   rustKeyword     fn nextgroup=rustFuncName skipempty skipwhite
-syn keyword   rustKeyword     impl nextgroup=@rustIdentifiers skipempty skipwhite
-syn keyword   rustKeyword     let nextgroup=@rustIdentifiers skipempty skipwhite
-syn keyword   rustKeyword     macro
+syn keyword   rustKeyword     impl let return yield where nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     pub nextgroup=rustPubScope,rustTypedef,rustStructure,rustUnion,@rustIdentifiers skipempty skipwhite
-syn keyword   rustKeyword     return nextgroup=@rustIdentifiers skipempty skipwhite
-syn keyword   rustKeyword     yield nextgroup=@rustIdentifiers skipempty skipwhite
-syn keyword   rustKeyword     where nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustUnsafeKeyword unsafe
 syn keyword   rustKeyword     mod use nextgroup=rustModPath skipempty skipwhite
 syn keyword   rustKeyword     trait nextgroup=rustType skipempty skipwhite
 syn keyword   rustStorage     move mut ref static const nextgroup=@rustIdentifiers skipempty skipwhite
 syn match     rustDefault     /\<default\ze\_s\+\(impl\|fn\|type\|const\)\>/ display
-syn keyword   rustAwait       await nextgroup=@rustIdentifiers skipempty skipwhite
 syn match     rustKeyword     /\<try\>!\@!/ display
 
 syn match  rustIdentifier "\v<\l(\l|\d)*(_+(\l|\d)*)*>(#)@!" contained display
@@ -93,13 +87,7 @@ syn keyword   rustTrait Copy Drop Fn FnMut FnOnce Send Sized Sync contained
 " Reexported types and traits {{{3
 syn keyword rustEnum Option Result
 syn keyword rustEnumVariant Ok Err Some None contained
-syn keyword rustTrait AsRef AsMut From Into ToOwned
-                    \ Clone
-                    \ Default
-                    \ DoubleEndedIterator ExactSizeIterator Extend Iterator IntoIterator SliceConcatExt
-                    \ PartialEq PartialOrd Eq Ord
-                    \ ToString
-                    \ contained
+syn keyword rustTrait AsRef AsMut From Into ToOwned Clone Default DoubleEndedIterator ExactSizeIterator Extend Iterator IntoIterator SliceConcatExt PartialEq PartialOrd Eq Ord ToString contained
 
 " Other syntax {{{2
 syn keyword   rustSelf    Self nextgroup=rustModPathSep
@@ -126,8 +114,7 @@ syn match     rustSigil /\v[&~*]+[^ &]@=/ nextgroup=rustDynKeyword,@rustLiterals
 syn match     rustSigil /@/ nextgroup=@rustIdentifiers skipempty skipwhite
 " This is rustArrowCharacter rather than rustArrow for the sake of matchparen,
 " so it skips the ->; see http://stackoverflow.com/a/30309949 for details.
-syn match     rustArrowCharacter "->" display skipempty skipwhite
-syn match     rustArrowCharacter "=>" display
+syn match     rustArrowCharacter "[-=]>" display
 syn match     rustQuestionMark "\v\?(\a+)@!" display
 
 syn match     rustMacro '\w\(\w\)*!' contains=rustAssert,rustPanic
@@ -333,7 +320,7 @@ hi def link rustAssert          Debug
 hi def link rustAsync           rustKeyword
 hi def link rustAwait           rustAsync
 hi def link rustConditional     Conditional
-hi def link rustCrateScope   rustKeyword
+hi def link rustCrateScope      rustKeyword
 hi def link rustDefault         rustKeyword
 hi def link rustDynKeyword      rustStorage
 hi def link rustKeyword         Keyword
@@ -383,13 +370,6 @@ hi def link rustQuestionMark   Exception
 hi def link rustRange          rustOperator
 hi def link rustSigil          rustStorage
 hi def link rustStorage        StorageClass
-
-" Other Suggestions:
-" hi rustAttribute ctermfg=cyan
-" hi rustDerive ctermfg=cyan
-" hi rustAssert ctermfg=yellow
-" hi rustPanic ctermfg=red
-" hi rustMacro ctermfg=magenta
 
 syn sync minlines=200
 syn sync maxlines=500
