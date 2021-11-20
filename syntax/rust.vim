@@ -19,6 +19,7 @@ syn match     rustNoise ")" display nextgroup=rustModPath,rustMacro,rustBuiltinT
 syn match     rustNoise ";" display
 syn match     rustBounds ":" display nextgroup=rustMacroType,@rustIdentifiers skipempty skipwhite
 syn keyword   rustConditional match if else nextgroup=@rustIdentifiers skipempty skipwhite
+syn keyword   rustRepeat continue nextgroup=rustLabel,@rustIdentifiers skipempty skipwhite
 syn keyword   rustRepeat loop while nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustRepeat in nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustTypedef type nextgroup=rustType skipempty skipwhite
@@ -30,7 +31,6 @@ syn match     rustPanic       "\v<(panic|todo|unimplemented|unreachable)(\w*)!" 
 syn keyword   rustAsync       async nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     break nextgroup=rustLabel,@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     box
-syn keyword   rustKeyword     continue nextgroup=rustLabel,@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     extern nextgroup=rustExternCrate,rustObsoleteExternMod skipempty skipwhite
 syn keyword   rustKeyword     fn nextgroup=rustFuncName skipempty skipwhite
 syn keyword   rustKeyword     impl nextgroup=@rustIdentifiers skipempty skipwhite
