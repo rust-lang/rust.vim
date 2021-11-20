@@ -66,7 +66,7 @@ pub use local_module::inner as aliased_module;
 
 // type alias {{{
 type Alias = HashMap<crate::foo::Foo, bar::Bar>;
-type GenericAlias<T> = T;
+type GenericAlias<T> = [T; SOME_LEN];
 pub type PubAlias = Foo;
 // }}}
 
