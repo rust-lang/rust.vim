@@ -458,6 +458,8 @@ trait TraitWithBlockComment<'a> {
 			true
 			== false;
 
+		const FOO: [&isize; 1] = [&5];
+
 		let ok = Ok(3)?;
 
 		println!("{}", u8::MAX);
