@@ -428,7 +428,7 @@ trait TraitWithBlockComment<'a> {
 		Self::bar::<
 			A,
 		>();
-		Self::bar::<A>();
+		Self::bar::<3, fn(i32) -> bool>();
 
 		for foo in bar
 		{
@@ -445,7 +445,7 @@ trait TraitWithBlockComment<'a> {
 		let refchar = &'c';
 
 		let math = 1+2.0 - 6%var / CONST * 9_00;
-		let bit = 1 & &foo ^ 2 | some_list | (|| true)() | some_list[2] | 10 & (1 + 2 / 3) as u8;
+		let bit = 1 & &foo ^ 2 | some_list | (|| true)() | some_list[2] << 10 & (1 + 2 / 3) as u8;
 		let compare = 1 > 2 && 1 == 1 ||
 			2 >= 2 &&
 			2 <= 2
