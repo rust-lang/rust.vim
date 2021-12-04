@@ -272,7 +272,7 @@ EnumWithComment
 }
 
 /* foo */
-enum EnumWithBlockComment<T> {
+enum EnumWithBlockComment<&T> {
 	Foo(T),
 	Bar,
 	Stuff
