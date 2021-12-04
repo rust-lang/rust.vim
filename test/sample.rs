@@ -428,7 +428,7 @@ trait TraitWithBlockComment<'a> {
 		Self::bar::<
 			A,
 		>();
-		Self::bar::<3, fn(i32) -> bool>();
+		Self::bar::<<Foo as Iterator>::Item, 3, fn(i32) -> bool>();
 
 		for foo in bar
 		{
