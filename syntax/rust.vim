@@ -359,7 +359,7 @@ hi def link rustDerive    PreProc
 hi def link rustShebang   Comment
 
 " Symbols {{{2
-hi def link rustArrowCharacter rustOperator
+hi def link rustArrowCharacter rustBounds
 hi def link rustBounds         rustOperator
 hi def link rustGeneric        rustNoise
 hi def link rustModPath        rustNoise
