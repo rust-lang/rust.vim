@@ -113,8 +113,6 @@ syn region    rustGenericRegion matchgroup=rustNoise start="\v\<(\s+|\=|\<)@!" e
 
 syn match     rustSigil /\v[&~*]+[^ &;]@=/ nextgroup=rustDynKeyword,@rustLiterals,@rustIdentifiers skipempty skipwhite
 syn match     rustSigil /@/ nextgroup=@rustIdentifiers skipempty skipwhite
-" This is rustArrowCharacter rather than rustArrow for the sake of matchparen,
-" so it skips the ->; see http://stackoverflow.com/a/30309949 for details.
 syn match     rustArrowCharacter "[-=]>" display
 syn match     rustQuestionMark "\v\?(\a+)@!" display
 
