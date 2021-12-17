@@ -7,7 +7,8 @@ mod local {
 #[cfg(not(any(unix, other_prop)))]
 mod other
 {
-	use foo::bar;
+	use {::foo::bar::foobar, ::another::root_crate};
+	use ::io::File::new;
 }
 
 // }}}
