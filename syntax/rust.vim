@@ -87,7 +87,7 @@ syn keyword   rustMacroType block expr ident item lifetime literal meta pat path
 syn keyword   rustTrait Copy Drop Fn FnMut FnOnce Send Sized Sync contained
 
 " Reexported types and traits {{{3
-syn keyword rustEnum Option Result
+syn keyword rustEnum Option Result contained
 syn keyword rustEnumVariant Ok Err Some None contained
 syn keyword rustTrait AsRef AsMut From Into ToOwned Clone Default DoubleEndedIterator ExactSizeIterator Extend Iterator IntoIterator SliceConcatExt PartialEq PartialOrd Eq Ord ToString contained
 
