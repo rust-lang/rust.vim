@@ -182,11 +182,13 @@ syn match     rustAnonymousLifetime "'_" display contains=rustUnused nextgroup=r
 syn cluster   rustLifetimes contains=rustCharacter,rustAnonymousLifetime,rustStaticLifetime,rustLifetime
 syn match     rustLabel "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*:" contains=rustBounds display
 syn match     rustLabel "\%(\<\%(break\|continue\)\s*\)\@<=\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*"  display
+
+syn match   rustCharacterDelimiter "'" contained
 syn match   rustCharacterInvalid /b\?'\zs[\n\r\t']\ze'/ contained
 " The groups negated here add up to 0-255 but nothing else (they do not seem to go beyond ASCII).
 syn match   rustCharacterInvalidUnicode /b'\zs[^[:cntrl:][:graph:][:alnum:][:space:]]\ze'/ contained display
-syn match   rustCharacter /b'\([^\\]\|\\\(.\|x\x\{2}\)\)'/ contains=rustEscape,rustEscapeError,rustCharacterInvalid,rustCharacterInvalidUnicode
-syn match   rustCharacter /'\([^\\]\|\\\(.\|x\x\{2}\|u{\%(\x_*\)\{1,6}}\)\)'/ contains=rustEscape,rustEscapeUnicode,rustEscapeError,rustCharacterInvalid
+syn match   rustCharacter /b'\([^\\]\|\\\(.\|x\x\{2}\)\)'/ contains=rustEscape,rustEscapeError,rustCharacterDelimiter,rustCharacterInvalid,rustCharacterInvalidUnicode
+syn match   rustCharacter /'\([^\\]\|\\\(.\|x\x\{2}\|u{\%(\x_*\)\{1,6}}\)\)'/ contains=rustEscape,rustEscapeUnicode,rustEscapeError,rustCharacterDelimiter,rustCharacterInvalid
 
 syn match rustShebang /\%^#![^[].*/ display
 syn region rustCommentLine                                                  start="//"                      end="$"   contains=rustTodo,@Spell nextgroup=@rustTokens skipempty skipwhite
@@ -342,6 +344,7 @@ hi def link rustUnsafeKeyword   Exception
 hi def link rustBinNumber     rustNumber
 hi def link rustBoolean       Boolean
 hi def link rustCharacter     Character
+hi def link rustCharacterDelimiter rustCharacter
 hi def link rustCharacterInvalid Error
 hi def link rustCharacterInvalidUnicode rustCharacterInvalid
 hi def link rustDecNumber     rustNumber
@@ -354,7 +357,7 @@ hi def link rustNumber        Number
 hi def link rustOctNumber     rustNumber
 hi def link rustString        String
 hi def link rustStringContinuation SpecialChar
-hi def link rustStringDelimiter Delimiter
+hi def link rustStringDelimiter rustString
 
 " Preprocessing {{{2
 hi def link rustAttribute PreProc
