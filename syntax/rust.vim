@@ -176,12 +176,11 @@ syn match     rustFloat "\<\d[0-9_]*\%(\.\d[0-9_]*\)\=\%([eE][+-]\=[0-9_]\+\)\(f
 syn match     rustFloat "\<\d[0-9_]*\%(\.\d[0-9_]*\)\=\%([eE][+-]\=[0-9_]\+\)\=\(f32\|f64\)" display
 
 "rustLifetime must appear before rustCharacter, or chars will get the lifetime highlighting
-syn match     rustLifetime "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display nextgroup=rustNoise,rustDynKeyword,@rustIdentifiers skipempty skipwhite
-syn match     rustStaticLifetime "'static" display contains=rustStorage nextgroup=rustNoise,rustDynKeyword,@rustIdentifiers skipempty skipwhite
-syn match     rustAnonymousLifetime "'_" display contains=rustUnused nextgroup=rustNoise,rustDynKeyword,@rustIdentifiers skipempty skipwhite
-syn cluster   rustLifetimes contains=rustCharacter,rustAnonymousLifetime,rustStaticLifetime,rustLifetime
-syn match     rustLabel "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*:" contains=rustBounds display
-syn match     rustLabel "\%(\<\%(break\|continue\)\s*\)\@<=\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*"  display
+syn match     rustLifetime "\v'\w+(')@!" display nextgroup=rustNoise,rustDynKeyword,@rustIdentifiers skipempty skipwhite
+syn match     rustStaticLifetime "'static>" display nextgroup=rustNoise,rustDynKeyword,@rustIdentifiers skipempty skipwhite
+syn cluster   rustLifetimes contains=rustStaticLifetime,rustLifetime
+syn match     rustLabel "\v'\w+" nextgroup=rustBounds display
+syn match     rustLabel "\v'\w+"  contained display
 
 syn match   rustCharacterDelimiter "'" contained
 syn match   rustCharacterInvalid /b\?'\zs[\n\r\t']\ze'/ contained
@@ -273,7 +272,7 @@ if !exists("b:current_syntax_embed")
     syn match rustCommentLineDocLeader "^\s*//\%(//\@!\|!\)" contained
 endif
 
-syn cluster rustTokens contains=rustStructure,rustTypedef,rustDynKeyword,rustUnion,@rustLiterals,@rustIdentifiers,rustRange,rustNoise,rustBounds,rustArrowCharacter,rustSigil,rustOperator,rustQuestionMark,rustGenericRegion
+syn cluster rustTokens contains=rustStructure,rustTypedef,rustDynKeyword,rustUnion,@rustLiterals,@rustIdentifiers,rustLabel,rustRange,rustNoise,rustBounds,rustArrowCharacter,rustSigil,rustOperator,rustQuestionMark,rustGenericRegion
 
 " Default highlighting {{{1
 
@@ -295,7 +294,6 @@ hi def link rustCommentLineDocLeader rustCommentLineDoc
 hi def link rustTodo Todo
 
 " Identifiers {{{2
-hi def link rustAnonymousLifetime rustUnused
 hi def link rustBuiltinType    Type
 hi def link rustConstant       Constant
 hi def link rustDeriveTrait    rustTrait
