@@ -38,7 +38,8 @@ syn keyword   rustKeyword     fn nextgroup=rustFuncName skipempty skipwhite
 syn keyword   rustKeyword     impl let return yield nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustKeyword     pub nextgroup=rustPubScope,rustTypedef,rustStructure,rustUnion,@rustIdentifiers skipempty skipwhite
 syn keyword   rustUnsafeKeyword unsafe
-syn keyword   rustKeyword     mod use nextgroup=rustModPath skipempty skipwhite
+syn keyword   rustInclude     mod use nextgroup=rustModPath skipempty skipwhite
+syn match     rustInclude     '\vinclude(_str)?!' skipempty skipwhite
 syn keyword   rustKeyword     trait nextgroup=rustType skipempty skipwhite
 syn keyword   rustStorage     move mut ref static const nextgroup=@rustIdentifiers skipempty skipwhite
 syn match     rustDefault     /\<default\ze\_s\+\(impl\|fn\|type\|const\)\>/ display
@@ -118,8 +119,8 @@ syn match     rustSigil /@/ nextgroup=@rustIdentifiers skipempty skipwhite
 syn match     rustArrowCharacter "[-=]>" display
 syn match     rustQuestionMark "\v\?(\a+)@!" display
 
-syn match     rustMacro '\w\(\w\)*!' contains=rustAssert,rustPanic
-syn match     rustMacro '\v#\w(\w)*' contains=rustAssert,rustPanic
+syn match     rustMacro '\w\(\w\)*!' contains=rustAssert,rustDebugAssert,rustInclude,rustPanic
+syn match     rustMacro '\v#\w(\w)*'
 
 syn cluster   rustLiterals contains=rustBoolean,rustBinNumber,rustCharacter,rustDecNumber,rustFloat,rustHexNumber,rustOctNumber,rustString
 syn match     rustEscapeError   /\\./ contained display
@@ -307,8 +308,8 @@ hi def link rustMacro          Macro
 hi def link rustMacroRepeatDelimiters Special
 hi def link rustMacroType      rustBuiltinType
 hi def link rustMacroVariable  Define
-hi def link rustModPathSep     Delimiter
-hi def link rustModule         Include
+hi def link rustModPathSep     rustNoise
+hi def link rustModule         Directory
 hi def link rustRawIdent       Special
 hi def link rustRawModule      rustRawIdent
 hi def link rustRawString      rustRawIdent
@@ -326,6 +327,7 @@ hi def link rustCrateScope      rustKeyword
 hi def link rustDebugAssert     Debug
 hi def link rustDefault         rustKeyword
 hi def link rustDynKeyword      rustStorage
+hi def link rustInclude         Include
 hi def link rustKeyword         Keyword
 hi def link rustPanic           Exception
 hi def link rustRepeat          Repeat
@@ -367,7 +369,6 @@ hi def link rustShebang   Comment
 hi def link rustArrowCharacter rustBounds
 hi def link rustBounds         rustOperator
 hi def link rustGeneric        rustNoise
-hi def link rustModPath        rustNoise
 hi def link rustNoise          Delimiter
 hi def link rustOperator       Operator
 hi def link rustQuestionMark   Exception
