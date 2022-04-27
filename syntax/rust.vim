@@ -143,7 +143,7 @@ syn region    rustAttributeBalancedBrackets matchgroup=rustNoise start="\["rs=e 
 syn cluster   rustAttributeContents contains=rustAttributeParenthesizedParens,rustAttributeParenthesizedCurly,rustAttributeParenthesizedBrackets,@rustLiterals,@rustComments,rustCfg,rustDerive
 syn keyword rustCfg cfg contained
 syn keyword rustCfg cfg_attr contained
-syn region    rustDerive matchgroup=rustNoise start="\v(derive)@<=\(" end=")" contained contains=rustDeriveTrait,rustType
+syn region  rustDerive matchgroup=rustNoise start="\v(derive)@<=\(" end=")" contained contains=rustDeriveTrait,rustType,rustModPath
 " This list comes from src/libsyntax/ext/deriving/mod.rs
 " Some are deprecated (Encodable, Decodable) or to be removed after a new snapshot (Show).
 syn keyword   rustDeriveTrait Clone Hash RustcEncodable RustcDecodable Encodable Decodable PartialEq Eq PartialOrd Ord Rand Show Debug Default FromPrimitive Send Sync Copy contained
