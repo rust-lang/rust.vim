@@ -12,8 +12,10 @@ mod other
 }
 
 // }}}
+//
 
 // Imports {{{
+include_str!("some_path")
 use
 {
 	block_import::{
@@ -134,7 +136,7 @@ where T : ?Sized
 	macro_field: OtherType,
 }
 
-#[cfg_attr(feature = "serde", derive(Copy, Deserialize, Serialize))]
+#[cfg_attr(feature = "serde", derive(Copy, Deserialize, Serialize, serde::Derive, r#use::Foo))]
 struct StructWithMacro<T : ?Sized> {
 	#[foo]
 	macro_field: OtherType,
@@ -472,7 +474,7 @@ trait TraitWithBlockComment<'a> {
 	}
 
 	#[foo]
-	fn macro_fn<'a, A, B, C, D>(
+	fn macro_fn<'a, /* comment */ A, B, C, D> /* comment */ (
 		&self,
 		dyn_param: &dyn A,
 		borrow_param: &B,
@@ -629,6 +631,7 @@ macro_rules! Bar
 /// foo
 macro_rules! foobar {
 	() => {
+		cfg!();
 	};
 }
 // }}}
