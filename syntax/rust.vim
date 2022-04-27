@@ -26,7 +26,8 @@ syn keyword   rustTypedef type nextgroup=rustType skipempty skipwhite
 syn keyword   rustStructure struct enum nextgroup=rustType skipempty skipwhite
 syn keyword   rustUnion union nextgroup=rustType skipempty skipwhite contained
 syn keyword   rustOperator    as nextgroup=@rustIdentifiers skipempty skipwhite
-syn match     rustAssert      "\v<(debug_)?assert(\w*)!" contained display
+syn match     rustAssert      "\v<assert(\w*)!" contained display
+syn match     rustDebugAssert "\v<debug_assert(\w*)!" contained display
 syn match     rustPanic       "\v<(panic|todo|unimplemented|unreachable)(\w*)!" contained display
 syn keyword   rustAsync       async nextgroup=@rustIdentifiers skipempty skipwhite
 syn keyword   rustAwait       await nextgroup=@rustIdentifiers skipempty skipwhite
@@ -316,11 +317,12 @@ hi def link rustType           Type
 hi def link rustUnused         Special
 
 " Keywords {{{2
-hi def link rustAssert          Debug
+hi def link rustAssert          PreCondit
 hi def link rustAsync           rustKeyword
 hi def link rustAwait           rustAsync
 hi def link rustConditional     Conditional
 hi def link rustCrateScope      rustKeyword
+hi def link rustDebugAssert     Debug
 hi def link rustDefault         rustKeyword
 hi def link rustDynKeyword      rustStorage
 hi def link rustKeyword         Keyword
