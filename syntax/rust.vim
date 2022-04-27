@@ -48,7 +48,7 @@ syn match  rustIdentifier "\v<\l(\l|\d)*(_+(\l|\d)*)*>(#)@!" contained display
 
 syn match  rustFuncName   "\v<\w+>(::)?\<" contains=rustModPathSep,rustGenericRegion display
 syn match  rustFuncName   "\v<\w+>\s*(\()@=" contains=rustGenericRegion display
-syn region rustAnonymousFunc matchgroup=rustFuncName start="|" end="|" contains=rustNoise,rustBounds,rustSigil,rustGenericRegion,@rustIdentifiers nextgroup=rustNoise,@rustLiterals,@rustIdentifiers skipempty skipwhite
+syn region rustClosure matchgroup=rustFuncName start="|" end="|" contains=rustNoise,rustBounds,rustSigil,rustGenericRegion,@rustIdentifiers nextgroup=rustNoise,@rustLiterals,@rustIdentifiers skipempty skipwhite
 
 " WARN: since `:syn match` must be used to allow `impl … for` to be
 "       highlighted as a `keyword`, it collides with `rustIdentifier`'s
@@ -66,7 +66,7 @@ syn match  rustType       "\v<\u>" nextgroup=rustModPathSep display
 
 syn match  rustUnused "\v<_" display
 
-syn cluster rustIdentifiers contains=@rustLifetimes,rustMacroVariable,rustMacroRepeat,rustModPath,rustMacro,rustBuiltinType,rustConstant,rustType,rustBoolean,rustSelf,rustFuncName,rustAnonymousFunc,rustUnused,@rustScopes,rustRawIdent,rustAsync,rustAwait,rustConditional,rustKeyword,rustRepeat,rustStorage,rustUnsafeKeyword,rustIdentifier
+syn cluster rustIdentifiers contains=@rustLifetimes,rustMacroVariable,rustMacroRepeat,rustModPath,rustMacro,rustBuiltinType,rustConstant,rustType,rustBoolean,rustSelf,rustFuncName,rustClosure,rustUnused,@rustScopes,rustRawIdent,rustAsync,rustAwait,rustConditional,rustInclude,rustKeyword,rustRepeat,rustStorage,rustUnsafeKeyword,rustIdentifier
 
 syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end="\v\)\S{,2}[*+?]" contains=rustMacroVariable
 syn match rustMacroVariable "\$\w\+" display nextgroup=rustModPathSep,rustBounds
