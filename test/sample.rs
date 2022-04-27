@@ -319,7 +319,11 @@ trait Trait {
 	fn private_fn() -> isize,
 
 	async fn async_fn(a: bool) -> ThisType {
-		ThisType (3)
+		if cfg!(foo) {
+			ThisType (3)
+		} else {
+			ThisType (4)
+		}
 	}
 
 	// foo

@@ -119,7 +119,7 @@ syn match     rustSigil /@/ nextgroup=@rustIdentifiers skipempty skipwhite
 syn match     rustArrowCharacter "[-=]>" display
 syn match     rustQuestionMark "\v\?(\a+)@!" display
 
-syn match     rustMacro '\w\(\w\)*!' contains=rustAssert,rustDebugAssert,rustInclude,rustPanic
+syn match     rustMacro '\w\(\w\)*!' contains=rustAssert,rustCfg,rustDebugAssert,rustInclude,rustPanic
 syn match     rustMacro '\v#\w(\w)*'
 
 syn cluster   rustLiterals contains=rustBoolean,rustBinNumber,rustCharacter,rustDecNumber,rustFloat,rustHexNumber,rustOctNumber,rustString
@@ -142,7 +142,7 @@ syn region    rustAttributeBalancedParens matchgroup=rustNoise start="("rs=e end
 syn region    rustAttributeBalancedCurly matchgroup=rustNoise start="{"rs=e end="}"re=s transparent contained contains=rustAttributeBalancedCurly,@rustAttributeContents,rustOperator
 syn region    rustAttributeBalancedBrackets matchgroup=rustNoise start="\["rs=e end="\]"re=s transparent contained contains=rustAttributeBalancedBrackets,@rustAttributeContents,rustOperator
 syn cluster   rustAttributeContents contains=rustAttributeParenthesizedParens,rustAttributeParenthesizedCurly,rustAttributeParenthesizedBrackets,@rustLiterals,@rustComments,rustCfg,rustDerive
-syn keyword rustCfg cfg contained
+syn match   rustCfg "\vcfg!?" contained
 syn keyword rustCfg cfg_attr contained
 syn region  rustDerive matchgroup=rustNoise start="\v(derive)@<=\(" end=")" contained contains=rustDeriveTrait,rustType,rustModPath
 " This list comes from src/libsyntax/ext/deriving/mod.rs
