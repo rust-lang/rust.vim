@@ -178,7 +178,7 @@ syn match     rustFloat "\<\d[0-9_]*\%(\.\d[0-9_]*\)\=\%([eE][+-]\=[0-9_]\+\)\=\
 
 "rustLifetime must appear before rustCharacter, or chars will get the lifetime highlighting
 syn match     rustLifetime "\v'\w+(')@!" display nextgroup=rustNoise,rustDynKeyword,@rustIdentifiers skipempty skipwhite
-syn match     rustStaticLifetime "'static>" display nextgroup=rustNoise,rustDynKeyword,@rustIdentifiers skipempty skipwhite
+syn match     rustStaticLifetime "'static\>" display nextgroup=rustNoise,rustDynKeyword,@rustIdentifiers skipempty skipwhite
 syn cluster   rustLifetimes contains=rustStaticLifetime,rustLifetime
 syn match     rustLabel "\v'\w+" nextgroup=rustBounds display
 syn match     rustLabel "\v'\w+"  contained display
