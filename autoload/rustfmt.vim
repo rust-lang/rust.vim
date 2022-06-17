@@ -89,7 +89,7 @@ function! s:RustfmtCommandRange(filename, line1, line2)
     " accordingly.
     let l:unstable_features = s:rustfmt_unstable_features ? '--unstable-features' : ''
 
-    let l:cmd = printf("%s %s %s %s %s --file-lines '[%s]' %s", g:rustfmt_command,
+    let l:cmd = printf("%s %s %s %s %s --skip-children --file-lines '[%s]' %s", g:rustfmt_command,
                 \ l:write_mode, g:rustfmt_options,
                 \ l:unstable_features, l:rustfmt_config,
                 \ json_encode(l:arg), shellescape(a:filename))
