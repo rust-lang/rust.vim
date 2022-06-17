@@ -67,7 +67,7 @@ syn keyword   rustObsoleteExternMod mod contained nextgroup=rustIdentifier skipw
 syn match     rustIdentifier  contains=rustIdentifierPrime "\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
 syn match     rustFuncName    "\%(r#\)\=\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
 
-syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end="),\=[*+]" contains=TOP
+syn region rustMacroRepeat matchgroup=rustMacroRepeatDelimiters start="$(" end=")\%(,\=[*+]\|?\)" contains=TOP
 syn match rustMacroVariable "$\w\+"
 syn match rustRawIdent "\<r#\h\w*" contains=NONE
 
