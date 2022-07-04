@@ -316,7 +316,9 @@ pub enum PubEnumWithMacro { }
 
 // trait {{{
 trait Trait {
-	fn private_fn() -> isize,
+	const FOO: u8;
+
+	fn private_fn<const BAR: bool>() -> isize,
 
 	async fn async_fn(a: bool) -> ThisType {
 		if cfg!(foo) {
