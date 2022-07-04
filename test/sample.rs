@@ -419,6 +419,7 @@ trait TraitWithBlockComment<'a> {
 
 		// NOTE: '\a' is suppoed to be an error, '\b' is supposed to be valid
 		let closure = || String::from("something \a \b");
+		let hrtb_closure = for<'a> |a: &'a str| -> &'a str { a };
 
 		let closure_async = |_, some: &mut bool| async {
 		};
