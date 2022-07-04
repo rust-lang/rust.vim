@@ -115,6 +115,16 @@ struct StructWithBlockComment {
 }
 
 /// Foo
+///
+/// # Examples
+///
+/// ```rust
+/// /* Comment inside comment */
+/// let foo = Bar {
+///  field1: true,
+///  field2: false,
+/// };
+/// ```
 struct StructWithDocComment {
 	#[foo]
 	macro_field: OtherType,
