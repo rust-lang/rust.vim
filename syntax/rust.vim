@@ -135,16 +135,18 @@ syn region    rustString matchgroup=rustStringDelimiter start='b\?r\z(#*\)"' end
 " Match attributes with either arbitrary syntax or special highlighting for
 " derives. We still highlight strings and comments inside of the attribute.
 syn region    rustAttribute start="#!\?\[" end="\]" contains=@rustAttributeContents,rustAttributeParenthesizedParens,rustAttributeParenthesizedCurly,rustAttributeParenthesizedBrackets,rustDerive,rustCfg nextgroup=@rustTokens skipempty skipwhite
+syn match rustAttributeComma ',' contained
 syn region    rustAttributeParenthesizedParens matchgroup=rustNoise start="\v(\w%(\w)*)@<=\("rs=e end=")"re=s transparent contained contains=rustAttributeBalancedParens,@rustAttributeContents,rustOperator
 syn region    rustAttributeParenthesizedCurly matchgroup=rustNoise start="\v(\w%(\w)*)@<=\{"rs=e end="}"re=s transparent contained contains=rustAttributeBalancedCurly,@rustAttributeContents,rustOperator
 syn region    rustAttributeParenthesizedBrackets matchgroup=rustNoise start="\v(\w%(\w)*)@<=\["rs=e end="\]"re=s transparent contained contains=rustAttributeBalancedBrackets,@rustAttributeContents,rustOperator
 syn region    rustAttributeBalancedParens matchgroup=rustNoise start="("rs=e end=")"re=s transparent contained contains=rustAttributeBalancedParens,@rustAttributeContents,rustOperator
 syn region    rustAttributeBalancedCurly matchgroup=rustNoise start="{"rs=e end="}"re=s transparent contained contains=rustAttributeBalancedCurly,@rustAttributeContents,rustOperator
 syn region    rustAttributeBalancedBrackets matchgroup=rustNoise start="\["rs=e end="\]"re=s transparent contained contains=rustAttributeBalancedBrackets,@rustAttributeContents,rustOperator
-syn cluster   rustAttributeContents contains=rustAttributeParenthesizedParens,rustAttributeParenthesizedCurly,rustAttributeParenthesizedBrackets,@rustLiterals,@rustComments,rustCfg,rustDerive
+syn cluster   rustAttributeContents contains=rustAttributeParenthesizedParens,rustAttributeParenthesizedCurly,rustAttributeParenthesizedBrackets,rustAttributeComma,@rustLiterals,@rustComments,rustCfg,rustDerive
+
 syn match   rustCfg "\vcfg!?" contained
 syn keyword rustCfg cfg_attr contained
-syn region  rustDerive matchgroup=rustNoise start="\v(derive)@<=\(" end=")" contained contains=rustDeriveTrait,rustType,rustModPath
+syn region  rustDerive matchgroup=rustNoise start="\v(derive)@<=\(" end=")" contained contains=rustAttributeComma,rustDeriveTrait,rustType,rustModPath
 " This list comes from src/libsyntax/ext/deriving/mod.rs
 " Some are deprecated (Encodable, Decodable) or to be removed after a new snapshot (Show).
 syn keyword   rustDeriveTrait Clone Hash RustcEncodable RustcDecodable Encodable Decodable PartialEq Eq PartialOrd Ord Rand Show Debug Default FromPrimitive Send Sync Copy contained
@@ -361,6 +363,7 @@ hi def link rustStringDelimiter rustString
 
 " Preprocessing {{{2
 hi def link rustAttribute PreProc
+hi def link rustAttributeComma rustNoise
 hi def link rustCfg       PreCondit
 hi def link rustDerive    PreProc
 hi def link rustShebang   Comment
