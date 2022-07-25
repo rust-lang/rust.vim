@@ -85,6 +85,7 @@ pub static PUB_CONST: i8 = 3;
 
 // Structs {{{
 struct Struct {
+	#[clap(action, groups = &["foo", "bar"], long, short)]
 	private_field: isize,
 	pub pub_field: ThisType,
 	// foo
