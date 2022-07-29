@@ -1,3 +1,5 @@
+#![macro_use]
+
 // Modules {{{
 mod foo;
 mod r#match;
