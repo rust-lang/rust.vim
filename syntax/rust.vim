@@ -28,6 +28,7 @@ syn keyword   rustUnion union nextgroup=rustType skipempty skipwhite contained
 syn keyword   rustOperator    as nextgroup=@rustIdentifiers skipempty skipwhite
 syn match     rustAssert      "\v<assert(\w*)!" contained display
 syn match     rustCompileError "\v<compile_error(\w*)!" contained display
+syn match     rustDebug "dbg!" contained display
 syn match     rustDebugAssert "\v<debug_assert(\w*)!" contained display
 syn match     rustPanic       "\v<(panic|todo|unimplemented|unreachable)(\w*)!" contained display
 syn keyword   rustAsync       async nextgroup=@rustIdentifiers skipempty skipwhite
@@ -120,7 +121,7 @@ syn match     rustSigil /@/ nextgroup=@rustIdentifiers skipempty skipwhite
 syn match     rustArrowCharacter "[-=]>" display
 syn match     rustQuestionMark "\v\?(\a+)@!" display
 
-syn match     rustMacro '\w\(\w\)*!' contains=rustAssert,rustCfg,rustCompileError,rustDebugAssert,rustInclude,rustPanic
+syn match     rustMacro '\w\(\w\)*!' contains=rustAssert,rustCfg,rustCompileError,rustDebug,rustDebugAssert,rustInclude,rustPanic
 syn match     rustMacro '\v#\w(\w)*'
 
 syn cluster   rustLiterals contains=rustBoolean,rustBinNumber,rustCharacter,rustDecNumber,rustFloat,rustHexNumber,rustOctNumber,rustString
@@ -328,7 +329,8 @@ hi def link rustAwait           rustAsync
 hi def link rustCompileError   Exception
 hi def link rustConditional     Conditional
 hi def link rustCrateScope      rustKeyword
-hi def link rustDebugAssert     Debug
+hi def link rustDebug           Debug
+hi def link rustDebugAssert     rustDebug
 hi def link rustDefault         rustKeyword
 hi def link rustDynKeyword      rustStorage
 hi def link rustInclude         Include
