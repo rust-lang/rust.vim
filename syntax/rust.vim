@@ -144,7 +144,7 @@ syn region    rustAttributeParenthesizedBrackets matchgroup=rustNoise start="\v(
 syn region    rustAttributeBalancedParens matchgroup=rustNoise start="("rs=e end=")"re=s transparent contained contains=rustAttributeBalancedParens,@rustAttributeContents
 syn region    rustAttributeBalancedCurly matchgroup=rustNoise start="{"rs=e end="}"re=s transparent contained contains=rustAttributeBalancedCurly,@rustAttributeContents
 syn region    rustAttributeBalancedBrackets matchgroup=rustNoise start="\["rs=e end="\]"re=s transparent contained contains=rustAttributeBalancedBrackets,@rustAttributeContents
-syn cluster   rustAttributeContents contains=rustAttributeParenthesizedParens,rustAttributeParenthesizedCurly,rustAttributeParenthesizedBrackets,rustAttributeComma,rustCfg,rustDerive,@rustComments,@rustLiterals,rustOperator,rustSigil
+syn cluster   rustAttributeContents contains=rustAttributeParenthesizedParens,rustAttributeParenthesizedCurly,rustAttributeParenthesizedBrackets,rustAttributeComma,rustCfg,rustDerive,rustMacro,@rustComments,@rustLiterals,rustOperator,rustSigil
 
 syn match   rustCfg "\vcfg!?" contained
 syn keyword rustCfg cfg_attr contained
