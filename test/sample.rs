@@ -636,6 +636,9 @@ macro_rules! Foo {
 
 	($($repeat:block),* $item:item,) => {
 	};
+
+	($($repeat:block) * $item:item,) => {
+	};
 }
 
 #[macro_export]
