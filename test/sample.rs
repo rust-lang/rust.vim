@@ -634,11 +634,11 @@ macro_rules! Foo {
 		}
 	};
 
-	($($repeat:block),* $item:item,) => {
-	};
+	($($repeat:block),* $item:item,) => {};
+	($($repeat:block) * $item:item,) => {};
 
-	($($repeat:block) * $item:item,) => {
-	};
+	// e.g.  Foo!(4,4 5,5)
+	($($($word:expr),+) +) => {};
 }
 
 #[macro_export]
