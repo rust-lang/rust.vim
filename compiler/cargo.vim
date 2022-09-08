@@ -39,6 +39,7 @@ CompilerSet errorformat+=
             \%-G%\\s%#error:\ Could\ not\ compile\ %.%#,
             \%-G%\\s%#To\ learn\ more\\,%.%#,
             \%-Gnote:\ Run\ with\ \`RUST_BACKTRACE=%.%#,
+            \%-Gnote:\ run\ with\ \`RUST_BACKTRACE=%.%#,
             \%.%#panicked\ at\ \\'%m\\'\\,\ %f:%l:%c
 
 " vint: -ProhibitAbbreviationOption
