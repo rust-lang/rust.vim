@@ -32,14 +32,14 @@ augroup RustCargoQuickFixHooks
 augroup END
 
 " Ignore general cargo progress messages
-CompilerSet errorformat+=
+CompilerSet errorformat^=
             \%-G%\\s%#Downloading%.%#,
             \%-G%\\s%#Compiling%.%#,
             \%-G%\\s%#Finished%.%#,
             \%-G%\\s%#error:\ Could\ not\ compile\ %.%#,
             \%-G%\\s%#To\ learn\ more\\,%.%#,
+            \%-Gerror:\ test\ failed\\,\ to\ rerun\ pass%.%#,
             \%-Gnote:\ Run\ with\ \`RUST_BACKTRACE=%.%#,
-            \%-Gnote:\ run\ with\ \`RUST_BACKTRACE=%.%#,
             \%.%#panicked\ at\ \\'%m\\'\\,\ %f:%l:%c
 
 " vint: -ProhibitAbbreviationOption
