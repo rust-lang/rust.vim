@@ -144,10 +144,11 @@ syn match     rustMacro       '#\w\(\w\)*' contains=rustAssert,rustPanic
 syn match     rustEscapeError   display contained /\\./
 syn match     rustEscape        display contained /\\\([nrt0\\'"]\|x\x\{2}\)/
 syn match     rustEscapeUnicode display contained /\\u{\%(\x_*\)\{1,6}}/
+syn region    rustStringIdentifier contained matchgroup=rustStringDelimiter start=+{+ end=/}\|:/
 syn match     rustStringContinuation display contained /\\\n\s*/
 syn region    rustString      matchgroup=rustStringDelimiter start=+b"+ skip=+\\\\\|\\"+ end=+"+ contains=rustEscape,rustEscapeError,rustStringContinuation
-syn region    rustString      matchgroup=rustStringDelimiter start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=rustEscape,rustEscapeUnicode,rustEscapeError,rustStringContinuation,@Spell
-syn region    rustString      matchgroup=rustStringDelimiter start='b\?r\z(#*\)"' end='"\z1' contains=@Spell
+syn region    rustString      matchgroup=rustStringDelimiter start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=rustEscape,rustEscapeUnicode,rustEscapeError,rustStringContinuation,@Spell,rustStringIdentifier
+syn region    rustString      matchgroup=rustStringDelimiter start='b\?r\z(#*\)"' end='"\z1' contains=@Spell,rustStringIdentifier
 
 " Match attributes with either arbitrary syntax or special highlighting for
 " derives. We still highlight strings and comments inside of the attribute.
@@ -308,6 +309,7 @@ hi def link rustEscapeError   Error
 hi def link rustStringContinuation Special
 hi def link rustString        String
 hi def link rustStringDelimiter String
+hi def link rustStringIdentifier rustIdentifier
 hi def link rustCharacterInvalid Error
 hi def link rustCharacterInvalidUnicode rustCharacterInvalid
 hi def link rustCharacter     Character
