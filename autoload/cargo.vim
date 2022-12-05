@@ -116,6 +116,10 @@ function! cargo#install(args)
     call cargo#cmd("install " . a:args)
 endfunction
 
+function! cargo#clippy(args)
+    call cargo#cmd("clippy " . a:args)
+endfunction
+
 function! cargo#runtarget(args)
     let l:filename = expand('%:p')
     let l:read_manifest = system('cargo read-manifest')
