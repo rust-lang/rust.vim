@@ -104,6 +104,11 @@ If you set g:rust_clip_command RustPlay will copy the url to the clipboard.
 In a Cargo project, the `:RustTest` command will run the test that is under the cursor.
 This is useful when your project is big and running all of the tests takes a long time.
 
+### Running a current file in the editor
+
+In the editor, the `:RustRun` command will run current rust code in the editor.
+This is useful to test if your code is working during development
+
 ## Help
 
 Further help can be found in the documentation with `:Helptags` then `:help rust`.
