@@ -629,7 +629,7 @@ macro_rules! Foo {
 	() => {
 	};
 
-	($static:ident) => {
+	($static:ident, $bar:expr; $baz:lifetime $last:literal) => {
 		unsafe {
 		}
 	};
@@ -648,7 +648,9 @@ macro_rules! Bar
 	{
 	};
 
-	($($repeat:block)<=* $life:lifetime,) => { &$life Foo };
+	($($repeat:block),* $life:lifetime,) => { &$life Foo };
+	($($repeat:block)=>* $life:lifetime,) => { &$life Foo };
+	($($repeat:block);* $life:lifetime,) => { &$life Foo };
 }
 
 /// foo
