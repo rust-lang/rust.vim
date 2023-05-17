@@ -37,6 +37,7 @@ CompilerSet errorformat+=
             \%-G%\\s%#Checking%.%#,
             \%-G%\\s%#Compiling%.%#,
             \%-G%\\s%#Finished%.%#,
+            \%-G%\\s%#Blocking\ waiting%.%#,
             \%-G%\\s%#error:\ Could\ not\ compile\ %.%#,
             \%-G%\\s%#To\ learn\ more\\,%.%#,
             \%-G%\\s%#For\ more\ information\ about\ this\ error\\,%.%#,
