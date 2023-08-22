@@ -187,6 +187,9 @@ function GetRustIndent(lnum)
                 \ && prevline =~# '^\s*where\s'
         return indent(prevlinenum) + 6
     endif
+    if prevline[len(prevline) - 1] ==# "}" && cindent(a:lnum) == 0
+        return indent(prevlinenum)
+    endif
 
     let l:last_prevline_character = prevline[len(prevline) - 1]
 
