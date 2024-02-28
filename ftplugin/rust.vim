@@ -95,13 +95,15 @@ endif
 
 " Motion Commands {{{1
 
-" Bind motion commands to support hanging indents
-nnoremap <silent> <buffer> [[ :call rust#Jump('n', 'Back')<CR>
-nnoremap <silent> <buffer> ]] :call rust#Jump('n', 'Forward')<CR>
-xnoremap <silent> <buffer> [[ :call rust#Jump('v', 'Back')<CR>
-xnoremap <silent> <buffer> ]] :call rust#Jump('v', 'Forward')<CR>
-onoremap <silent> <buffer> [[ :call rust#Jump('o', 'Back')<CR>
-onoremap <silent> <buffer> ]] :call rust#Jump('o', 'Forward')<CR>
+if !exists('g:no_plugin_maps') && !exists('g:no_rust_maps')
+    " Bind motion commands to support hanging indents
+    nnoremap <silent> <buffer> [[ :call rust#Jump('n', 'Back')<CR>
+    nnoremap <silent> <buffer> ]] :call rust#Jump('n', 'Forward')<CR>
+    xnoremap <silent> <buffer> [[ :call rust#Jump('v', 'Back')<CR>
+    xnoremap <silent> <buffer> ]] :call rust#Jump('v', 'Forward')<CR>
+    onoremap <silent> <buffer> [[ :call rust#Jump('o', 'Back')<CR>
+    onoremap <silent> <buffer> ]] :call rust#Jump('o', 'Forward')<CR>
+endif
 
 " Commands {{{1
 
