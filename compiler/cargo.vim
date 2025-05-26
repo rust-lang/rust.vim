@@ -28,7 +28,9 @@ endif
 augroup RustCargoQuickFixHooks
     autocmd!
     autocmd QuickFixCmdPre make call cargo#quickfix#CmdPre()
+    autocmd QuickFixCmdPre lmake call cargo#quickfix#CmdPre()
     autocmd QuickFixCmdPost make call cargo#quickfix#CmdPost()
+    autocmd QuickFixCmdPost lmake call cargo#quickfix#CmdPost()
 augroup END
 
 " Ignore general cargo progress messages
