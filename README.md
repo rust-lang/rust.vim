@@ -1,135 +1,49 @@
-# rust.vim
+# BTCETFToken Deployment
 
-## Description
+This project contains the smart contract for BTCETFToken and the deployment scripts.
 
-This is a Vim plugin that provides [Rust][r] file detection, syntax highlighting, formatting,
-[Syntastic][syn] integration, and more. It requires Vim 8 or higher for full functionality.
-Some things may not work on earlier versions. 
+## Contract Information
 
-## Installation
+- **Contract Address**: 0x37d762A9c38EAe595bEbcF0Ada2DF93aB83ff8ac
+- **Owner Wallet**: 0x8846f867AAd372528BFbf26290BE6eF01b759DE2
+- **IPFS Hash**: ipfs://eb23651c04d6495dddb8404b62acdd19081883bcb187558caa4e138fcbc1f6f2
 
-For activating the full functionality, this plugin requires either the plugin
-manager or the `.vimrc` to have the following:
+## Setup Instructions
 
-```vim
-syntax enable
-filetype plugin indent on
+1. Install dependencies:
+   ```
+   npm install
+   ```
+
+2. Configure your private key:
+   - Edit the `.env` file and add your private key (without the 0x prefix)
+
+3. Compile the contract:
+   ```
+   npm run compile
+   ```
+
+4. Deploy the contract:
+   ```
+   npm run deploy
+   ```
+
+## Contract Verification
+
+After deployment, you can verify the contract on BscScan using:
+
+```
+npx hardhat verify --network bsc DEPLOYED_CONTRACT_ADDRESS
 ```
 
-Most plugin managers don't do this automatically, so these statements are
-usually added by users in their `vimrc` _right after_ the plugin manager load
-section.
+Replace `DEPLOYED_CONTRACT_ADDRESS` with the address where your contract was deployed.
 
-### [Vim8 packages][vim8pack]
+## Contract Features
 
-```sh
-git clone https://github.com/rust-lang/rust.vim ~/.vim/pack/plugins/start/rust.vim
-```
-
-### [Vundle][v]
-
-```vim
-Plugin 'rust-lang/rust.vim'
-```
-
-### [Pathogen][p]
-
-```sh
-git clone --depth=1 https://github.com/rust-lang/rust.vim.git ~/.vim/bundle/rust.vim
-```
-
-### [vim-plug][vp]
-
-```vim
-Plug 'rust-lang/rust.vim'
-```
-
-### [dein.vim][d]
-
-```vim
-call dein#add('rust-lang/rust.vim')
-```
-
-### [NeoBundle][nb]
-
-```vim
-NeoBundle 'rust-lang/rust.vim'
-```
-
-## Features
-
-### Error checking with [Syntastic][syn]
-
-`rust.vim` automatically registers `cargo` as a syntax checker with
-[Syntastic][syn], if nothing else is specified. See `:help rust-syntastic`
-for more details.
-
-### Source browsing with [Tagbar][tgbr]
-
-The installation of Tagbar along with [Universal Ctags][uctags] is recommended
-for a good Tagbar experience. For other kinds of setups, `rust.vim` tries to
-configure Tagbar to some degree.
-
-### Formatting with [rustfmt][rfmt]
-
-The `:RustFmt` command will format your code with
-[rustfmt][rfmt] if installed. `rustfmt` can be installed
-via `rustup component add rustfmt`.
-
-Placing `let g:rustfmt_autosave = 1` in your `~/.vimrc` will
-enable automatic running of `:RustFmt` when you save a buffer.
-
-Do `:help :RustFmt` for further formatting help and customization
-options.
-
-### [Playpen][pp] integration
-
-*Note:* This feature requires [webapi-vim][wav] to be installed.
-
-The `:RustPlay` command will send the current selection, or if
-nothing is selected the current buffer, to the [Rust playpen][pp].
-
-If you set g:rust_clip_command RustPlay will copy the url to the clipboard.
-
-- Mac:
-
-      let g:rust_clip_command = 'pbcopy'
-
-- Linux:
-
-      let g:rust_clip_command = 'xclip -selection clipboard'
-
-### Running a test under cursor
-
-In a Cargo project, the `:RustTest` command will run the test that is under the cursor.
-This is useful when your project is big and running all of the tests takes a long time.
-
-## Help
-
-Further help can be found in the documentation with `:Helptags` then `:help rust`.
-
-Detailed help can be found in the documentation with `:help rust`.
-Helptags (`:help helptags`) need to be generated for this plugin
-in order to navigate the help. Most plugin managers will do this
-automatically, but check their documentation if that is not the case.
-
-## License
-
-Like Rust, rust.vim is primarily distributed under the terms of both the MIT
-license and the Apache License (Version 2.0). See LICENSE-APACHE and
-LICENSE-MIT for details.
-
-[r]: https://www.rust-lang.org
-[v]: https://github.com/gmarik/vundle
-[vqs]: https://github.com/gmarik/vundle#quick-start
-[p]: https://github.com/tpope/vim-pathogen
-[nb]: https://github.com/Shougo/neobundle.vim
-[vp]: https://github.com/junegunn/vim-plug
-[d]: https://github.com/Shougo/dein.vim
-[rfmt]: https://github.com/rust-lang-nursery/rustfmt
-[syn]: https://github.com/scrooloose/syntastic
-[tgbr]: https://github.com/majutsushi/tagbar
-[uctags]: https://ctags.io
-[wav]: https://github.com/mattn/webapi-vim
-[pp]: https://play.rust-lang.org/
-[vim8pack]: http://vimhelp.appspot.com/repeat.txt.html#packages
+- BEP-20 compatible token
+- Name: BTCETFToken
+- Symbol: BTCETF
+- Decimals: 18
+- Total Supply: 2,100,000,000 tokens
+- Custom deposit system with time-based vesting
+- Owner-controlled liquidity management
