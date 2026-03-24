@@ -71,8 +71,8 @@ function! s:RustfmtConfigOptions()
         return '--config-path '.shellescape(fnamemodify(l:_rustfmt_toml, ":p"))
     endif
 
-    " Default to edition 2018 in case no rustfmt.toml was found.
-    return '--edition 2018'
+    " Let rustfmt use its own defaults in the absense of a config
+    return ''
 endfunction
 
 function! s:RustfmtCommandRange(filename, line1, line2)
