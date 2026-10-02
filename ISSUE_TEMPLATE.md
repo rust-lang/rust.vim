@@ -1,6 +1,6 @@
 <!--
 
-Hi, and thanks for reporting an issue with rust.vim. 
+Hi, and thanks for reporting an issue with rust.vim.
 
 Details about your environment will help us assist you.
 
@@ -13,7 +13,7 @@ can use it to tell which version of rust.vim you are running. -->
 
 Steps to reproduce:
 
-<!-- It's best to try to reproduce the issue with the master version of
+<!-- It's best to try to reproduce the issue with using the main branch of
 rust.vim. The issue may already be fixed! -->
 _?_
 
