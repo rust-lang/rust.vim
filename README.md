@@ -106,7 +106,7 @@ This is useful when your project is big and running all of the tests takes a lon
 
 ## Help
 
-Further help can be found in the documentation with `:Helptags` then `:help rust`.
+Further help can be found in the documentation with `:helptags` then `:help rust`.
 
 Detailed help can be found in the documentation with `:help rust`.
 Helptags (`:help helptags`) need to be generated for this plugin
