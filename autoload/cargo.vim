@@ -39,10 +39,41 @@ function! cargo#nearestCargo(is_getcwd) abort
 endfunction
 
 function! cargo#nearestWorkspaceCargo(is_getcwd) abort
+    " Workspaces can be defined by two formats:
+    " Inline tables:
+    "
+    " workspace = { resolver = "2", members = [ "subcrate1", "subcrate2" ] }
+    "
+    " Normal tables
+    "
+    " [workspace]
+    " resolver = "2"
+    " members = [ "subcrate1", "subcrate2" ]
+    "
+    " We must take care in parsing the inline tables. It is only a valid
+    " workspace config if it's in the top level of the config. We don't want
+    " to accidentally capture entries named 'workspace' inside tables, for
+    " example:
+    "
+    " [dependencies]
+    " workspace = "0.4.2"
     let l:nearest = s:nearest_cargo(a:is_getcwd)
     while l:nearest !=# ''
+        let l:top_level_config = 1
         for l:line in readfile(l:nearest, '', 0x100)
+            if l:line =~# '^\s*['
+                " Found some table definition, we're no longer parsing the top
+                " level config
+                let l:top_level_config = 0
+            endif
+            if l:line =~# '\s*workspace\s*='
+                if l:top_level_config
+                    " workspace using inline table format
+                    return l:nearest
+                endif
+            endif
             if l:line =~# '\V[workspace]'
+                " workspace using normal table format
                 return l:nearest
             endif
         endfor
