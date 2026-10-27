@@ -33,6 +33,7 @@ syn match rustExistentialContextual /\<existential\_s\+type/ transparent contain
 syn match     rustAssert      "\<assert\(\w\)*!" contained
 syn match     rustPanic       "\<panic\(\w\)*!" contained
 syn match     rustAsync       "\<async\%(\s\|\n\)\@="
+syn match     rustGen         "\<gen\%(\s*{\)\@="
 syn keyword   rustKeyword     break
 syn keyword   rustKeyword     box
 syn keyword   rustKeyword     continue
@@ -366,6 +367,7 @@ hi def link rustExternCrate   rustKeyword
 hi def link rustObsoleteExternMod Error
 hi def link rustQuestionMark  Special
 hi def link rustAsync         rustKeyword
+hi def link rustGen           rustKeyword
 hi def link rustAwait         rustKeyword
 hi def link rustAsmDirSpec    rustKeyword
 hi def link rustAsmSym        rustKeyword
