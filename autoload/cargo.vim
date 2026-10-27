@@ -144,4 +144,58 @@ function! cargo#runtarget(args)
     endif
 endfunction
 
+function! cargo#expand(args)
+    call rust#Load()
+    call WithPath(function("s:Expand"), a:args)
+endfunction
+
+function! s:Expand(dict, args)
+    try
+        let basename = fnamemodify(a:dict.path, ':t:r')
+        let l:is_root_file = (basename ==# 'lib') || (basename ==# 'main')
+
+        let l:prefix = fnamemodify(cargo#nearestCargo(1), ':p:h:gs?/?::?')
+        let l:filter = (basename ==# 'mod') ? ':p:h:gs?/?::?' : ':p:r:gs?/?::?'
+        let l:path = fnamemodify(a:dict.path, l:filter)
+        let l:rust_path = substitute(l:path, l:prefix . '::src', '', '')
+        let item = l:is_root_file ? '' : substitute(l:rust_path, '::', '', '')
+        echo l:prefix
+
+        let output = system("cargo expand " . a:args . ' ' . item)
+        if v:shell_error
+            echohl WarningMsg
+            echo output
+            echohl None
+        else
+            new
+            silent put =output
+            1
+            d
+            setl filetype=rust
+            setl buftype=nofile
+            setl bufhidden=hide
+            setl noswapfile
+            " give the buffer a nice name
+            let suffix = 1
+            while 1
+                let bufname = basename
+                if suffix > 1 | let bufname .= ' ('.suffix.')' | endif
+                let bufname .= '.pretty.rs'
+                if bufexists(bufname)
+                    let suffix += 1
+                    continue
+                endif
+                exe 'silent noautocmd keepalt file' fnameescape(bufname)
+                break
+            endwhile
+            exe 'normal! 1G<CR>'
+            if l:is_root_file || basename ==# 'mod'
+                exe 'silent .,/Finished dev/+1delete'
+            else
+                exe 'silent .,/mod ' . basename . '/-1delete'
+            endif
+        endif
+    endtry
+endfunction
+
 " vim: set et sw=4 sts=4 ts=8:
