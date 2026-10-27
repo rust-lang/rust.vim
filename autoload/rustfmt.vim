@@ -71,6 +71,26 @@ function! s:RustfmtConfigOptions()
         return '--config-path '.shellescape(fnamemodify(l:_rustfmt_toml, ":p"))
     endif
 
+    let l:rustfmt_toml = findfile(expand('$HOME/rustfmt.toml'), expand('%:p:h') . ';')
+    if l:rustfmt_toml !=# ''
+        return '--config-path '.shellescape(fnamemodify(l:rustfmt_toml, ":p"))
+    endif
+
+    let l:rustfmt_toml = findfile(expand('$HOME/.rustfmt.toml'), expand('%:p:h') . ';')
+    if l:rustfmt_toml !=# ''
+        return '--config-path '.shellescape(fnamemodify(l:rustfmt_toml, ":p"))
+    endif
+
+    let l:rustfmt_toml = findfile(expand('$HOME/.config/rustfmt/rustfmt.toml'), expand('%:p:h') . ';')
+    if l:rustfmt_toml !=# ''
+        return '--config-path '.shellescape(fnamemodify(l:rustfmt_toml, ":p"))
+    endif
+
+    let l:rustfmt_toml = findfile(expand('$HOME/.config/rustfmt/.rustfmt.toml'), expand('%:p:h') . ';')
+    if l:rustfmt_toml !=# ''
+        return '--config-path '.shellescape(fnamemodify(l:rustfmt_toml, ":p"))
+    endif
+
     " Default to edition 2018 in case no rustfmt.toml was found.
     return '--edition 2018'
 endfunction
