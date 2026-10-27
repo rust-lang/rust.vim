@@ -487,12 +487,12 @@ function! s:SearchTestFunctionNameUnderCursor() abort
     let cursor_line = line('.')
 
     " Find #[test] attribute
-    if search('\m\C#\[test\]', 'bcW') is 0
+    if search('\m\C#\[\(.*::\)*test\]', 'bcW') is 0
         return ''
     endif
 
     " Move to an opening brace of the test function
-    let test_func_line = search('\m\C^\s*fn\s\+\h\w*\s*(.\+{$', 'eW')
+    let test_func_line = search('\m\C^\s*\(async\s*\)*fn\s\+\h\w*\s*(.\+{$', 'eW')
     if test_func_line is 0
         return ''
     endif
@@ -512,7 +512,7 @@ function! s:SearchTestFunctionNameUnderCursor() abort
         return ''
     endif
 
-    return matchstr(getline(test_func_line), '\m\C^\s*fn\s\+\zs\h\w*')
+    return matchstr(getline(test_func_line), '\m\C^\s*\(async\s*\)*fn\s\+\zs\h\w*')
 endfunction
 
 function! rust#Test(mods, winsize, all, options) abort
