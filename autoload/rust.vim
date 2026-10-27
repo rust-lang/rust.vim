@@ -486,8 +486,8 @@ endfunction
 function! s:SearchTestFunctionNameUnderCursor() abort
     let cursor_line = line('.')
 
-    " Find #[test] attribute
-    if search('\m\C#\[test\]', 'bcW') is 0
+    " Find any #[.*test] attribute (e.g. [tokio::test])
+    if search('\m\C#\[.*test\]', 'bcW') is 0
         return ''
     endif
 
