@@ -19,31 +19,16 @@ if !exists("g:rustfmt_fail_silently")
     let g:rustfmt_fail_silently = 0
 endif
 
-function! rustfmt#DetectVersion()
-    " Save rustfmt '--help' for feature inspection
-    silent let s:rustfmt_help = system(g:rustfmt_command . " --help")
-    let s:rustfmt_unstable_features = s:rustfmt_help =~# "--unstable-features"
-
-    " Build a comparable rustfmt version varible out of its `--version` output:
-    silent let l:rustfmt_version_full = system(g:rustfmt_command . " --version")
-    let l:rustfmt_version_list = matchlist(l:rustfmt_version_full,
-        \    '\vrustfmt ([0-9]+[.][0-9]+[.][0-9]+)')
-    if len(l:rustfmt_version_list) < 3
-        let s:rustfmt_version = "0"
-    else
-        let s:rustfmt_version = l:rustfmt_version_list[1]
-    endif
-    return s:rustfmt_version
-endfunction
-
-call rustfmt#DetectVersion()
-
-if !exists("g:rustfmt_emit_files")
-    let g:rustfmt_emit_files = s:rustfmt_version >= "0.8.2"
+if !exists("g:rustfmt_emitmode_legacy")
+    let g:rustfmt_emitmode_legacy = 0
 endif
 
-if !exists("g:rustfmt_file_lines")
-    let g:rustfmt_file_lines = s:rustfmt_help =~# "--file-lines JSON"
+if !exists("g:rustfmt_format_range")
+    let g:rustfmt_format_range = 0
+endif
+
+if !exists("g:rustfmt_use_configfile")
+    let g:rustfmt_use_configfile = 0
 endif
 
 let s:got_fmt_error = 0
@@ -53,41 +38,43 @@ function! rustfmt#Load()
 endfunction
 
 function! s:RustfmtWriteMode()
-    if g:rustfmt_emit_files
+    if g:rustfmt_emitmode_legacy == 0
         return "--emit=files"
     else
         return "--write-mode=overwrite"
     endif
 endfunction
 
-function! s:RustfmtConfigOptions()
-    let l:rustfmt_toml = findfile('rustfmt.toml', expand('%:p:h') . ';')
-    if l:rustfmt_toml !=# ''
-        return '--config-path '.shellescape(fnamemodify(l:rustfmt_toml, ":p"))
+function! rustfmt#RustfmtConfigOptions()
+    let l:default_config = '--edition 2018'
+    if g:rustfmt_use_configfile == 0
+        return l:default_config
     endif
 
-    let l:_rustfmt_toml = findfile('.rustfmt.toml', expand('%:p:h') . ';')
-    if l:_rustfmt_toml !=# ''
-        return '--config-path '.shellescape(fnamemodify(l:_rustfmt_toml, ":p"))
-    endif
+    let l:rustfmt_conf_names = ['rustfmt.toml', '.rustfmt.toml']
+    for l:rustfmt_conf_name in l:rustfmt_conf_names
+        let l:rustfmt_toml = findfile(l:rustfmt_conf_name, expand('%:p:h') . ';')
+        if l:rustfmt_toml !=# ''
+            return '--config-path '.shellescape(fnamemodify(l:rustfmt_toml, ":p"))
+        endif
+    endfor
 
-    " Default to edition 2018 in case no rustfmt.toml was found.
-    return '--edition 2018'
+    " configuration file not found, fallback to default
+    return l:default_config
 endfunction
 
 function! s:RustfmtCommandRange(filename, line1, line2)
-    if g:rustfmt_file_lines == 0
-        echo "--file-lines is not supported in the installed `rustfmt` executable"
+    if g:rustfmt_format_range == 0
         return
     endif
 
     let l:arg = {"file": shellescape(a:filename), "range": [a:line1, a:line2]}
     let l:write_mode = s:RustfmtWriteMode()
-    let l:rustfmt_config = s:RustfmtConfigOptions()
+    let l:rustfmt_config = rustfmt#RustfmtConfigOptions()
 
     " FIXME: When --file-lines gets to be stable, add version range checking
     " accordingly.
-    let l:unstable_features = s:rustfmt_unstable_features ? '--unstable-features' : ''
+    let l:unstable_features = '--unstable-features'
 
     let l:cmd = printf("%s %s %s %s %s --file-lines '[%s]' %s", g:rustfmt_command,
                 \ l:write_mode, g:rustfmt_options,
@@ -97,8 +84,8 @@ function! s:RustfmtCommandRange(filename, line1, line2)
 endfunction
 
 function! s:RustfmtCommand()
-    let write_mode = g:rustfmt_emit_files ? '--emit=stdout' : '--write-mode=display'
-    let config = s:RustfmtConfigOptions()
+    let write_mode = g:rustfmt_emitmode_legacy == 0 ? '--emit=stdout' : '--write-mode=display'
+    let config = rustfmt#RustfmtConfigOptions()
     return join([g:rustfmt_command, write_mode, config, g:rustfmt_options])
 endfunction
 

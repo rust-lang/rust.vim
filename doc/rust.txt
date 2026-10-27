@@ -152,13 +152,40 @@ g:rustfmt_options~
 	defaults to '' : >
 	    let g:rustfmt_options = ''
 <
-                                                       *g:rustfmt_emit_files*
-g:rustfmt_emit_files~
-	If not specified rust.vim tries to detect the right parameter to
-	pass to rustfmt based on its reported version. Otherwise, it
-	determines whether to run rustfmt with '--emit=files' (when 1 is
-	provided) instead of '--write-mode=overwrite'. >
-	    let g:rustfmt_emit_files = 0
+
+                                                   *g:rustfmt_emitmode_legacy*
+g:rustfmt_emitmode_legacy~
+	Set this option to 1 if the `rustfmt` version is smaller than 0.8.2.
+	defaults to 0 : >
+	    let g:rustfmt_emitmode_legacy = 0
+<
+	NOTE: If set to 0, run `rustfmt` with '--emit=files', else run it with
+	'--write-mode=overwrite'. (From 0.8.2, `rustfmt` change the option
+	'write-mode' to 'emit'.)
+
+
+                                                      *g:rustfmt_format_range*
+g:rustfmt_format_range~
+	Set this option to 1 to format only a range of a file. (Reference
+	from `rustfmt` doc)
+	defaults to 0 : >
+	    let g:rustfmt_format_range = 0
+<
+	NOTE: This feature only work on 'nightly' version currently, cause
+	it depends on option 'file-lines', and 'file-lines' depends on
+	option 'unstable-features', and 'unstable-features' only work on
+	'nightly' version.
+
+
+                                                    *g:rustfmt_use_configfile*
+g:rustfmt_use_configfile~
+	Set this option t 1 to use `rustfmt` configuration file `rustfmt.toml`
+	or `.rustfmt.toml` (Reference from `rustfmt` doc).
+	defaults to 0 : >
+	    let g:rustfmt_use_configfile = 0
+<
+	NOTE: If this option set to 0, will using the default option
+	`--edition 2018`.
 
 
                                                           *g:rust_playpen_url*
