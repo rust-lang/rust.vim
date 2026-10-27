@@ -21,4 +21,16 @@ Execute (RustEmitAsm - see that we actually get assembly output):
   bd
   call delete('test.rs')
 
+Given rust (await syntax highlighting):
+  async fn main() {
+      foo.await?;
+      foo.await.bar();
+      foo.awaiting();
+  }
+
+Execute (.await only highlights postfix await):
+  AssertEqual 'rustAwait', synIDattr(synID(2, 9, 1), 'name')
+  AssertEqual 'rustAwait', synIDattr(synID(3, 9, 1), 'name')
+  AssertEqual 'rustFuncCall', synIDattr(synID(4, 9, 1), 'name')
+
 # TODO: a lot more tests

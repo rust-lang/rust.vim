@@ -52,7 +52,8 @@ syn keyword   rustKeyword     use nextgroup=rustModPath skipwhite skipempty
 syn keyword   rustKeyword     mod trait nextgroup=rustIdentifier skipwhite skipempty
 syn keyword   rustStorage     move mut ref static const
 syn match     rustDefault     /\<default\ze\_s\+\(impl\|fn\|type\|const\)\>/
-syn keyword   rustAwait       await
+" Match from the dot so `.await` wins over the generic identifier match.
+syn match     rustAwait       /\.\%(await\>\)/hs=s+1 display
 syn match     rustKeyword     /\<try\>!\@!/ display
 
 syn keyword rustPubScopeCrate crate contained
