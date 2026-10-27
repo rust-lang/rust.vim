@@ -110,7 +110,12 @@ g:ftplugin_rust_source_path~
 	source files: >
 	    let g:ftplugin_rust_source_path = $HOME.'/dev/rust'
 <
-
+                                                       *g:rustfmt_disable*
+g:rustfmt_disable~
+	Set this option to disable rustfmt function. If not specified it 
+	defaults to 0 : >
+	    let g:rustfmt_disable = 0
+<
                                                        *g:rustfmt_command*
 g:rustfmt_command~
 	Set this option to the name of the 'rustfmt' executable in your $PATH. If
