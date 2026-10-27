@@ -56,6 +56,14 @@ setlocal includeexpr=rust#IncludeExpr(v:fname)
 
 setlocal suffixesadd=.rs
 
+setlocal path=.,,
+let s:project_root = cargo#nearestCargo(0)
+if !empty(s:project_root)
+    let s:project_root = fnamemodify(s:project_root, ':p:h')
+    let &l:path=s:project_root . '/*,' . &l:path
+endif
+unlet s:project_root
+
 if exists("g:ftplugin_rust_source_path")
     let &l:path=g:ftplugin_rust_source_path . ',' . &l:path
 endif
@@ -146,7 +154,7 @@ endif
 " Cleanup {{{1
 
 let b:undo_ftplugin = "
-            \ setlocal formatoptions< comments< commentstring< include< includeexpr< suffixesadd<
+            \ setlocal formatoptions< comments< commentstring< include< includeexpr< path< suffixesadd<
             \|if exists('b:rust_set_style')
                 \|setlocal tabstop< shiftwidth< softtabstop< expandtab< textwidth<
                 \|endif
