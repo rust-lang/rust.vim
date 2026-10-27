@@ -1,1 +1,4 @@
 [assign]
+
+[assign.owners]
+"*" = ["@chris-morgan", "@da-x"]
