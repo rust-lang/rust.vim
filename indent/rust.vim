@@ -274,6 +274,31 @@ function GetRustIndent(lnum)
         endif
     endif
 
+    " cindent messes up indentation of closing parentheses. It does so
+    " regardless of the cindent options.
+    "
+    " Consider this input example, where | is the cursor:
+    "
+    "     foo(|)
+    "
+    " When pressing Enter, the indentation will be this:
+    "
+    "     foo(
+    "         |)
+    "
+    " But that's not what we want, we want it to be this instead:
+    "
+    "     foo(
+    "     |)
+    if line =~# '\V\^\s\*)'
+        let l:paren_start = searchpair('(', '', ')', 'nbW',
+            \ 's:is_string_comment(line("."), col("."))')
+
+        if l:paren_start != 0 && l:paren_start < a:lnum
+            return indent(l:paren_start)
+        endif
+    endif
+
     " Fall back on cindent, which does it mostly right
     return cindent(a:lnum)
 endfunction
