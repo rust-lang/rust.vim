@@ -175,10 +175,10 @@ syn match     rustKeyword "\<dyn\ze\_s\+\%([^[:cntrl:][:space:][:punct:][:digit:
 syn keyword   rustDynKeyword  dyn contained
 
 " Number literals
-syn match     rustDecNumber   display "\<[0-9][0-9_]*\%([iu]\%(size\|8\|16\|32\|64\|128\)\)\="
-syn match     rustHexNumber   display "\<0x[a-fA-F0-9_]\+\%([iu]\%(size\|8\|16\|32\|64\|128\)\)\="
-syn match     rustOctNumber   display "\<0o[0-7_]\+\%([iu]\%(size\|8\|16\|32\|64\|128\)\)\="
-syn match     rustBinNumber   display "\<0b[01_]\+\%([iu]\%(size\|8\|16\|32\|64\|128\)\)\="
+syn match     rustDecNumber   display "\<[0-9][0-9_]*\%([iu]\%(size\|8\|16\|32\|64\|128\)\)\=" contains=rustNumberSuffix
+syn match     rustHexNumber   display "\<0x[a-fA-F0-9_]\+\%([iu]\%(size\|8\|16\|32\|64\|128\)\)\=" contains=rustNumberSuffix
+syn match     rustOctNumber   display "\<0o[0-7_]\+\%([iu]\%(size\|8\|16\|32\|64\|128\)\)\=" contains=rustNumberSuffix
+syn match     rustBinNumber   display "\<0b[01_]\+\%([iu]\%(size\|8\|16\|32\|64\|128\)\)\=" contains=rustNumberSuffix
 
 " Special case for numbers of the form "1." which are float literals, unless followed by
 " an identifier, which makes them integer literals with a method call or field access,
@@ -187,9 +187,13 @@ syn match     rustBinNumber   display "\<0b[01_]\+\%([iu]\%(size\|8\|16\|32\|64\
 syn match     rustFloat       display "\<[0-9][0-9_]*\.\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\|\.\)\@!"
 " To mark a number as a normal float, it must have at least one of the three things integral values don't have:
 " a decimal point and more numbers; an exponent; and a type suffix.
-syn match     rustFloat       display "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\%([eE][+-]\=[0-9_]\+\)\=\(f32\|f64\)\="
-syn match     rustFloat       display "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\=\%([eE][+-]\=[0-9_]\+\)\(f32\|f64\)\="
-syn match     rustFloat       display "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\=\%([eE][+-]\=[0-9_]\+\)\=\(f32\|f64\)"
+syn match     rustFloat       display "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\%([eE][+-]\=[0-9_]\+\)\=\(f32\|f64\)\=" contains=rustFloatSuffix
+syn match     rustFloat       display "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\=\%([eE][+-]\=[0-9_]\+\)\(f32\|f64\)\=" contains=rustFloatSuffix
+syn match     rustFloat       display "\<[0-9][0-9_]*\%(\.[0-9][0-9_]*\)\=\%([eE][+-]\=[0-9_]\+\)\=\(f32\|f64\)" contains=rustFloatSuffix
+
+" Number literals suffix
+syn match rustNumberSuffix "\([_]*[iu]\(size\|8\|16\|32\|64\|128\)\)" contained display
+syn match rustFloatSuffix "\([_]*\(f32\|f64\)\)" contained display
 
 " For the benefit of delimitMate
 syn region rustLifetimeCandidate display start=/&'\%(\([^'\\]\|\\\(['nrt0\\\"]\|x\x\{2}\|u{\%(\x_*\)\{1,6}}\)\)'\)\@!/ end=/[[:cntrl:][:space:][:punct:]]\@=\|$/ contains=rustSigil,rustLifetime
@@ -312,12 +316,14 @@ hi def link rustCharacterInvalid Error
 hi def link rustCharacterInvalidUnicode rustCharacterInvalid
 hi def link rustCharacter     Character
 hi def link rustNumber        Number
+hi          rustNumberSuffix  gui=italic cterm=italic
 hi def link rustBoolean       Boolean
 hi def link rustEnum          rustType
 hi def link rustEnumVariant   rustConstant
 hi def link rustConstant      Constant
 hi def link rustSelf          Constant
 hi def link rustFloat         Float
+hi          rustFloatSuffix   gui=italic cterm=italic
 hi def link rustArrowCharacter rustOperator
 hi def link rustOperator      Operator
 hi def link rustKeyword       Keyword
