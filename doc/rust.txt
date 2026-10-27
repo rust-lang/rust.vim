@@ -323,6 +323,9 @@ This plug defines very simple shortcuts for invoking Cargo from with Vim.
 :Cinstall <args>                                                 *:Cinstall*
                 Shortcut for 'cargo install`.
 
+:Cclippy <args>                                                 *:Cclippy*
+                Shortcut for 'cargo clippy`.
+
 :Cruntarget <args>                                                 *:Cruntarget*
                 Shortcut for 'cargo run --bin' or 'cargo run --example',
                 depending on the currently open buffer.
