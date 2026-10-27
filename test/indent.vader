@@ -290,3 +290,22 @@ Expect rust (Trailing comma in call):
           header.clone(),
       ).expect("Something");
   }
+
+############################################
+# Issue #421
+
+Given rust:
+  for (_z, group) in rendering_batches
+      .iter()
+      .sorted_by(|a, b| Ord::cmp(&a.0, &b.0))
+      {
+
+Do:
+  vip=
+
+Expect rust (issue #421):
+  for (_z, group) in rendering_batches
+      .iter()
+      .sorted_by(|a, b| Ord::cmp(&a.0, &b.0))
+  {
+
