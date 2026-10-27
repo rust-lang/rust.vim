@@ -1,9 +1,23 @@
-on: push
+on:
+  - push
+  - pull_request
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Run tests
         run: cd test && ./run-tests
         shell: bash
+  test-new:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Vim
+        run: sudo apt-get install vim
+
+      - name: Test
+        run: |
+          git clone https://github.com/junegunn/vader.vim.git
+          vim -Es -Nu ./test/new-vimrc -c 'Vader! test/*'
