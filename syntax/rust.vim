@@ -118,8 +118,8 @@ syn keyword   rustBoolean     true false
 syn match     rustModPath     "\w\(\w\)*::[^<]"he=e-3,me=e-3
 syn match     rustModPathSep  "::"
 
-syn match     rustFuncCall    "\w\(\w\)*("he=e-1,me=e-1
-syn match     rustFuncCall    "\w\(\w\)*::<"he=e-3,me=e-3 " foo::<T>();
+syn match     rustFuncCall    "\(r#\)\?\w\(\w\)*("he=e-1,me=e-1
+syn match     rustFuncCall    "\(r#\)\?\w\(\w\)*::<"he=e-3,me=e-3 " foo::<T>();
 
 " This is merely a convention; note also the use of [A-Z], restricting it to
 " latin identifiers rather than the full Unicode uppercase. I have not used
@@ -138,7 +138,7 @@ syn match     rustOperator     display "&&\|||"
 syn match     rustArrowCharacter display "->"
 syn match     rustQuestionMark display "?\([a-zA-Z]\+\)\@!"
 
-syn match     rustMacro       '\w\(\w\)*!' contains=rustAssert,rustPanic
+syn match     rustMacro       '\(r#\)\?\w\(\w\)*!' contains=rustAssert,rustPanic
 syn match     rustMacro       '#\w\(\w\)*' contains=rustAssert,rustPanic
 
 syn match     rustEscapeError   display contained /\\./
@@ -197,9 +197,9 @@ syn region rustGenericRegion display start=/<\%('\|[^[:cntrl:][:space:][:punct:]
 syn region rustGenericLifetimeCandidate display start=/\%(<\|,\s*\)\@<='/ end=/[[:cntrl:][:space:][:punct:]]\@=\|$/ contains=rustSigil,rustLifetime
 
 "rustLifetime must appear before rustCharacter, or chars will get the lifetime highlighting
-syn match     rustLifetime    display "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*"
-syn match     rustLabel       display "\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*:"
-syn match     rustLabel       display "\%(\<\%(break\|continue\)\s*\)\@<=\'\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*"
+syn match     rustLifetime    display "\'\%(r#\)\?\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*"
+syn match     rustLabel       display "\'\%(r#\)\?\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*:"
+syn match     rustLabel       display "\%(\<\%(break\|continue\)\s*\)\@<=\'\%(r#\)\?\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*"
 syn match   rustCharacterInvalid   display contained /b\?'\zs[\n\r\t']\ze'/
 " The groups negated here add up to 0-255 but nothing else (they do not seem to go beyond ASCII).
 syn match   rustCharacterInvalidUnicode   display contained /b'\zs[^[:cntrl:][:graph:][:alnum:][:space:]]\ze'/
